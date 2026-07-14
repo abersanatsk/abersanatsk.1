@@ -4,32 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Karaman Aber Sanat Gücü Spor Kulübü</title>
-    <!-- Google Fonts: Syncopate (Avangart & Devasa) & Syne (Sanatsal & Modern) -->
+    <!-- Google Fonts: Cabinet Grotesk (Premium Geometrik) & Syne -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Syncopate:wght@700&family=Syne:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Space+Grotesk:wght@400;700&display=swap" rel="stylesheet">
     
     <!-- Dinamik Renk ve Şablon Tarzı İçin Style Alanı -->
     <style id="theme-styles">
         :root {
-            --bg-white: #0a0e14; /* Gece Siyahı Arka Plan */
+            --bg-white: #04060a; /* Uzay Karanlığı */
             --bg-dark: #ffffff;
-            --text-light: #0a0e14;
+            --text-light: #04060a;
             --text-dark: #ffffff;
-            --text-muted: #8e9bb0;
-            --accent-color: #ff3344; /* Canlı Neon Kırmızı */
-            --premium-gray: #121824;
-            --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+            --text-muted: #8892b0;
+            --accent-color: #ff2a4b; /* Saf Enerji Kırmızısı */
+            --premium-gray: rgba(255, 255, 255, 0.02);
+            --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             --font-main: 'Syne', sans-serif;
-            --font-sport: 'Syncopate', sans-serif;
+            --font-sport: 'Space Grotesk', sans-serif;
             /* Şablon Tarzı Değişkenleri */
-            --card-radius: 16px;
-            --border-style: 1px solid rgba(255, 255, 255, 0.08);
+            --card-radius: 24px;
+            --border-style: 1px solid rgba(255, 255, 255, 0.05);
             --card-align: left;
         }
     </style>
 
     <style>
+        /* --- GÖRSEL OTOMATİK NETLEŞTİRME VE İYİLEŞTİRME FİLTRELERİ (ULTRA SHARP) --- */
+        img, .board-img, .player-img-box img, .kit-img-box img, .transfer-img {
+            image-rendering: -webkit-optimize-contrast !important; /* Safari/Chrome keskinleştirme */
+            image-rendering: crisp-edges !important;               /* Firefox keskinleştirme */
+            image-rendering: pixelated;                            /* Düşük çözünürlüklü resimleri bozmadan netleştirme */
+            -webkit-font-smoothing: antialiased;
+            backface-visibility: hidden;
+            transform: translateZ(0); /* Donanım hızlandırmayı tetikler, pikselleri canlandırır */
+            filter: contrast(1.02) saturate(1.04) brightness(0.98); /* Dinamik renk ve netlik kalibrasyonu */
+            transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        /* Görsellerin üzerine gelindiğinde kontrastı daha da keskinleştiren lüks efekt */
+        img:hover, .player-card:hover .player-img-box img, .kit-card:hover .kit-img-box img {
+            filter: contrast(1.08) saturate(1.08) brightness(1.02) !important;
+        }
+
         * {
             box-sizing: border-box;
             margin: 0;
@@ -44,116 +61,84 @@
             background-color: var(--bg-white);
             color: var(--text-dark);
             font-family: var(--font-main);
-            line-height: 1.5;
+            line-height: 1.6;
             overflow-x: hidden;
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        /* --- SPLIT-SCREEN LAYOUT (HİÇ YAPILMAMIŞ SIRA DIŞI YAPI) --- */
-        .app-wrapper {
-            display: flex;
-            min-height: 100vh;
-            position: relative;
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 3rem;
         }
 
-        /* Sol Taraf: Sabit Sanat ve Zirve Paneli */
-        .split-left {
-            width: 45%;
-            height: 100vh;
+        /* --- TEK KELİMEYLE ULTRA: AKIŞKAN ASİMETRİK ARKA PLAN IŞIKLARI --- */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255, 42, 75, 0.08) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(120px);
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.02) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(120px);
+        }
+
+        /* --- SIRA DIŞI HEADER --- */
+        header {
             position: fixed;
             top: 0;
             left: 0;
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-            display: flex;
-            align-items: flex-end;
-            padding: 4rem;
-            z-index: 5;
-            overflow: hidden;
-        }
-
-        .split-left::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
             width: 100%;
-            height: 100%;
-            background: linear-gradient(180deg, rgba(10, 14, 20, 0.1) 0%, rgba(10, 14, 20, 0.85) 100%);
-            z-index: 1;
-        }
-
-        .left-panel-content {
-            position: relative;
-            z-index: 2;
-            max-width: 500px;
-        }
-
-        .left-badge {
-            font-size: 0.8rem;
-            font-weight: 700;
-            letter-spacing: 5px;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            margin-bottom: 1rem;
-            display: inline-block;
-        }
-
-        .left-title {
-            font-family: var(--font-sport);
-            font-size: 2.5rem;
-            font-weight: 700;
-            line-height: 1.1;
-            letter-spacing: -2px;
-            color: #ffffff;
-            text-transform: uppercase;
-        }
-
-        /* Sağ Taraf: Akışkan İçerik Bölümü */
-        .split-right {
-            width: 55%;
-            margin-left: 45%;
-            padding: 0 4rem;
-            position: relative;
-            z-index: 2;
-        }
-
-        /* --- HEADER --- */
-        header {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 10;
-            padding: 3rem 0;
+            z-index: 100;
+            background: rgba(4, 6, 10, 0.7);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            transition: all 0.3s ease;
         }
 
         nav {
             display: flex;
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 2rem;
+            justify-content: space-between;
+            align-items: center;
+            min-height: 110px;
         }
 
         .logo-container {
             text-decoration: none;
-            color: var(--text-dark);
+            color: #ffffff;
+            display: flex;
+            flex-direction: column;
         }
 
         .logo-text-top {
             font-family: var(--font-sport);
             font-weight: 700;
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             text-transform: uppercase;
             letter-spacing: -1px;
             line-height: 1;
         }
 
         .logo-text-sub {
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             color: var(--accent-color);
-            letter-spacing: 4px;
+            letter-spacing: 5px;
             text-transform: uppercase;
             margin-top: 5px;
             font-weight: 700;
@@ -162,19 +147,33 @@
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 1.5rem;
+            gap: 1.8rem;
             flex-wrap: wrap;
         }
 
         .nav-links a {
             text-decoration: none;
-            color: var(--text-dark);
-            font-weight: 600;
+            color: #ffffff;
+            font-weight: 500;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: color 0.3s ease;
-            opacity: 0.6;
+            letter-spacing: 3px;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 5px 0;
+            opacity: 0.5;
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--accent-color);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            transform: translateX(-50%);
         }
 
         .nav-links a:hover {
@@ -182,115 +181,168 @@
             color: var(--accent-color);
         }
 
-        /* --- HERO SECTION --- */
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        /* --- HERO: YAŞAYAN BİR SANAT ESERİ --- */
         .hero {
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            padding-top: 12rem;
+            align-items: center;
+            text-align: center;
+            padding: 12rem 2rem 6rem 2rem;
             position: relative;
+            overflow: hidden;
         }
 
-        .hero-main-title {
+        .hero-bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            filter: brightness(0.25) contrast(1.1);
+            transform: scale(1.05);
+            transition: transform 10s ease;
+            z-index: 1;
+        }
+
+        .hero:hover .hero-bg-canvas {
+            transform: scale(1);
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+        }
+
+        .hero-title-sculpture {
             font-family: var(--font-sport);
-            font-size: 6.5rem;
+            font-size: 8.5rem;
             font-weight: 700;
             text-transform: uppercase;
-            line-height: 0.9;
+            line-height: 0.85;
             letter-spacing: -6px;
-            color: var(--text-dark);
-            margin-bottom: 2.5rem;
+            color: #ffffff;
+            margin-bottom: 3rem;
             position: relative;
+            animation: floatText 4s ease-in-out infinite alternate;
         }
 
-        .hero-main-title span {
+        .hero-title-sculpture span {
             color: transparent;
-            -webkit-text-stroke: 1px var(--text-dark);
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.3);
         }
 
-        /* Devasa Şeffaf Slogan Şeridi */
-        .hero-slogan-strip {
-            background: rgba(255, 255, 255, 0.03);
-            backdrop-filter: blur(20px);
-            border-left: 3px solid var(--accent-color);
-            padding: 2.5rem;
-            border-radius: 0 var(--card-radius) var(--card-radius) 0;
-            margin-top: 1rem;
-            max-width: 650px;
+        @keyframes floatText {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-10px) rotate(0.5deg); }
         }
 
-        .slogan-title {
+        /* Cam Eriyik Slogan Alanı (Glassmorphism Sculpt) */
+        .hero-slogan-monument {
+            background: rgba(255, 255, 255, 0.01);
+            backdrop-filter: blur(40px);
+            -webkit-backdrop-filter: blur(40px);
+            border: 1px solid rgba(255, 255, 255, 0.04);
+            border-left: 4px solid var(--accent-color);
+            padding: 3rem;
+            border-radius: var(--card-radius);
+            max-width: 850px;
+            margin: 0 auto;
+            text-align: left;
+            box-shadow: 0 40px 100px rgba(0, 0, 0, 0.5);
+        }
+
+        .monument-badge {
             font-family: var(--font-sport);
-            font-size: 1rem;
-            letter-spacing: 4px;
+            font-size: 0.8rem;
+            font-weight: 700;
             color: var(--accent-color);
-            margin-bottom: 0.8rem;
             text-transform: uppercase;
+            letter-spacing: 6px;
+            margin-bottom: 1rem;
         }
 
-        .slogan-text {
-            font-size: 1.15rem;
+        .monument-text {
+            font-size: 1.3rem;
             font-weight: 500;
-            color: var(--text-muted);
+            color: #e2e8f0;
             line-height: 1.6;
         }
 
-        /* --- MODERN SECTIONS --- */
+        /* --- SIRA DIŞI ULTRA SECTIONS --- */
         section {
             padding: 10rem 0;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
         }
 
         .section-title {
             font-family: var(--font-sport);
-            font-size: 2.2rem;
+            font-size: 3rem;
             font-weight: 700;
             text-transform: uppercase;
             letter-spacing: -2px;
-            margin-bottom: 5rem;
+            margin-bottom: 6rem;
             position: relative;
-            display: inline-block;
+        }
+
+        .section-title span {
+            color: var(--accent-color);
         }
 
         .section-title::after {
-            content: '';
+            content: '//';
             position: absolute;
-            bottom: -10px;
-            left: 0;
-            width: 40px;
-            height: 2px;
-            background: var(--accent-color);
+            right: -40px;
+            top: 0;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: var(--font-sport);
         }
 
-        /* --- ASİMETRİK GRID BOARDS --- */
+        /* --- ASİMETRİK ULTRA BOARDS --- */
         .board-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
         }
 
         .board-card {
-            background: var(--premium-gray);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.03) 100%);
             border-radius: var(--card-radius);
-            padding: 2.5rem 2rem;
+            padding: 3.5rem 2.5rem;
             border: var(--border-style);
-            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
             text-align: var(--card-align);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--card-shadow);
         }
 
         .board-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-12px) scale(1.02);
             border-color: var(--accent-color);
+            box-shadow: 0 40px 80px rgba(255, 42, 75, 0.1);
         }
 
         .board-img-wrapper {
-            width: 120px;
-            height: 120px;
-            border-radius: 50%;
-            margin: 0 auto 1.5rem auto;
+            width: 140px;
+            height: 140px;
+            border-radius: 28px;
+            margin: 0 auto 2rem auto;
             overflow: hidden;
-            border: 2px solid rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transform: rotate(-3deg);
+            transition: transform 0.4s ease;
+        }
+
+        .board-card:hover .board-img-wrapper {
+            transform: rotate(0deg);
         }
 
         .board-img {
@@ -300,109 +352,122 @@
         }
 
         .board-name {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 0.3rem;
+            color: #ffffff;
+            margin-bottom: 0.5rem;
         }
 
         .board-role {
-            font-size: 0.75rem;
-            font-weight: 600;
+            font-size: 0.8rem;
+            font-weight: 700;
             color: var(--accent-color);
             text-transform: uppercase;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
-        /* --- OYUNCU KARTLARI --- */
+        /* --- KADROMUZ: BRÜTALİST KART SİSTEMİ --- */
         .position-group-title {
             font-family: var(--font-sport);
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
             text-transform: uppercase;
-            margin: 5rem 0 2rem 0;
+            margin: 6rem 0 3rem 0;
             color: var(--accent-color);
-            letter-spacing: 2px;
+            letter-spacing: 3px;
         }
 
         .players-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 3rem;
         }
 
         .player-card {
-            background: var(--premium-gray);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.02) 100%);
             border-radius: var(--card-radius);
             overflow: hidden;
             border: var(--border-style);
-            transition: all 0.4s ease;
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
 
         .player-card:hover {
-            transform: translateY(-8px);
+            transform: translateY(-12px);
             border-color: var(--accent-color);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
         }
 
         .player-img-box {
-            height: 320px;
-            background-color: #0d121d;
+            height: 380px;
+            background-color: #020305;
             overflow: hidden;
+            position: relative;
+        }
+
+        .player-img-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(0deg, #04060a 0%, rgba(0,0,0,0) 100%);
         }
 
         .player-img-box img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.5s ease;
-        }
-
-        .player-card:hover .player-img-box img {
-            transform: scale(1.05);
         }
 
         .player-info {
-            padding: 1.8rem;
+            padding: 2.5rem;
             text-align: var(--card-align);
         }
 
         .player-name {
-            font-size: 1.25rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 0.2rem;
+            color: #ffffff;
+            margin-bottom: 0.3rem;
         }
 
         .player-position {
-            font-size: 0.75rem;
-            font-weight: 600;
-            color: var(--text-muted);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
             text-transform: uppercase;
-            margin-bottom: 1.2rem;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
         }
 
         .player-stats {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 0.6rem;
-            font-size: 0.8rem;
+            gap: 0.8rem;
+            font-size: 0.85rem;
             border-top: 1px solid rgba(255, 255, 255, 0.05);
-            padding-top: 1rem;
+            padding-top: 1.5rem;
+        }
+
+        .stat-line {
+            color: var(--text-muted);
         }
 
         .stat-line strong {
-            color: var(--text-dark);
+            color: #ffffff;
         }
 
-        /* --- FORMALARIMIZ --- */
+        /* --- FORMALARIMIZ: KÜRATÖR SERGİSİ --- */
         .kits-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 4rem;
         }
 
         .kit-card {
-            background: var(--premium-gray);
+            background: transparent;
             border-radius: var(--card-radius);
             overflow: hidden;
             border: var(--border-style);
@@ -410,14 +475,14 @@
         }
 
         .kit-card:hover {
-            transform: translateY(-8px);
             border-color: var(--accent-color);
+            transform: scale(1.01);
         }
 
         .kit-img-box {
             width: 100%;
-            height: 440px;
-            background: #0d121d;
+            height: 580px;
+            background: #020305;
             overflow: hidden;
         }
 
@@ -428,20 +493,22 @@
         }
 
         .kit-title {
-            padding: 1.5rem;
-            font-size: 1.1rem;
+            padding: 2rem;
+            font-size: 1.3rem;
             font-weight: 700;
             text-align: center;
-            color: var(--text-dark);
+            color: #ffffff;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            font-family: var(--font-sport);
+            border-top: var(--border-style);
         }
 
         /* --- TRANSFERLER --- */
         .transfers-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 3rem;
         }
 
         .transfer-card {
@@ -449,66 +516,78 @@
             border-radius: var(--card-radius);
             overflow: hidden;
             border: var(--border-style);
-            transition: all 0.3s ease;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .transfer-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
         }
 
         .transfer-img {
-            height: 220px;
+            height: 280px;
             width: 100%;
             object-fit: cover;
         }
 
         .transfer-body {
-            padding: 1.5rem;
+            padding: 2rem;
             text-align: var(--card-align);
         }
 
         .transfer-name {
-            font-size: 1.2rem;
+            font-size: 1.4rem;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #ffffff;
         }
 
         .transfer-club {
-            font-size: 0.8rem;
+            font-size: 0.85rem;
             color: var(--text-muted);
-            margin: 0.5rem 0 1.2rem 0;
+            margin: 0.5rem 0 1.5rem 0;
         }
 
         .transfer-status {
             background-color: var(--accent-color);
             color: white;
-            font-size: 0.7rem;
+            font-size: 0.75rem;
             font-weight: 700;
             text-transform: uppercase;
-            padding: 6px 14px;
-            border-radius: 4px;
+            padding: 8px 18px;
+            border-radius: 6px;
             display: inline-block;
+            letter-spacing: 1px;
         }
 
         /* --- FİKSTÜR --- */
         .fixture-list {
             display: flex;
             flex-direction: column;
-            gap: 1.2rem;
+            gap: 2rem;
         }
 
         .fixture-card {
-            background: var(--premium-gray);
+            background: rgba(255, 255, 255, 0.01);
             border-radius: var(--card-radius);
             display: flex;
             align-items: center;
             justify-content: space-between;
-            padding: 1.5rem 2.5rem;
+            padding: 2.5rem 4rem;
             border: var(--border-style);
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .fixture-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: var(--accent-color);
+            transform: scale(1.01);
         }
 
         .fixture-team {
-            font-size: 1.1rem;
+            font-size: 1.4rem;
             font-weight: 700;
             width: 40%;
-            color: var(--text-dark);
+            color: #ffffff;
         }
 
         .fixture-team.home { text-align: right; }
@@ -521,27 +600,29 @@
 
         .fixture-score {
             font-family: var(--font-sport);
-            font-size: 1.6rem;
+            font-size: 2rem;
             font-weight: 700;
             background: var(--accent-color);
             color: #fff;
-            padding: 4px 18px;
-            border-radius: 4px;
+            padding: 6px 28px;
+            border-radius: 8px;
             display: inline-block;
-            margin-bottom: 0.3rem;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 10px 30px rgba(255, 42, 75, 0.3);
         }
 
         .fixture-date {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--text-muted);
+            letter-spacing: 1px;
         }
 
         /* --- MEDYA GALERİ --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
         }
 
         .gallery-item {
@@ -551,6 +632,11 @@
             border-radius: var(--card-radius);
             border: var(--border-style);
             background: #000;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent-color);
         }
 
         .gallery-item img, .gallery-item iframe, .gallery-item video {
@@ -563,36 +649,36 @@
         /* --- BİZE YAZIN --- */
         .blog-container {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
         }
 
         .blog-form-wrapper {
             background-color: var(--premium-gray);
             border-radius: var(--card-radius);
-            padding: 3rem;
+            padding: 4rem;
             border: var(--border-style);
         }
 
         .form-group {
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .form-group label {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
             color: var(--accent-color);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
         }
 
         .form-control {
             width: 100%;
-            padding: 1rem;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 4px;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
             font-family: var(--font-main);
             font-size: 1rem;
             outline: none;
@@ -603,74 +689,76 @@
 
         .form-control:focus {
             border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.04);
         }
 
         .submit-btn {
             width: 100%;
-            padding: 1.2rem;
+            padding: 1.4rem;
             background-color: var(--accent-color);
             color: #ffffff;
             border: none;
-            border-radius: 4px;
+            border-radius: 8px;
             font-weight: 700;
             text-transform: uppercase;
             cursor: pointer;
-            letter-spacing: 2px;
+            letter-spacing: 3px;
             transition: all 0.3s;
         }
 
         .submit-btn:hover {
-            opacity: 0.9;
+            opacity: 0.95;
+            box-shadow: 0 15px 40px rgba(255, 42, 75, 0.3);
         }
 
         .post-card {
-            padding: 2rem;
+            padding: 2.5rem;
             background-color: var(--premium-gray);
             border-radius: var(--card-radius);
             border: var(--border-style);
             border-left: 4px solid var(--accent-color);
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
         }
 
         .post-meta {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             color: var(--accent-color);
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.8rem;
         }
 
         /* --- İLETİŞİM --- */
         .contact-grid {
             display: grid;
-            grid-template-columns: 1fr;
-            gap: 3rem;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
         }
 
         .contact-info {
             display: flex;
             flex-direction: column;
-            gap: 2.5rem;
+            gap: 3rem;
         }
 
         .info-item h4 {
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             font-weight: 700;
             text-transform: uppercase;
             color: var(--accent-color);
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
+            margin-bottom: 0.8rem;
+            letter-spacing: 2px;
         }
 
         .info-item p, .info-item a {
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             font-weight: 700;
-            color: var(--text-dark);
+            color: #ffffff;
             text-decoration: none;
         }
 
         .contact-map {
             width: 100%;
-            height: 300px;
+            height: 400px;
             border-radius: var(--card-radius);
             background-color: var(--premium-gray);
             display: flex;
@@ -678,9 +766,10 @@
             justify-content: center;
             font-weight: 700;
             border: var(--border-style);
+            font-size: 1.2rem;
         }
 
-        /* --- PREMIUM ADMIN MODERN MODAL --- */
+        /* --- PREMIUM ADMIN MODAL --- */
         .admin-modal {
             display: none;
             position: fixed;
@@ -688,16 +777,16 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(10, 14, 20, 0.8);
-            backdrop-filter: blur(12px);
+            background-color: rgba(4, 6, 10, 0.85);
+            backdrop-filter: blur(20px);
             z-index: 1000;
             justify-content: center;
             align-items: center;
         }
 
         .admin-content {
-            background-color: #0d121d;
-            border-radius: 20px;
+            background-color: #0c0f17;
+            border-radius: 30px;
             width: 95%;
             max-width: 1400px;
             height: 85vh;
@@ -719,7 +808,7 @@
 
         .admin-sidebar {
             width: 300px;
-            background-color: #070a10;
+            background-color: #06080d;
             color: #fff;
             padding: 3rem 1.5rem;
             display: flex;
@@ -823,7 +912,7 @@
         }
 
         .data-table th {
-            background-color: #070a10;
+            background-color: #06080d;
             font-weight: 700;
             color: var(--accent-color);
         }
@@ -862,24 +951,25 @@
 
         /* --- FOOTER --- */
         footer {
-            padding: 6rem 0;
-            background-color: #070a10;
+            padding: 7rem 0;
+            background-color: #030406;
             color: #ffffff;
             text-align: center;
-            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
         }
 
         .footer-logo {
             font-family: var(--font-sport);
-            font-size: 1.6rem;
-            margin-bottom: 1rem;
+            font-size: 1.8rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 1px;
         }
 
         .signature {
-            margin-top: 2.5rem;
-            font-size: 0.75rem;
-            letter-spacing: 3px;
-            color: #52627a;
+            margin-top: 3rem;
+            font-size: 0.8rem;
+            letter-spacing: 4px;
+            color: #4a5468;
             text-transform: uppercase;
         }
 
@@ -888,16 +978,21 @@
         .admin-trigger {
             margin-top: 2rem;
             font-size: 0.8rem;
-            color: #3b485c;
+            color: #2b3342;
             cursor: pointer;
             text-decoration: underline;
         }
 
         @media (max-width: 992px) {
-            .app-wrapper { flex-direction: column; }
-            .split-left { width: 100%; height: 60vh; position: relative; padding: 2rem; }
-            .split-right { width: 100%; margin-left: 0; padding: 0 2rem; }
-            .hero-main-title { font-size: 4rem; }
+            .hero-title-sculpture { font-size: 4rem; }
+            .blog-container, .contact-grid, .kits-grid {
+                grid-template-columns: 1fr;
+            }
+            nav {
+                flex-direction: column;
+                padding: 2rem 0;
+                gap: 1.5rem;
+            }
             .admin-content { flex-direction: column; height: 95vh; }
             .admin-sidebar { width: 100%; height: auto; }
         }
@@ -905,159 +1000,157 @@
 </head>
 <body>
 
-    <div class="app-wrapper">
-        <!-- SOL TARAF: SABİT SANAT VE SPOR PANELİ (PREMIUM KONSEPT) -->
-        <div class="split-left" id="split-left-bg">
-            <div class="left-panel-content">
-                <div class="left-badge">EST. 2026</div>
-                <h2 class="left-title" id="left-panel-title">İNANÇ<br>KANATLANDIRIR</h2>
+    <!-- HEADER -->
+    <header id="site-header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo-container">
+                    <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
+                    <div class="logo-text-sub">SPOR KULÜBÜ</div>
+                </a>
+                <ul class="nav-links" id="main-nav-links">
+                    <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li>
+                    <li><a href="#teknik-heyet">Teknik Heyet</a></li>
+                    <li><a href="#kadro">Kadromuz</a></li>
+                    <li><a href="#formalar">Formalarımız</a></li>
+                    <li><a href="#transferler">Transferler</a></li>
+                    <li><a href="#fikstur">Fikstür</a></li>
+                    <li><a href="#galeri">Medya</a></li>
+                    <li><a href="#bize-yazin">Bize Yazın</a></li>
+                    <li><a href="#iletisim">İletişim</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- HERO SECTION (SANATSAL & OTOMATİK NET) -->
+    <section class="hero" id="home">
+        <div class="hero-bg-canvas" id="hero-bg-overlay"></div>
+        <div class="hero-content-wrapper">
+            <h1 class="hero-title-sculpture" id="hero-title-text">İNANÇ<br><span>MÜZESİ</span></h1>
+            <div class="hero-slogan-monument">
+                <div class="monument-badge">İNANÇ KANATLANDIRIR</div>
+                <div class="monument-text" id="hero-slogan-text">
+                    Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.
+                </div>
             </div>
         </div>
+    </section>
 
-        <!-- SAĞ TARAF: AKIŞKAN İÇERİK PORTALI -->
-        <div class="split-right">
-            
-            <!-- HEADER -->
-            <header id="site-header">
-                <nav>
-                    <a href="#" class="logo-container">
-                        <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
-                        <div class="logo-text-sub">SPOR KULÜBÜ</div>
-                    </a>
-                    <ul class="nav-links" id="main-nav-links">
-                        <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li>
-                        <li><a href="#teknik-heyet">Teknik Heyet</a></li>
-                        <li><a href="#kadro">Kadromuz</a></li>
-                        <li><a href="#formalar">Formalarımız</a></li>
-                        <li><a href="#transferler">Transferler</a></li>
-                        <li><a href="#fikstur">Fikstür</a></li>
-                        <li><a href="#galeri">Medya</a></li>
-                        <li><a href="#bize-yazin">Bize Yazın</a></li>
-                        <li><a href="#iletisim">İletişim</a></li>
-                    </ul>
-                </nav>
-            </header>
-
-            <!-- HERO SECTION -->
-            <section class="hero" id="home">
-                <div class="hero-content-wrapper">
-                    <h1 class="hero-main-title" id="hero-title-text">İNANÇ<br><span>GÜCÜ</span></h1>
-                    <div class="hero-slogan-strip">
-                        <div class="slogan-title">MİSYONUMUZ</div>
-                        <div class="slogan-text" id="hero-slogan-text">
-                            Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- YÖNETİM KURULU BÖLÜMÜ -->
-            <section id="yonetim-kurulu">
-                <h2 class="section-title">Yönetim Kurulu</h2>
-                <div class="board-grid" id="board-container"></div>
-            </section>
-
-            <!-- TEKNİK HEYET BÖLÜMÜ -->
-            <section id="teknik-heyet">
-                <h2 class="section-title">Teknik Heyet</h2>
-                <div class="board-grid" id="staff-container"></div>
-            </section>
-
-            <!-- KADROMUZ BÖLÜMÜ -->
-            <section id="kadro">
-                <h2 class="section-title">Kadromuz</h2>
-                <div id="gk-section"><h3 class="position-group-title">Kaleciler</h3><div class="players-grid" id="gk-players-container"></div></div>
-                <div id="df-section"><h3 class="position-group-title">Defans Oyuncuları</h3><div class="players-grid" id="df-players-container"></div></div>
-                <div id="mf-section"><h3 class="position-group-title">Orta Saha Oyuncuları</h3><div class="players-grid" id="mf-players-container"></div></div>
-                <div id="fw-section"><h3 class="position-group-title">Forvet Oyuncuları</h3><div class="players-grid" id="fw-players-container"></div></div>
-            </section>
-
-            <!-- FORMALARIMIZ BÖLÜMÜ -->
-            <section id="formalar">
-                <h2 class="section-title">Formalarımız</h2>
-                <div class="kits-grid" id="kits-container"></div>
-            </section>
-
-            <!-- TRANSFERLER BÖLÜMÜ -->
-            <section id="transferler">
-                <h2 class="section-title">Transfer Gündemi</h2>
-                <div class="transfers-grid" id="transfers-container"></div>
-            </section>
-
-            <!-- FİKSTÜR BÖLÜMÜ -->
-            <section id="fikstur">
-                <h2 class="section-title">Maç Fikstürü</h2>
-                <div class="fixture-list" id="fixture-container"></div>
-            </section>
-
-            <!-- MEDYA GALERİSİ BÖLÜMÜ -->
-            <section id="galeri">
-                <h2 class="section-title">Medya & Galeri</h2>
-                <div class="gallery-grid" id="gallery-container"></div>
-            </section>
-
-            <div id="dynamic-pages-container"></div>
-
-            <!-- BİZE YAZIN BÖLÜMÜ -->
-            <section id="bize-yazin">
-                <h2 class="section-title">Bize Yazın</h2>
-                <div class="blog-container">
-                    <div class="blog-form-wrapper">
-                        <form id="write-us-form" action="https://formspree.io/f/xeeyoqbe" method="POST" onsubmit="handleFormSubmit(event)">
-                            <div class="form-group">
-                                <label for="name">İsminiz</label>
-                                <input type="text" name="name" id="name" class="form-control" required>
-                            </div>
-                            <div class="form-group">
-                                <label for="message">Düşünceniz</label>
-                                <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
-                            </div>
-                            <input type="hidden" name="_subject" value="Aber SK - Yeni Bize Yazın Mesajı">
-                            <button type="submit" class="submit-btn">Yayınlanması İçin Gönder</button>
-                        </form>
-                    </div>
-                    <div style="margin-top:3rem;">
-                        <h3 style="font-size: 1.1rem; margin-bottom: 2rem; font-family:var(--font-sport); text-transform:uppercase;">Yazılanlar</h3>
-                        <div class="approved-posts" id="posts-container"></div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- İLETİŞİM BÖLÜMÜ -->
-            <section id="iletisim" style="border-bottom: none;">
-                <h2 class="section-title">Bize Ulaşın</h2>
-                <div class="contact-grid">
-                    <div class="contact-info">
-                        <div class="info-item">
-                            <h4>Telefon</h4>
-                            <a href="tel:+905368939415" id="club-phone-link">0 536 893 94 15</a>
-                        </div>
-                        <div class="info-item">
-                            <h4>E-Posta Adreslerimiz</h4>
-                            <p style="margin-bottom: 0.5rem;"><a href="mailto:info@abersanatsk.org" id="club-email-1">info@abersanatsk.org</a></p>
-                            <p><a href="mailto:ridvan@abersanatsk.org" id="club-email-2">ridvan@abersanatsk.org</a></p>
-                        </div>
-                        <div class="info-item">
-                            <h4>Kulüp Ofisi</h4>
-                            <p id="club-address-text">Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman</p>
-                        </div>
-                    </div>
-                    <div class="contact-map">
-                        <div>📍 Karaman Merkez</div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- FOOTER -->
-            <footer>
-                <div class="footer-logo" id="footer-logo-text">KARAMAN ABER SANAT GÜCÜ</div>
-                <p>© 2026 Tüm Hakları Saklıdır.</p>
-                <div class="signature">DESIGNED BY <span>RIDVAN ARSLAN</span></div>
-                <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
-            </footer>
-
+    <!-- YÖNETİM KURULU BÖLÜMÜ -->
+    <section id="yonetim-kurulu">
+        <div class="container">
+            <h2 class="section-title">Yönetim <span>Kurulu</span></h2>
+            <div class="board-grid" id="board-container"></div>
         </div>
-    </div>
+    </section>
+
+    <!-- TEKNİK HEYET BÖLÜMÜ -->
+    <section id="teknik-heyet">
+        <div class="container">
+            <h2 class="section-title">Teknik <span>Heyet</span></h2>
+            <div class="board-grid" id="staff-container"></div>
+        </div>
+    </section>
+
+    <!-- KADROMUZ BÖLÜMÜ -->
+    <section id="kadro">
+        <div class="container">
+            <h2 class="section-title">Kulüp <span>Kadromuz</span></h2>
+            <div id="gk-section"><h3 class="position-group-title">Kaleciler</h3><div class="players-grid" id="gk-players-container"></div></div>
+            <div id="df-section"><h3 class="position-group-title">Defans Oyuncuları</h3><div class="players-grid" id="df-players-container"></div></div>
+            <div id="mf-section"><h3 class="position-group-title">Orta Saha Oyuncuları</h3><div class="players-grid" id="mf-players-container"></div></div>
+            <div id="fw-section"><h3 class="position-group-title">Forvet Oyuncuları</h3><div class="players-grid" id="fw-players-container"></div></div>
+        </div>
+    </section>
+
+    <!-- FORMALARIMIZ BÖLÜMÜ -->
+    <section id="formalar">
+        <div class="container">
+            <h2 class="section-title">Kulüp <span>Formalarımız</span></h2>
+            <div class="kits-grid" id="kits-container"></div>
+        </div>
+    </section>
+
+    <!-- TRANSFERLER BÖLÜMÜ -->
+    <section id="transferler">
+        <div class="container">
+            <h2 class="section-title">Transfer <span>Gündemi</span></h2>
+            <div class="transfers-grid" id="transfers-container"></div>
+        </div>
+    </section>
+
+    <!-- FİKSTÜR BÖLÜMÜ -->
+    <section id="fikstur">
+        <div class="container">
+            <h2 class="section-title">Maç <span>Fikstürü</span></h2>
+            <div class="fixture-list" id="fixture-container"></div>
+        </div>
+    </section>
+
+    <!-- MEDYA GALERİSİ BÖLÜMÜ -->
+    <section id="galeri">
+        <div class="container">
+            <h2 class="section-title">Kulüp <span>Medya & Galeri</span></h2>
+            <div class="gallery-grid" id="gallery-container"></div>
+        </div>
+    </section>
+
+    <div id="dynamic-pages-container"></div>
+
+    <!-- BİZE YAZIN BÖLÜMÜ -->
+    <section id="bize-yazin">
+        <div class="container">
+            <h2 class="section-title">Bize <span>Yazın</span></h2>
+            <div class="blog-container">
+                <div class="blog-form-wrapper">
+                    <form id="write-us-form" action="https://formspree.io/f/xeeyoqbe" method="POST" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">İsminiz</label>
+                            <input type="text" name="name" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Düşünceniz</label>
+                            <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
+                        </div>
+                        <input type="hidden" name="_subject" value="Aber SK - Yeni Bize Yazın Mesajı">
+                        <button type="submit" class="submit-btn">Kulüp Duvarında Yayınla</button>
+                    </form>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 2.5rem; font-family: var(--font-sport); text-transform: uppercase; letter-spacing: 2px;">Yazılanlar</h3>
+                    <div class="approved-posts" id="posts-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- İLETİŞİM BÖLÜMÜ -->
+    <section id="iletisim" style="border-bottom: none;">
+        <div class="container">
+            <h2 class="section-title">Bize <span>Ulaşın</span></h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <h4>Telefon</h4>
+                        <a href="tel:+905368939415" id="club-phone-link">0 536 893 94 15</a>
+                    </div>
+                    <div class="info-item">
+                        <h4>E-Posta Adreslerimiz</h4>
+                        <p style="margin-bottom: 0.5rem;"><a href="mailto:info@abersanatsk.org" id="club-email-1">info@abersanatsk.org</a></p>
+                        <p><a href="mailto:ridvan@abersanatsk.org" id="club-email-2">ridvan@abersanatsk.org</a></p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Kulüp Ofisi</h4>
+                        <p id="club-address-text">Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman</p>
+                    </div>
+                </div>
+                <div class="contact-map">
+                    <div>📍 Karaman Merkez</div>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <!-- ADMIN PANEL MODAL -->
     <div class="admin-modal" id="adminModal">
@@ -1095,7 +1188,7 @@
                 <div id="tabSettings" class="admin-tab-content active">
                     <div class="admin-section-heading">GENEL AYARLAR</div>
                     <div class="form-group"><label>Logo URL (Opsiyonel)</label><input type="text" id="edit-logo-url" class="form-control"></div>
-                    <div class="form-group"><label>Hero / Sol Panel Görsel URL</label><input type="text" id="edit-hero-bg-url" class="form-control"></div>
+                    <div class="form-group"><label>Hero Arka Plan Görsel URL</label><input type="text" id="edit-hero-bg-url" class="form-control"></div>
                     <div class="form-group"><label>Kulüp Başlığı</label><input type="text" id="edit-header-title" class="form-control"></div>
                     <div class="form-group"><label>Hero Başlığı</label><input type="text" id="edit-hero-title" class="form-control"></div>
                     <div class="form-group"><label>Slogan</label><input type="text" id="edit-hero-slogan" class="form-control"></div>
@@ -1112,7 +1205,7 @@
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
                         <div class="form-group"><label>Ad Soyad</label><input type="text" id="new-board-name" class="form-control"></div>
                         <div class="form-group"><label>Unvanı</label><input type="text" id="new-board-role" class="form-control"></div>
-                        <div class="form-group"><label>Resim URL</label><input type="text" id="new-board-img" class="form-control"></div>
+                        <div class="form-group"><label>Resim URL (Otomatik Netleşir)</label><input type="text" id="new-board-img" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="addBoardMember()">Yönetici Ekle</button>
                     </div>
                     <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-board-list"></tbody></table>
@@ -1140,7 +1233,7 @@
                         <div class="form-group"><label>Boy (cm)</label><input type="number" id="new-player-height" class="form-control"></div>
                         <div class="form-group"><label>Kilo (kg)</label><input type="number" id="new-player-weight" class="form-control"></div>
                         <div class="form-group"><label>Ayak</label><select id="new-player-foot" class="form-control"><option value="Sağ">Sağ</option><option value="Sol">Sol</option><option value="Her İkisi">Her İkisi</option></select></div>
-                        <div class="form-group"><label>Resim URL</label><input type="text" id="new-player-img" class="form-control"></div>
+                        <div class="form-group"><label>Resim URL (Otomatik Netleşir)</label><input type="text" id="new-player-img" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="addPlayer()">Kadroya Ekle</button>
                     </div>
                     <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Mevki</th><th>Özellikler</th><th>İşlem</th></tr></thead><tbody id="admin-squad-list"></tbody></table>
@@ -1253,6 +1346,16 @@
         </div>
     </div>
 
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo" id="footer-logo-text">KARAMAN ABER SANAT GÜCÜ</div>
+            <p>© 2026 Tüm Hakları Saklıdır.</p>
+            <div class="signature">DESIGNED BY <span>RIDVAN ARSLAN</span></div>
+            <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
+        </div>
+    </footer>
+
     <script>
         // --- ZİYARETÇİ SAYACI ALTYAPISI ---
         function updateTrafficStats() {
@@ -1326,7 +1429,7 @@
             logoUrl: "",
             heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
             headerTitle: "KARAMAN ABER SANAT GÜCÜ",
-            hero: { title: "İNANÇ GÜCÜ", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
+            hero: { title: "İNANÇ", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
             contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "ridvan@abersanatsk.org", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
             posts: [],
             players: [],
@@ -1343,7 +1446,7 @@
 
         function loadAllData() {
             try {
-                const saved = localStorage.getItem('aber_sk_premium_data_v11');
+                const saved = localStorage.getItem('aber_sk_premium_data_v12');
                 activeData = JSON.parse(JSON.stringify(defaultData));
                 if (saved) {
                     const parsed = JSON.parse(saved);
@@ -1368,7 +1471,7 @@
         }
 
         function saveAllData() {
-            localStorage.setItem('aber_sk_premium_data_v11', JSON.stringify(activeData));
+            localStorage.setItem('aber_sk_premium_data_v12', JSON.stringify(activeData));
         }
 
         function applySavedTheme() {
@@ -1389,9 +1492,9 @@
             document.getElementById('header-club-title').innerText = rawHeaderTitle;
             document.getElementById('footer-logo-text').innerText = rawHeaderTitle;
 
-            const splitLeftBg = document.getElementById('split-left-bg');
+            const heroBgOverlay = document.getElementById('hero-bg-overlay');
             const cleanBg = cleanImageUrl(activeData.heroBgUrl);
-            splitLeftBg.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
+            heroBgOverlay.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
             
             document.getElementById('hero-title-text').innerHTML = (heroData.title || defaultData.hero.title).replace('\n', '<br>');
             document.getElementById('hero-slogan-text').innerText = heroData.slogan || defaultData.hero.slogan;
@@ -1508,10 +1611,12 @@
                 mainNavLinks.innerHTML += `<li><a href="#${safeId}">${cp.menuTitle}</a></li>`;
                 dynamicContainer.innerHTML += `
                     <section id="${safeId}">
-                        <h2 class="section-title">${cp.title}</h2>
-                        ${cp.imageUrl ? `<div style="margin-bottom:2rem; width:100%;"><img src="${cleanImageUrl(cp.imageUrl)}" style="width:100%; border-radius:12px;" onerror="handleLogoFallback(this)"></div>` : ''}
-                        ${cp.slogan ? `<h3 style="color:var(--accent-color); font-size:1.3rem; margin-bottom:1rem;">${cp.slogan}</h3>` : ''}
-                        <p style="color:var(--text-muted); white-space:pre-line;">${cp.content}</p>
+                        <div class="container">
+                            <h2 class="section-title">${cp.title}</h2>
+                            ${cp.imageUrl ? `<div style="margin-bottom:2rem; width:100%;"><img src="${cleanImageUrl(cp.imageUrl)}" style="width:100%; border-radius:12px;" onerror="handleLogoFallback(this)"></div>` : ''}
+                            ${cp.slogan ? `<h3 style="color:var(--accent-color); font-size:1.3rem; margin-bottom:1rem;">${cp.slogan}</h3>` : ''}
+                            <p style="color:var(--text-muted); white-space:pre-line;">${cp.content}</p>
+                        </div>
                     </section>`;
             });
 
@@ -1789,21 +1894,21 @@
 
         // --- RENK PALETLERİ ---
         const themes = {
-            classic: `:root { --bg-white: #0a0e14; --bg-dark: #ffffff; --text-light: #0a0e14; --text-dark: #ffffff; --text-muted: #8e9bb0; --accent-color: #ff3344; --premium-gray: #121824; --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`,
-            karamanAtesi: `:root { --bg-white: #0d0203; --bg-dark: #ffffff; --text-light: #0d0203; --text-dark: #ffffff; --text-muted: #bda0a2; --accent-color: #c1121f; --premium-gray: #1a080a; --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.4); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`,
-            retro: `:root { --bg-white: #f5ebe0; --bg-dark: #3a1f13; --text-light: #f5ebe0; --text-dark: #3a1f13; --text-muted: #7f5539; --accent-color: #9e2a2b; --premium-gray: #e3d5ca; --card-shadow: 0 20px 50px rgba(58, 31, 19, 0.1); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`,
-            royal: `:root { --bg-white: #050d1a; --bg-dark: #ffffff; --text-light: #050d1a; --text-dark: #ffffff; --text-muted: #8198b8; --accent-color: #b89047; --premium-gray: #0b1526; --card-shadow: 0 20px 50px rgba(0, 0, 0, 0.3); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`,
-            pitch: `:root { --bg-white: #071408; --bg-dark: #ffffff; --text-light: #071408; --text-dark: #ffffff; --text-muted: #7fa882; --accent-color: #2d8a4e; --premium-gray: #0e2410; --card-shadow: 0 20px 50px rgba(0,0,0,0.3); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`,
-            legend: `:root { --bg-white: #0a0f1d; --bg-dark: #ffffff; --text-light: #0a0f1d; --text-dark: #ffffff; --text-muted: #7d8ea6; --accent-color: #d4af37; --premium-gray: #12192e; --card-shadow: 0 20px 50px rgba(0,0,0,0.3); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`,
-            cyberpunk: `:root { --bg-white: #080a0d; --bg-dark: #ffffff; --text-light: #080a0d; --text-dark: #ffffff; --text-muted: #8d9da6; --accent-color: #f97316; --premium-gray: #13171f; --card-shadow: 0 20px 50px rgba(0,0,0,0.4); --font-main: 'Syne', sans-serif; --font-sport: 'Syncopate', sans-serif; }`
+            classic: `:root { --bg-white: #04060a; --bg-dark: #ffffff; --text-light: #04060a; --text-dark: #ffffff; --text-muted: #8892b0; --accent-color: #ff2a4b; --premium-gray: rgba(255, 255, 255, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`,
+            karamanAtesi: `:root { --bg-white: #0f0103; --bg-dark: #ffffff; --text-light: #0f0103; --text-dark: #ffffff; --text-muted: #c9a4a7; --accent-color: #c1121f; --premium-gray: rgba(193, 18, 31, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`,
+            retro: `:root { --bg-white: #f5ebe0; --bg-dark: #3a1f13; --text-light: #f5ebe0; --text-dark: #3a1f13; --text-muted: #7f5539; --accent-color: #9e2a2b; --premium-gray: rgba(58, 31, 19, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.1); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`,
+            royal: `:root { --bg-white: #030a16; --bg-dark: #ffffff; --text-light: #030a16; --text-dark: #ffffff; --text-muted: #8296b3; --accent-color: #b89047; --premium-gray: rgba(184, 144, 71, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`,
+            pitch: `:root { --bg-white: #041206; --bg-dark: #ffffff; --text-light: #041206; --text-dark: #ffffff; --text-muted: #7da180; --accent-color: #2d8a4e; --premium-gray: rgba(45, 138, 78, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`,
+            legend: `:root { --bg-white: #060a14; --bg-dark: #ffffff; --text-light: #060a14; --text-dark: #ffffff; --text-muted: #7c8ba3; --accent-color: #d4af37; --premium-gray: rgba(212, 175, 55, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`,
+            cyberpunk: `:root { --bg-white: #05070a; --bg-dark: #ffffff; --text-light: #05070a; --text-dark: #ffffff; --text-muted: #84939c; --accent-color: #f97316; --premium-gray: rgba(249, 115, 22, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif; }`
         };
 
-        // --- PREMİUM YERLEŞİM ŞABLONLARI ---
+        // --- YERLEŞİM ŞABLONLARI ---
         const layouts = {
             asymmetric: `
                 :root {
-                    --card-radius: 16px;
-                    --border-style: 1px solid rgba(255, 255, 255, 0.08);
+                    --card-radius: 24px;
+                    --border-style: 1px solid rgba(255, 255, 255, 0.05);
                     --card-align: left;
                 }
             `,
@@ -1828,7 +1933,7 @@
                     --card-align: left;
                 }
                 .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item {
-                    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.5) !important;
+                    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.8) !important;
                 }
             `
         };
