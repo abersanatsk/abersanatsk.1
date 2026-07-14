@@ -7,7 +7,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght=0,300;0,400;0,600;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
     
     <style id="theme-styles">
         :root {
@@ -1035,7 +1035,7 @@
                             </div>
                         </div>
                         <div class="form-group">
-                            <label>Oyuncu Fotoğraf URL (ImgBB Direct Link)</label>
+                            <label>Oyuncu Fotoğraf URL (Boş bırakabilirsiniz)</label>
                             <input type="text" id="new-player-img" class="form-control">
                         </div>
                         <button class="submit-btn" onclick="addPlayer()">Kadroya Ekle</button>
@@ -1077,7 +1077,7 @@
                                 <input type="text" id="new-trans-status" class="form-control" placeholder="Örn: Söylenti, Anlaşma Sağlandı">
                             </div>
                             <div class="form-group">
-                                <label>Görsel URL</label>
+                                <label>Görsel URL (Boş bırakabilirsiniz)</label>
                                 <input type="text" id="new-trans-img" class="form-control">
                             </div>
                         </div>
@@ -1181,6 +1181,10 @@
                             <option value="dark">Karanlık (Siyah Zemin, Beyaz Metinler, Parlak Kırmızı Detaylar)</option>
                             <option value="royal">Asil Mavi (Koyu Mavi Detaylar, Altın Sarısı Detaylar)</option>
                             <option value="pitch">Yeşil Sahalar (Koyu Yeşil Başlıklar, Çimen Yeşili Detaylar)</option>
+                            <option value="neonGece">Neon Gece (Siyah Zemin, Parlak Neon Kırmızı Detaylar)</option>
+                            <option value="legend">Efsane Çubuklu (Lacivert Zemin, Altın Sarısı Detaylar)</option>
+                            <option value="karamanAtesi">Karaman Ateşi (Kırmızı Detaylı Beyaz Zemin, Gümüş Detaylar)</option>
+                            <option value="retro">Retro Klasik (Kemik Zemin, Koyu Kahve & Bordo)</option>
                         </select>
                         <button class="submit-btn" style="margin-top: 1rem;" onclick="saveTheme()">Tasarımı Değiştir ve Kaydet</button>
                     </div>
@@ -1216,10 +1220,11 @@
 
     <!-- JAVASCRIPT MOTORU -->
     <script>
-        // --- RESİM LİNK TEMİZLEME MOTORU ---
+        // Boş veya hatalı linkleri korumaya alan akıllı temizleme motoru
         function cleanImageUrl(dirtyUrl) {
-            if (!dirtyUrl) return '';
+            if (!dirtyUrl || typeof dirtyUrl !== 'string') return '';
             let url = dirtyUrl.trim();
+            if (url === "") return "";
             
             if (url.startsWith('<') && url.includes('src=')) {
                 const match = url.match(/src=["']([^"']+)["']/);
@@ -1246,7 +1251,6 @@
             return url;
         }
 
-        // Akıllı Video URL Çözücü
         function getEmbedVideoUrl(videoUrl) {
             if (!videoUrl) return '';
             let url = videoUrl.trim();
@@ -1275,7 +1279,7 @@
             imgElement.src = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200';
         }
 
-        // --- VARSAYILAN KUSURSUZ DATA ŞABLONU ---
+        // --- VARSAYILAN DATA ŞABLONU ---
         let defaultData = {
             adminPassword: "admin",
             currentTheme: "classic",
@@ -1317,13 +1321,11 @@
 
         let activeData = {};
 
-        // Verileri Yükle & Force Şifre Güncelleyici (Çakışma Önleyici)
         function loadAllData() {
             const saved = localStorage.getItem('aber_sk_pro_data_v6');
             if (saved) {
                 activeData = JSON.parse(saved);
-                // Eğer eski koddan kalma bozuk bir şifre varsa veya şifre "admin" değilse, bunu kesin olarak "admin" yap
-                if (!activeData.adminPassword || activeData.adminPassword === "admin123" || activeData.adminPassword === "undefined") {
+                if (!activeData.adminPassword || activeData.adminPassword === "undefined") {
                     activeData.adminPassword = "admin";
                     saveAllData();
                 }
@@ -1345,25 +1347,25 @@
             document.getElementById('theme-select').value = selectedTheme;
         }
 
-        // --- ARABULUCU / RENDER EDİCİ ---
         function renderAllSections() {
-            // 0. Logo & Site Başlıkları
+            // 0. Logo
             const logoImg = document.getElementById('club-logo-img');
-            logoImg.src = cleanImageUrl(activeData.logoUrl);
+            logoImg.src = cleanImageUrl(activeData.logoUrl) || defaultData.logoUrl;
 
             const rawHeaderTitle = activeData.headerTitle || "KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ";
             document.getElementById('header-club-title').innerHTML = rawHeaderTitle.replace("SPOR KULÜBÜ", "<span>SPOR KULÜBÜ</span>");
             document.getElementById('footer-logo-text').innerHTML = rawHeaderTitle.replace("SPOR KULÜBÜ", "<span>SPOR KULÜBÜ</span>");
 
-            // 1. Hero Bölümü
+            // 1. Hero
             const heroSection = document.getElementById('home');
             const overlay = document.getElementById('hero-bg-overlay');
-            if (activeData.heroBgUrl) {
-                heroSection.style.backgroundImage = `url('${cleanImageUrl(activeData.heroBgUrl)}')`;
+            const cleanBg = cleanImageUrl(activeData.heroBgUrl);
+            if (cleanBg) {
+                heroSection.style.backgroundImage = `url('${cleanBg}')`;
                 overlay.style.backgroundColor = "rgba(255, 255, 255, 0.75)";
             } else {
-                heroSection.style.backgroundImage = "none";
-                overlay.style.backgroundColor = "transparent";
+                heroSection.style.backgroundImage = `url('${defaultData.heroBgUrl}')`;
+                overlay.style.backgroundColor = "rgba(255, 255, 255, 0.75)";
             }
             document.getElementById('hero-title-text').innerText = activeData.hero.title;
             document.getElementById('hero-slogan-text').innerText = activeData.hero.slogan;
@@ -1374,26 +1376,27 @@
             document.getElementById('about-card-title2').innerText = activeData.about.title2;
             document.getElementById('about-card-text2').innerText = activeData.about.text2;
 
-            // 3. Oyuncularımız (Kadro)
+            // 3. Oyuncularımız
             const playersGrid = document.getElementById('players-container');
             playersGrid.innerHTML = '';
             if (!activeData.players || activeData.players.length === 0) {
                 playersGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Oyuncu kadrosu henüz eklenmedi.</p>';
             } else {
                 activeData.players.forEach(p => {
+                    const cleanPImg = cleanImageUrl(p.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300';
                     playersGrid.innerHTML += `
                         <div class="player-card">
                             <div class="player-img-box">
-                                <img src="${cleanImageUrl(p.img)}" alt="${p.name}" onerror="handleLogoFallback(this)">
+                                <img src="${cleanPImg}" alt="${p.name}" onerror="handleLogoFallback(this)">
                             </div>
                             <div class="player-info">
                                 <div class="player-name">${p.name}</div>
                                 <div class="player-position">${p.position}</div>
                                 <div class="player-stats">
-                                    <div class="stat-line">Yaş: <strong>${p.age}</strong></div>
-                                    <div class="stat-line">Boy: <strong>${p.height} cm</strong></div>
-                                    <div class="stat-line">Kilo: <strong>${p.weight} kg</strong></div>
-                                    <div class="stat-line">Ayak: <strong>${p.foot}</strong></div>
+                                    <div class="stat-line">Yaş: <strong>${p.age || '--'}</strong></div>
+                                    <div class="stat-line">Boy: <strong>${p.height || '--'} cm</strong></div>
+                                    <div class="stat-line">Kilo: <strong>${p.weight || '--'} kg</strong></div>
+                                    <div class="stat-line">Ayak: <strong>${p.foot || 'Sağ'}</strong></div>
                                 </div>
                             </div>
                         </div>
@@ -1401,16 +1404,17 @@
                 });
             }
 
-            // 4. Transfer Gündemi
+            // 4. Transferler
             const transfersGrid = document.getElementById('transfers-container');
             transfersGrid.innerHTML = '';
             if (!activeData.transfers || activeData.transfers.length === 0) {
                 transfersGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Transfer gündemi boş.</p>';
             } else {
                 activeData.transfers.forEach(t => {
+                    const cleanTImg = cleanImageUrl(t.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300';
                     transfersGrid.innerHTML += `
                         <div class="transfer-card">
-                            <img class="transfer-img" src="${cleanImageUrl(t.img)}" alt="${t.name}" onerror="handleLogoFallback(this)">
+                            <img class="transfer-img" src="${cleanTImg}" alt="${t.name}" onerror="handleLogoFallback(this)">
                             <div class="transfer-body">
                                 <div>
                                     <div class="transfer-name">${t.name}</div>
@@ -1423,7 +1427,7 @@
                 });
             }
 
-            // 5. Fikstür & Sonuçlar
+            // 5. Fikstür
             const fixtureGrid = document.getElementById('fixture-container');
             fixtureGrid.innerHTML = '';
             if (!activeData.fixtures || activeData.fixtures.length === 0) {
@@ -1443,7 +1447,7 @@
                 });
             }
 
-            // 6. Galeri Render
+            // 6. Galeri
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
             if (activeData.gallery.length === 0) {
@@ -1467,7 +1471,7 @@
                 });
             }
 
-            // 7. Onaylanmış Taraftar Gönderileri
+            // 7. Taraftar Mesajları
             const postsContainer = document.getElementById('posts-container');
             postsContainer.innerHTML = '';
             const approvedPosts = activeData.posts.filter(p => p.approved === true);
@@ -1484,7 +1488,7 @@
                 });
             }
 
-            // 8. İletişim Bilgileri
+            // 8. İletişim
             document.getElementById('club-phone-link').innerText = activeData.contact.phone;
             document.getElementById('club-phone-link').href = "tel:" + activeData.contact.phone.replace(/\s+/g, '');
             document.getElementById('club-email-1').innerText = activeData.contact.email1;
@@ -1494,7 +1498,6 @@
             document.getElementById('club-address-text').innerHTML = activeData.contact.address;
         }
 
-        // --- TARAFTAR GÖNDERİMİ ---
         function handleFormSubmit(event) {
             const nameInput = document.getElementById('name').value;
             const messageInput = document.getElementById('message').value;
@@ -1509,15 +1512,13 @@
             alert("Düşünceniz onay paneline ulaştı!");
         }
 
-        // --- GÜVENLİK VE GİRİŞ ---
         function loginAdmin() {
             const password = prompt("Lütfen Yönetim Paneli Şifrenizi Giriniz:");
-            // Hafıza çakışmasını engellemek için şifre kesinlikle "admin" olarak kontrol edilir
             if (password === activeData.adminPassword || password === "admin") {
                 toggleAdminModal();
                 switchTab('settings');
             } else if (password !== null) {
-                alert("Hatalı admin şifresi girdiniz! Şifreniz kesinlikle 'admin' olarak güncellenmiştir.");
+                alert("Hatalı admin şifresi girdiniz!");
             }
         }
 
@@ -1526,7 +1527,6 @@
             modal.style.display = (modal.style.display === 'flex') ? 'none' : 'flex';
         }
 
-        // Admin Sekme Motoru
         function switchTab(tabName) {
             document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.admin-sidebar-btn').forEach(el => el.classList.remove('active'));
@@ -1565,9 +1565,7 @@
             }
         }
 
-        // --- TAB VERİ İŞLEMLERİ ---
-
-        // 1. Site Ayarları
+        // --- VERİ KAYDETME VE OKUMA MOTORLARI ---
         function loadSettingsToAdminForm() {
             document.getElementById('edit-logo-url').value = activeData.logoUrl || '';
             document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
@@ -1596,7 +1594,6 @@
             alert("Site ayarları güncellendi!");
         }
 
-        // 2. Hakkımızda
         function loadAboutToAdminForm() {
             document.getElementById('edit-about-title1').value = activeData.about.title1;
             document.getElementById('edit-about-text1').value = activeData.about.text1;
@@ -1615,19 +1612,19 @@
             alert("Hakkımızda metinleri güncellendi!");
         }
 
-        // 3. Oyuncu Kadrosu
         function renderAdminSquad() {
             const list = document.getElementById('admin-squad-list');
             list.innerHTML = '';
             if (!activeData.players) activeData.players = [];
 
             activeData.players.forEach(p => {
+                const cleanPImg = cleanImageUrl(p.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=100';
                 list.innerHTML += `
                     <tr>
-                        <td><img src="${cleanImageUrl(p.img)}" width="50" height="50" style="object-fit:cover;"></td>
+                        <td><img src="${cleanPImg}" width="50" height="50" style="object-fit:cover;"></td>
                         <td><strong>${p.name}</strong></td>
                         <td>${p.position}</td>
-                        <td>Yaş: ${p.age} | Boy: ${p.height} cm | Kilo: ${p.weight} kg | Ayak: ${p.foot}</td>
+                        <td>Yaş: ${p.age || '--'} | Boy: ${p.height || '--'} cm | Kilo: ${p.weight || '--'} kg | Ayak: ${p.foot || 'Sağ'}</td>
                         <td><button class="admin-btn-delete" onclick="deletePlayer(${p.id})">Sil</button></td>
                     </tr>
                 `;
@@ -1635,8 +1632,8 @@
         }
 
         function addPlayer() {
-            const name = document.getElementById('new-player-name').value;
-            const pos = document.getElementById('new-player-pos').value;
+            const name = document.getElementById('new-player-name').value.trim();
+            const pos = document.getElementById('new-player-pos').value.trim();
             const age = document.getElementById('new-player-age').value;
             const height = document.getElementById('new-player-height').value;
             const weight = document.getElementById('new-player-weight').value;
@@ -1647,6 +1644,8 @@
                 alert("Lütfen en azından Oyuncu Adı ve Mevki bilgilerini girin!");
                 return;
             }
+
+            if (!activeData.players) activeData.players = [];
 
             activeData.players.push({
                 id: Date.now(),
@@ -1675,16 +1674,16 @@
             }
         }
 
-        // 4. Transfer Gündemi
         function renderAdminTransfers() {
             const list = document.getElementById('admin-transfer-list');
             list.innerHTML = '';
             if(!activeData.transfers) activeData.transfers = [];
 
             activeData.transfers.forEach(t => {
+                const cleanTImg = cleanImageUrl(t.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=100';
                 list.innerHTML += `
                     <tr>
-                        <td><img src="${cleanImageUrl(t.img)}" width="50" height="50" style="object-fit:cover;"></td>
+                        <td><img src="${cleanTImg}" width="50" height="50" style="object-fit:cover;"></td>
                         <td><strong>${t.name}</strong></td>
                         <td>${t.club}</td>
                         <td>${t.status}</td>
@@ -1695,15 +1694,17 @@
         }
 
         function addTransfer() {
-            const name = document.getElementById('new-trans-name').value;
-            const club = document.getElementById('new-trans-club').value;
-            const status = document.getElementById('new-trans-status').value;
+            const name = document.getElementById('new-trans-name').value.trim();
+            const club = document.getElementById('new-trans-club').value.trim();
+            const status = document.getElementById('new-trans-status').value.trim();
             const img = cleanImageUrl(document.getElementById('new-trans-img').value);
 
             if(!name || !status) {
                 alert("Oyuncu adı ve durum boş bırakılamaz!");
                 return;
             }
+
+            if(!activeData.transfers) activeData.transfers = [];
 
             activeData.transfers.push({
                 id: Date.now(), name, club, status, img
@@ -1729,7 +1730,6 @@
             }
         }
 
-        // 5. Fikstür & Maçlar
         function renderAdminFixture() {
             const list = document.getElementById('admin-fixture-list');
             list.innerHTML = '';
@@ -1749,15 +1749,17 @@
         }
 
         function addFixture() {
-            const home = document.getElementById('new-fix-home').value;
-            const away = document.getElementById('new-fix-away').value;
-            const score = document.getElementById('new-fix-score').value;
-            const date = document.getElementById('new-fix-date').value;
+            const home = document.getElementById('new-fix-home').value.trim();
+            const away = document.getElementById('new-fix-away').value.trim();
+            const score = document.getElementById('new-fix-score').value.trim();
+            const date = document.getElementById('new-fix-date').value.trim();
 
             if(!home || !away || !date) {
                 alert("Lütfen takımları ve maç tarihini girin!");
                 return;
             }
+
+            if(!activeData.fixtures) activeData.fixtures = [];
 
             activeData.fixtures.push({
                 id: Date.now(), home, away, score, date
@@ -1783,7 +1785,6 @@
             }
         }
 
-        // 6. Galeri Yönetimi
         function renderAdminGallery() {
             const list = document.getElementById('admin-gallery-list');
             list.innerHTML = '';
@@ -1827,7 +1828,6 @@
             }
         }
 
-        // 7. Taraftar Mesajları
         function renderAdminMessages() {
             const list = document.getElementById('admin-posts-list');
             list.innerHTML = '';
@@ -1868,7 +1868,6 @@
             }
         }
 
-        // 8. Tema & Şifre
         function previewTheme() {
             const selected = document.getElementById('theme-select').value;
             document.getElementById('theme-styles').innerHTML = themes[selected];
@@ -1903,7 +1902,7 @@
             alert("Şifre güncellendi!");
         }
 
-        // Tasarımlar
+        // --- GELİŞMİŞ VE SÜSLÜ TEMALAR ---
         const themes = {
             classic: `
                 :root {
@@ -1986,6 +1985,126 @@
                     --text-dark: #132a13;
                     --text-muted: #4f772d;
                     --accent-red: #38b000;
+                }
+            `,
+            neonGece: `
+                :root {
+                    --bg-white: #050505;
+                    --bg-dark: #ffffff;
+                    --text-light: #000000;
+                    --text-dark: #ffffff;
+                    --text-muted: #888888;
+                    --accent-red: #ff0055;
+                }
+                header {
+                    background-color: rgba(5, 5, 5, 0.98) !important;
+                    border-bottom: 2px solid #ff0055 !important;
+                }
+                .logo-container, .logo-text, .nav-links a {
+                    color: #ffffff !important;
+                }
+                .blog-form-wrapper, .contact-map, .player-card, .transfer-card, .fixture-card {
+                    background-color: #0f0f0f !important;
+                    border: 2px solid #ff0055 !important;
+                }
+                .form-control {
+                    background-color: #1a1a1a !important;
+                    color: #fff !important;
+                    border-color: #ff0055 !important;
+                }
+                .submit-btn {
+                    background-color: #ff0055 !important;
+                    color: #ffffff !important;
+                }
+            `,
+            legend: `
+                :root {
+                    --bg-white: #0c1821;
+                    --bg-dark: #1b3a4b;
+                    --text-light: #ffffff;
+                    --text-dark: #f0f4f8;
+                    --text-muted: #9bb1c4;
+                    --accent-red: #e0a96d;
+                }
+                header {
+                    background-color: #0c1821 !important;
+                    border-bottom: 2px solid var(--accent-red) !important;
+                }
+                .logo-container, .logo-text, .nav-links a {
+                    color: #ffffff !important;
+                }
+                .blog-form-wrapper, .contact-map, .player-card, .transfer-card, .fixture-card {
+                    background-color: #122433 !important;
+                    border: 2px solid var(--accent-red) !important;
+                }
+                .form-control {
+                    background-color: #1a3247 !important;
+                    color: #fff !important;
+                    border-color: var(--accent-red) !important;
+                }
+                .submit-btn {
+                    background-color: var(--accent-red) !important;
+                    color: #0c1821 !important;
+                }
+            `,
+            karamanAtesi: `
+                :root {
+                    --bg-white: #fafafa;
+                    --bg-dark: #111111;
+                    --text-light: #ffffff;
+                    --text-dark: #222222;
+                    --text-muted: #777777;
+                    --accent-red: #e63946;
+                }
+                header {
+                    background-color: #ffffff !important;
+                    border-bottom: 2px solid #e63946 !important;
+                }
+                .logo-container, .logo-text, .nav-links a {
+                    color: #222222 !important;
+                }
+                .blog-form-wrapper, .contact-map, .player-card, .transfer-card, .fixture-card {
+                    background-color: #ffffff !important;
+                    border: 2px solid #e63946 !important;
+                }
+                .form-control {
+                    background-color: #f0f0f0 !important;
+                    color: #222 !important;
+                    border-color: #e63946 !important;
+                }
+                .submit-btn {
+                    background-color: #e63946 !important;
+                    color: #ffffff !important;
+                }
+            `,
+            retro: `
+                :root {
+                    --bg-white: #f4eae1;
+                    --bg-dark: #3d2314;
+                    --text-light: #f4eae1;
+                    --text-dark: #3d2314;
+                    --text-muted: #7d6356;
+                    --accent-red: #8b1e0f;
+                }
+                header {
+                    background-color: #f4eae1 !important;
+                    border-bottom: 2px solid #8b1e0f !important;
+                }
+                .logo-container, .logo-text, .nav-links a {
+                    color: #3d2314 !important;
+                }
+                .blog-form-wrapper, .contact-map, .player-card, .transfer-card, .fixture-card {
+                    background-color: #ecdcd0 !important;
+                    border: 2px solid #3d2314 !important;
+                }
+                .form-control {
+                    background-color: #f4eae1 !important;
+                    color: #3d2314 !important;
+                    border-color: #8b1e0f !important;
+                }
+                .submit-btn {
+                    background-color: #8b1e0f !important;
+                    color: #f4eae1 !important;
                 }
             `
         };
