@@ -49,7 +49,7 @@
             padding: 0 2rem;
         }
 
-        /* --- HEADER & MENÜ (Yeniden Tasarlandı) --- */
+        /* --- HEADER & MENÜ --- */
         header {
             position: fixed;
             top: 0;
@@ -98,7 +98,7 @@
             transform: scale(1.05);
         }
 
-        /* Büyük Harflerle Kulüp İsmi Yanına Eklendi */
+        /* Büyük Harflerle Kulüp İsmi */
         .logo-text {
             font-weight: 900;
             font-size: 1.25rem;
@@ -293,19 +293,20 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- MEDYA VE GALERİ --- */
+        /* --- YENİ BÜYÜTÜLMÜŞ MEDYA VE GALERİ ALANI --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-            gap: 2rem;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); /* Genişlik 350px'den 450px'e çıkarıldı */
+            gap: 2.5rem;
         }
 
         .gallery-item {
             position: relative;
-            height: 250px;
+            height: 340px; /* Yükseklik 250px'den 340px'e çıkarıldı */
             overflow: hidden;
-            border: 2px solid var(--text-dark);
+            border: 3px solid var(--text-dark);
             background-color: #000;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.15);
         }
 
         .gallery-item img, .gallery-item iframe, .gallery-item video {
@@ -627,6 +628,9 @@
             .logo-container {
                 max-width: 100%;
             }
+            .gallery-grid {
+                grid-template-columns: 1fr;
+            }
         }
     </style>
 </head>
@@ -792,7 +796,7 @@
                 <button class="admin-tab-btn" id="tabSettingsBtn" onclick="switchTab('settings')">Site Bilgileri</button>
                 <button class="admin-tab-btn" id="tabGalleryBtn" onclick="switchTab('gallery')">Medya / Galeri</button>
                 <button class="admin-tab-btn" id="tabThemeBtn" onclick="switchTab('theme')">Tasarım & Tema</button>
-                <button class="admin-tab-btn" id="tabSecurityBtn" onclick="someTab('security'); switchTab('security');">Güvenlik / Şifre</button>
+                <button class="admin-tab-btn" id="tabSecurityBtn" onclick="switchTab('security');">Güvenlik / Şifre</button>
             </div>
 
             <!-- TAB 1: GELEN MESAJLAR -->
@@ -1014,7 +1018,6 @@
                 }
             }
 
-            // Direkt MP4 linkleri için kendisini dön
             return url;
         }
 
@@ -1110,7 +1113,7 @@
             adminPassword: "admin123",
             currentTheme: "classic",
             logoUrl: "logo.png",
-            heroBgUrl: "", // Varsayılan boş (düz zemin)
+            heroBgUrl: "",
             hero: {
                 title: "KARAMAN\nABER SANAT GÜCÜ\nSPOR KULÜBÜ",
                 slogan: "İNANÇ KANATLANDIRIR"
@@ -1182,10 +1185,10 @@
             const overlay = document.getElementById('hero-bg-overlay');
             if (activeData.heroBgUrl) {
                 heroSection.style.backgroundImage = `url('${cleanImageUrl(activeData.heroBgUrl)}')`;
-                overlay.style.backgroundColor = "rgba(255, 255, 255, 0.75)"; // Görsel varken yazılar için opaklık
+                overlay.style.backgroundColor = "rgba(255, 255, 255, 0.75)";
             } else {
                 heroSection.style.backgroundImage = "none";
-                overlay.style.backgroundColor = "transparent"; // Görsel yokken tam transparan
+                overlay.style.backgroundColor = "transparent";
             }
             document.getElementById('hero-title-text').innerText = activeData.hero.title;
             document.getElementById('hero-slogan-text').innerText = activeData.hero.slogan;
@@ -1230,14 +1233,12 @@
                         const cleanedUrl = cleanImageUrl(item.url);
                         mediaBox.innerHTML = `<img src="${cleanedUrl}" alt="Aber SK Galeri" onerror="this.src='https://placehold.co/800x600/000/fff?text=Resim+Yuklenemedi';">`;
                     } else {
-                        // Akıllı Embed Video Çalar (YouTube & Streamable Destekli)
                         const embedUrl = getEmbedVideoUrl(item.url);
                         if (embedUrl.includes('youtube.com/embed') || embedUrl.includes('streamable.com/e')) {
                             mediaBox.innerHTML = `
                                 <iframe src="${embedUrl}" allowfullscreen allow="autoplay; encrypted-media"></iframe>
                             `;
                         } else {
-                            // Doğrudan MP4 video linkleri için
                             mediaBox.innerHTML = `
                                 <video controls muted preload="metadata">
                                     <source src="${embedUrl}" type="video/mp4">
@@ -1467,7 +1468,6 @@
             const type = document.getElementById('new-media-type').value;
             let rawUrl = document.getElementById('new-media-url').value;
             
-            // Eğer resimse akıllı temizleyici ile temizle, video ise doğrudan altyapı işleyecek
             let url = (type === 'image') ? cleanImageUrl(rawUrl) : rawUrl.trim();
 
             if (!url) {
