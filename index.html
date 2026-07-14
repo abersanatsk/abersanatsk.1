@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
     
     <style id="theme-styles">
-        /* --- DİNAMİK CSS DEĞİŞKENLERİ (Seçilen Temaya Göre Değişir) --- */
+        /* --- DİNAMİK CSS DEĞİŞKENLERİ --- */
         :root {
             --bg-white: #ffffff;
             --bg-dark: #0a0a0a;
@@ -750,7 +750,7 @@
             <div id="tabSettings" style="display: none; max-height: 450px; overflow-y: auto; padding-right: 1rem;">
                 <h4 style="margin-bottom: 1.5rem; font-weight: 800; text-transform: uppercase;">Sitenin Yazı ve Logo Bilgileri</h4>
                 <div class="form-group" style="background: #fff8f8; padding: 1.5rem; border: 1px solid var(--accent-red); margin-bottom: 1.5rem;">
-                    <label style="color: var(--accent-red); font-weight: 900;">Kulüp Logo URL'si (ImgBB Linki Yapıştırın)</label>
+                    <label style="color: var(--accent-red); font-weight: 900;">Kulüp Logo URL'si (Görsel Linki Yapıştırın)</label>
                     <input type="text" id="edit-logo-url" class="form-control" placeholder="Örn: https://i.ibb.co/.../logo.png">
                 </div>
                 <div class="form-group">
@@ -833,13 +833,13 @@
                     <div class="form-group">
                         <label>Medya Türü</label>
                         <select id="new-media-type" class="form-control">
-                            <option value="image">Resim (Görsel Linki Yapıştırın)</option>
-                            <option value="video">Video (Gofile/Streamable MP4 Linki Yapıştırın)</option>
+                            <option value="image">Resim (Görsel Linki)</option>
+                            <option value="video">Video (Gofile/Streamable MP4 Linki)</option>
                         </select>
                     </div>
                     <div class="form-group">
                         <label>Medya İnternet Adresi (URL)</label>
-                        <input type="text" id="new-media-url" class="form-control" placeholder="Örn: https://i.ibb.co/... veya https://gofile.io/...">
+                        <input type="text" id="new-media-url" class="form-control" placeholder="Linkinizi buraya yapıştırın...">
                     </div>
                     <button class="submit-btn" onclick="addGalleryItem()">Galeriye Ekle</button>
                 </div>
@@ -897,11 +897,39 @@
 
     <!-- JS KODLARI -->
     <script>
+        // --- AKILLI REHBER VE DOĞRU LİNK TEMİZLEYİCİ ---
+        // Kullanıcı ne kopyalarsa kopyalasın, sonu .png/.jpg biten doğrudan resim adresine çeviren sihirli fonksiyon
+        function cleanImageUrl(dirtyUrl) {
+            if (!dirtyUrl) return '';
+            
+            let url = dirtyUrl.trim();
+            
+            // Eğer doğrudan HTML kodu yapıştırdıysa (örn: <img src="..." />) içindeki linki ayıkla
+            if (url.startsWith('<') && url.includes('src=')) {
+                const match = url.match(/src="([^"]+)"/);
+                if (match && match[1]) {
+                    url = match[1];
+                }
+            }
+
+            // Eğer ImgBB sayfa linki yapıştırdıysa (örn: https://ibb.co/XF3f8pY)
+            if (url.includes('ibb.co/') && !url.includes('i.ibb.co')) {
+                // ibb.co'nun sonundaki ID'yi bul (örn: XF3f8pY)
+                const parts = url.split('/');
+                const id = parts[parts.length - 1] || parts[parts.length - 2];
+                if (id && id.length >= 5) {
+                    // Otomatik olarak doğrudan i.ibb.co link şablonuna dönüştür
+                    return `https://i.ibb.co/${id}/image.png`;
+                }
+            }
+            
+            return url;
+        }
+
         // Logo kontrolü
         function handleLogoFallback(imgElement) {
-            // Eğer veritabanından özel bir logo adresi gelmişse onu deneriz
             if (activeData.logoUrl) {
-                imgElement.src = activeData.logoUrl;
+                imgElement.src = cleanImageUrl(activeData.logoUrl);
                 return;
             }
 
@@ -989,7 +1017,7 @@
         let defaultData = {
             adminPassword: "admin123",
             currentTheme: "classic",
-            logoUrl: "logo.png", // Varsayılan logo dosyası
+            logoUrl: "logo.png",
             hero: {
                 title: "KARAMAN\nABER SANAT GÜCÜ\nSPOR KULÜBÜ",
                 slogan: "İNANÇ KANATLANDIRIR"
@@ -1050,15 +1078,14 @@
         function applySavedTheme() {
             const selectedTheme = activeData.currentTheme || "classic";
             document.getElementById('theme-styles').innerHTML = themes[selectedTheme];
-            // Admin panelindeki tema seçimini güncelle
             document.getElementById('theme-select').value = selectedTheme;
         }
 
         // --- TÜM SİTEYİ GÜNCELLE (RENDER) ---
         function renderAllSections() {
-            // 0. Logo
+            // 0. Logo (Akıllı temizleyici ile temizlenmiş)
             const logoImg = document.getElementById('club-logo-img');
-            logoImg.src = activeData.logoUrl || "logo.png";
+            logoImg.src = cleanImageUrl(activeData.logoUrl || "logo.png");
 
             // 1. Hero Kısmı
             document.getElementById('hero-title-text').innerText = activeData.hero.title;
@@ -1074,7 +1101,7 @@
             document.getElementById('futbol-title-text').innerText = activeData.futbol.title;
             document.getElementById('futbol-desc-text').innerText = activeData.futbol.desc;
             document.getElementById('futbol-desc-text-2').innerText = activeData.futbol.desc2;
-            document.getElementById('futbol-image-bg').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('${activeData.futbol.imgUrl}')`;
+            document.getElementById('futbol-image-bg').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('${cleanImageUrl(activeData.futbol.imgUrl)}')`;
 
             // 4. İletişim Bilgileri
             document.getElementById('club-phone-link').innerText = activeData.contact.phone;
@@ -1090,7 +1117,7 @@
             document.getElementById('transfer-badge-text').innerText = activeData.transfers.badge;
             document.getElementById('transfer-desc-text').innerText = activeData.transfers.desc;
 
-            // 6. Galeri / Medya Render
+            // 6. Galeri / Medya Render (Akıllı temizleyici ile temizlenmiş)
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
             if (activeData.gallery.length === 0) {
@@ -1099,12 +1126,13 @@
                 activeData.gallery.forEach(item => {
                     const mediaBox = document.createElement('div');
                     mediaBox.className = 'gallery-item';
+                    const cleanedUrl = cleanImageUrl(item.url);
                     if (item.type === 'image') {
-                        mediaBox.innerHTML = `<img src="${item.url}" alt="Aber SK Galeri" onerror="this.src='https://placehold.co/800x600/000/fff?text=Resim+Yuklenemedi';">`;
+                        mediaBox.innerHTML = `<img src="${cleanedUrl}" alt="Aber SK Galeri" onerror="this.src='https://placehold.co/800x600/000/fff?text=Resim+Yuklenemedi';">`;
                     } else {
                         mediaBox.innerHTML = `
                             <video controls muted preload="metadata">
-                                <source src="${item.url}" type="video/mp4">
+                                <source src="${cleanedUrl}" type="video/mp4">
                                 Tarayıcınız video oynatmayı desteklemiyor.
                             </video>
                         `;
@@ -1271,7 +1299,8 @@
         }
 
         function saveSettings() {
-            activeData.logoUrl = document.getElementById('edit-logo-url').value;
+            // Kaydederken doğrudan temizlenmiş link formatını kaydet
+            activeData.logoUrl = cleanImageUrl(document.getElementById('edit-logo-url').value);
             activeData.hero.title = document.getElementById('edit-hero-title').value;
             activeData.hero.slogan = document.getElementById('edit-hero-slogan').value;
 
@@ -1283,7 +1312,7 @@
             activeData.futbol.title = document.getElementById('edit-futbol-title').value;
             activeData.futbol.desc = document.getElementById('edit-futbol-desc').value;
             activeData.futbol.desc2 = document.getElementById('edit-futbol-desc2').value;
-            activeData.futbol.imgUrl = document.getElementById('edit-futbol-img-url').value;
+            activeData.futbol.imgUrl = cleanImageUrl(document.getElementById('edit-futbol-img-url').value);
 
             activeData.contact.phone = document.getElementById('edit-phone').value;
             activeData.contact.email1 = document.getElementById('edit-email1').value;
@@ -1326,7 +1355,7 @@
 
         function addGalleryItem() {
             const type = document.getElementById('new-media-type').value;
-            const url = document.getElementById('new-media-url').value;
+            const url = cleanImageUrl(document.getElementById('new-media-url').value);
 
             if (!url) {
                 alert("Lütfen geçerli bir URL adresi giriniz!");
