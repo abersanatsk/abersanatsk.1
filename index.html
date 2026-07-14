@@ -17,7 +17,7 @@
             --text-light: #ffffff;
             --text-dark: #000000;
             --text-muted: #666666;
-            --accent-red: #d90429; /* Slogandaki asil kırmızı */
+            --accent-red: #d90429;
             --font-main: 'Inter', sans-serif;
         }
     </style>
@@ -76,29 +76,38 @@
             gap: 15px;
             text-decoration: none;
             color: var(--text-dark);
-            max-width: 60%;
+            max-width: 65%;
         }
 
-        /* Logo Boyutu Büyütüldü & Netleştirildi */
-        .club-logo {
-            width: 80px;
-            height: 80px;
-            object-fit: contain;
+        /* LOGO ALANI - ULTRA NET VE ORTALANMIŞ */
+        .club-logo-wrapper {
+            width: 85px;
+            height: 85px;
             border-radius: 50%;
             border: 3px solid var(--text-dark);
-            padding: 3px;
-            background: #fff;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-            image-rendering: -webkit-optimize-contrast;
-            image-rendering: crisp-edges;
+            background: #ffffff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.12);
             transition: transform 0.3s ease;
         }
 
-        .logo-container:hover .club-logo {
+        .club-logo {
+            width: 100%;
+            height: 100%;
+            object-fit: cover; /* Logoyu tam ortalayarak kırpılmadan sığdırır */
+            image-rendering: -webkit-optimize-contrast;
+            image-rendering: crisp-edges;
+            display: block;
+        }
+
+        .logo-container:hover .club-logo-wrapper {
             transform: scale(1.05);
         }
 
-        /* Büyük Harflerle Kulüp İsmi */
+        /* KULÜP ADI ALANI */
         .logo-text {
             font-weight: 900;
             font-size: 1.25rem;
@@ -110,7 +119,7 @@
 
         .logo-text span {
             display: block;
-            font-size: 0.75rem;
+            font-size: 0.8rem;
             color: var(--accent-red);
             letter-spacing: 2px;
             margin-top: 3px;
@@ -136,7 +145,7 @@
             color: var(--accent-red);
         }
 
-        /* --- HERO (Arka Plan Görsel Destekli) --- */
+        /* --- HERO --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -144,7 +153,7 @@
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 8rem 2rem 4rem 2rem;
+            padding: 10rem 2rem 4rem 2rem;
             position: relative;
             background-size: cover;
             background-position: center;
@@ -157,7 +166,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.85); /* Arka plan resmi varken yazılar rahat okunsun diye */
+            background-color: rgba(255, 255, 255, 0.85);
             z-index: 1;
         }
 
@@ -203,9 +212,9 @@
             z-index: 2;
         }
 
-        /* --- BÖLÜMLER --- */
+        /* --- GENEL BÖLÜMLER --- */
         section {
-            padding: 10rem 0;
+            padding: 8rem 0;
             border-top: 1px solid #f0f0f0;
         }
 
@@ -293,16 +302,16 @@
             margin-bottom: 1.5rem;
         }
 
-        /* --- YENİ BÜYÜTÜLMÜŞ MEDYA VE GALERİ ALANI --- */
+        /* --- MEDYA VE GALERİ --- */
         .gallery-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr)); /* Genişlik 350px'den 450px'e çıkarıldı */
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
             gap: 2.5rem;
         }
 
         .gallery-item {
             position: relative;
-            height: 340px; /* Yükseklik 250px'den 340px'e çıkarıldı */
+            height: 340px;
             overflow: hidden;
             border: 3px solid var(--text-dark);
             background-color: #000;
@@ -352,7 +361,7 @@
             transform: rotate(-2deg);
         }
 
-        /* --- BİZE YAZIN (BLOG) --- */
+        /* --- BİZE YAZIN --- */
         .blog-container {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
@@ -438,7 +447,7 @@
             font-style: italic;
         }
 
-        /* --- İLETİŞİM --- */
+        /* --- İLETİŞİM (TEMİZLENMİŞ VE GÜVENLİ) --- */
         .contact-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
@@ -641,8 +650,10 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo-container">
-                    <img id="club-logo-img" src="logo.png" alt="ABER SK" class="club-logo" onerror="handleLogoFallback(this);">
-                    <div class="logo-text">
+                    <div class="club-logo-wrapper">
+                        <img id="club-logo-img" src="logo.png" alt="ABER SK" class="club-logo" onerror="handleLogoFallback(this);">
+                    </div>
+                    <div class="logo-text" id="header-club-title">
                         KARAMAN ABER SANAT GÜCÜ <span>SPOR KULÜBÜ</span> [cite: Karaman Aber Sanat Gücü Spor Kulübü için hazırlanan web sitesi tasarımı, kurumsal kimliği siyah, beyaz ve kırmızı renk paleti üzerine kurgulamıştır. Kulübün resmi sloganı "İNANÇ KANATLANDIRIR" olarak belirlenmiş olup, tasarımda profesyonel bir arayüz hedeflenmiştir . Görsel materyaller arasında kanat figürlü bir kalkan logosu ve taraftar etkileşimli alanlar yer almaktadır.]
                     </div>
                 </a>
@@ -679,7 +690,7 @@
                 </div>
                 <div class="about-card">
                     <h3 id="about-card-title2">Zafere Giden Kararlı Yol.</h3>
-                    <p id="about-card-text2">Sloganımız olan "İnanç Kanatlandırır" ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz [cite: Karaman Aber Sanat Gücü Spor Kulübü için hazırlanan web sitesi tasarımı, kurumsal kimliği siyah, beyaz ve kırmızı renk paleti üzerine kurgulamıştır. Kulübün resmi sloganı "İNANÇ KANATLANDIRIR" olarak belirlenmiş olup, tasarımda profesyonel bir arayüz hedeflenmiştir . Görsel materyaller arasında kanat figürlü bir kalkan logosu ve taraftar etkileşimli alanlar yer almaktadır.]. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz.</p>
+                    <p id="about-card-text2">Sloganımız olan "İnanç Kanatlandırır" ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz [cite: Karaman Aber Sanat Gücü Spor Kulübü için hazırlanan web sitesi tasarımı, kurumsal kimliği siyah, beyaz ve kırmızı renk paleti üzerine kurgulamıştır. Kulübün resmi sloganı "İNANÇ KANATLANDIRIR" olarak belirlenmiş olup, tasarımda profesyonel bir arayüz hedeflenmiştir . Görsel materyaller Georgia Serif stili ve kalınlaştırılmış modern tipografi unsurlarından güç alır .]. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz.</p>
                 </div>
             </div>
         </div>
@@ -705,7 +716,7 @@
         <div class="container">
             <h2 class="section-title">Medya & Galeri</h2>
             <div class="gallery-grid" id="gallery-container">
-                <!-- Fotoğraflar ve videolar buraya dinamik olarak yüklenecek -->
+                <!-- Fotoğraflar ve videolar dinamik olarak yüklenecek -->
             </div>
         </div>
     </section>
@@ -722,7 +733,7 @@
         </div>
     </section>
 
-    <!-- BİZE YAZIN (BLOG) BÖLÜMÜ -->
+    <!-- BİZE YAZIN BÖLÜMÜ -->
     <section id="bize-yazin">
         <div class="container">
             <h2 class="section-title">Bize Yazın</h2>
@@ -748,7 +759,7 @@
                 <div>
                     <h3 style="font-size: 1.5rem; font-weight: 900; font-style: italic; text-transform: uppercase; margin-bottom: 2rem;">Yazılanlar</h3>
                     <div class="approved-posts" id="posts-container">
-                        <!-- Onaylanmış mesajlar dinamik olarak buraya yüklenecektir -->
+                        <!-- Mesajlar dinamik yüklenecek -->
                     </div>
                 </div>
             </div>
@@ -799,28 +810,30 @@
                 <button class="admin-tab-btn" id="tabSecurityBtn" onclick="switchTab('security');">Güvenlik / Şifre</button>
             </div>
 
-            <!-- TAB 1: GELEN MESAJLAR -->
+            <!-- TAB 1: TARAFTAR MESAJLARI -->
             <div id="tabMessages">
                 <h4 style="margin-bottom: 1rem; font-weight: 800; text-transform: uppercase;">Onay Bekleyen veya Yayındaki Mesajlar</h4>
-                <div id="admin-posts-list" style="max-height: 400px; overflow-y: auto;">
-                    <!-- JS ile dolacak -->
-                </div>
+                <div id="admin-posts-list" style="max-height: 400px; overflow-y: auto;"></div>
             </div>
 
-            <!-- TAB 2: SİTE BİLGİLERİ GÜNCELLEME -->
+            <!-- TAB 2: SİTE BİLGİLERİ -->
             <div id="tabSettings" style="display: none; max-height: 450px; overflow-y: auto; padding-right: 1rem;">
                 <h4 style="margin-bottom: 1.5rem; font-weight: 800; text-transform: uppercase;">Sitenin Yazı ve Logo Bilgileri</h4>
                 
                 <div class="form-group" style="background: #fff8f8; padding: 1.5rem; border: 1px solid var(--accent-red); margin-bottom: 1.5rem;">
-                    <label style="color: var(--accent-red); font-weight: 900;">1. KULÜP LOGO URL'Sİ (ImgBB Direct Link)</label>
+                    <label style="color: var(--accent-red); font-weight: 900;">KULÜP LOGO URL'Sİ (ImgBB Direct Link)</label>
                     <input type="text" id="edit-logo-url" class="form-control" placeholder="Örn: https://i.ibb.co/.../logo.png">
                 </div>
 
                 <div class="form-group" style="background: #f8faff; padding: 1.5rem; border: 1px solid #2b6cb0; margin-bottom: 1.5rem;">
-                    <label style="color: #2b6cb0; font-weight: 900;">2. ANA SAYFA ARKA PLAN GÖRSEL URL'Sİ</label>
+                    <label style="color: #2b6cb0; font-weight: 900;">ANA SAYFA ARKA PLAN GÖRSEL URL'Sİ</label>
                     <input type="text" id="edit-hero-bg-url" class="form-control" placeholder="Örn: https://i.ibb.co/... (Boş bırakırsanız düz beyaz olur)">
                 </div>
 
+                <div class="form-group">
+                    <label>Sol Üst Kulüp İsmi</label>
+                    <input type="text" id="edit-header-title" class="form-control">
+                </div>
                 <div class="form-group">
                     <label>Ana Sayfa Başlığı (Hero)</label>
                     <textarea id="edit-hero-title" class="form-control" rows="2"></textarea>
@@ -913,9 +926,7 @@
                 </div>
 
                 <h5 style="margin-bottom: 1rem; font-weight: 800;">MEVCUT GALERİ ELEMANLARI</h5>
-                <div id="admin-gallery-list" style="max-height: 250px; overflow-y: auto;">
-                    <!-- JS ile dolacak -->
-                </div>
+                <div id="admin-gallery-list" style="max-height: 250px; overflow-y: auto;"></div>
             </div>
 
             <!-- TAB 4: TASARIM & RENKLER -->
@@ -956,7 +967,7 @@
     <!-- FOOTER -->
     <footer>
         <div class="container">
-            <div class="footer-logo">ABER <span>SANAT GÜCÜ</span></div>
+            <div class="footer-logo" id="footer-logo-text">ABER <span>SANAT GÜCÜ</span></div>
             <p>© 2026 Tüm Hakları Saklıdır.</p>
             <div class="signature">DESIGNED BY <span>RIDVAN ARSLAN</span></div>
             <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneline Giriş Yap</div>
@@ -965,36 +976,48 @@
 
     <!-- JS KODLARI -->
     <script>
-        // --- AKILLI REHBER VE DOĞRU LİNK TEMİZLEYİCİ ---
+        // --- AKILLI VE GELİŞMİŞ LİNK TEMİZLEME MOTORU (KESİN ÇÖZÜM) ---
         function cleanImageUrl(dirtyUrl) {
             if (!dirtyUrl) return '';
             
             let url = dirtyUrl.trim();
             
+            // 1. Eğer HTML kod bloğu olarak yapıştırıldıysa (<img> vb.) linki ayıkla
             if (url.startsWith('<') && url.includes('src=')) {
-                const match = url.match(/src="([^"]+)"/);
+                const match = url.match(/src=["']([^"']+)["']/);
                 if (match && match[1]) {
                     url = match[1];
                 }
             }
 
+            // 2. Eğer BBCode olarak yapıştırıldıysa [img]link[/img] linki ayıkla
+            if (url.includes('[img]') || url.includes('[url]')) {
+                const match = url.match(/\[img\](.*?)\[\/img\]/i);
+                if (match && match[1]) {
+                    url = match[1];
+                } else {
+                    const matchUrl = url.match(/\[url=.*?\](.*?)\[\/url\]/i);
+                    if (matchUrl && matchUrl[1]) url = matchUrl[1];
+                }
+            }
+
+            // 3. Eğer ImgBB sayfa linki ise (örn: ibb.co/XYZ) doğrudan resim yoluna dönüştür
             if (url.includes('ibb.co/') && !url.includes('i.ibb.co')) {
                 const parts = url.split('/');
                 const id = parts[parts.length - 1] || parts[parts.length - 2];
                 if (id && id.length >= 5) {
-                    return `https://i.ibb.co/${id}/image.png`;
+                    return `https://i.ibb.co/${id}/image.png`; // ImgBB standart doğrudan eşleşme şablonu
                 }
             }
             
             return url;
         }
 
-        // --- AKILLI VİDEO EMBED URL OLUŞTURUCU (YouTube & Streamable Destekli) ---
+        // Akıllı Video URL Oluşturucu
         function getEmbedVideoUrl(videoUrl) {
             if (!videoUrl) return '';
             let url = videoUrl.trim();
 
-            // YouTube Kontrolü
             if (url.includes('youtube.com') || url.includes('youtu.be')) {
                 let videoId = '';
                 if (url.includes('youtu.be/')) {
@@ -1009,7 +1032,6 @@
                 }
             }
 
-            // Streamable Kontrolü
             if (url.includes('streamable.com')) {
                 const parts = url.split('/');
                 const id = parts[parts.length - 1] || parts[parts.length - 2];
@@ -1027,17 +1049,10 @@
                 imgElement.src = cleanImageUrl(activeData.logoUrl);
                 return;
             }
-
-            if (imgElement.src.endsWith('logo.png')) {
-                imgElement.src = 'logo.png.png';
-            } else if (imgElement.src.endsWith('logo.png.png')) {
-                imgElement.src = 'logo.jpg';
-            } else {
-                imgElement.src = 'https://placehold.co/150x150/000/fff?text=ABER+SK';
-            }
+            imgElement.src = 'https://placehold.co/150x150/000/fff?text=ABER+SK';
         }
 
-        // --- HAZIR TASARIM ŞABLONLARI ---
+        // --- TASARIM ŞABLONLARI ---
         const themes = {
             classic: `
                 :root {
@@ -1114,6 +1129,7 @@
             currentTheme: "classic",
             logoUrl: "logo.png",
             heroBgUrl: "",
+            headerTitle: "KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ",
             hero: {
                 title: "KARAMAN\nABER SANAT GÜCÜ\nSPOR KULÜBÜ",
                 slogan: "İNANÇ KANATLANDIRIR"
@@ -1134,13 +1150,13 @@
             },
             about: {
                 title1: "İnanmış Bir Takım Ruhu.",
-                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder.",
+                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim ve yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.",
                 title2: "Zafere Giden Kararlı Yol.",
-                text2: "Sloganımız olan 'İnanç Kanatlandırır' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz."
+                text2: "Sloganımız olan 'İnanç Kanatlandırır' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz."
             },
             futbol: {
                 title: "Sadece Futbol",
-                desc: "Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz.",
+                desc: "Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz.",
                 desc2: "Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz.",
                 imgUrl: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=800"
             },
@@ -1153,7 +1169,7 @@
         let activeData = {};
 
         function loadAllData() {
-            const saved = localStorage.getItem('aber_sk_pro_data_v4');
+            const saved = localStorage.getItem('aber_sk_pro_data_v5');
             if (saved) {
                 activeData = JSON.parse(saved);
             } else {
@@ -1165,7 +1181,7 @@
         }
 
         function saveAllData() {
-            localStorage.setItem('aber_sk_pro_data_v4', JSON.stringify(activeData));
+            localStorage.setItem('aber_sk_pro_data_v5', JSON.stringify(activeData));
         }
 
         function applySavedTheme() {
@@ -1174,11 +1190,15 @@
             document.getElementById('theme-select').value = selectedTheme;
         }
 
-        // --- TÜM SİTEYİ GÜNCELLE (RENDER) ---
+        // --- TÜM SİTEYİ YENİDEN YAZDIRMA (RENDER) ---
         function renderAllSections() {
-            // 0. Logo
+            // 0. Dinamik Sol Üst Logo & Dinamik Temiz Başlık (Sıfır Karışıklık)
             const logoImg = document.getElementById('club-logo-img');
             logoImg.src = cleanImageUrl(activeData.logoUrl || "logo.png");
+            
+            const rawHeaderTitle = activeData.headerTitle || "KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ";
+            document.getElementById('header-club-title').innerHTML = rawHeaderTitle.replace("SPOR KULÜBÜ", "<span>SPOR KULÜBÜ</span>");
+            document.getElementById('footer-logo-text').innerHTML = rawHeaderTitle.replace("SPOR KULÜBÜ", "<span>SPOR KULÜBÜ</span>");
 
             // 1. Hero Arka Planı ve Bilgileri
             const heroSection = document.getElementById('home');
@@ -1205,7 +1225,7 @@
             document.getElementById('futbol-desc-text-2').innerText = activeData.futbol.desc2;
             document.getElementById('futbol-image-bg').style.backgroundImage = `linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.6)), url('${cleanImageUrl(activeData.futbol.imgUrl)}')`;
 
-            // 4. İletişim
+            // 4. İletişim (Arınmış ve Temiz)
             document.getElementById('club-phone-link').innerText = activeData.contact.phone;
             document.getElementById('club-phone-link').href = "tel:" + activeData.contact.phone.replace(/\s+/g, '');
             document.getElementById('club-email-1').innerText = activeData.contact.email1;
@@ -1219,11 +1239,11 @@
             document.getElementById('transfer-badge-text').innerText = activeData.transfers.badge;
             document.getElementById('transfer-desc-text').innerText = activeData.transfers.desc;
 
-            // 6. Dinamik Galeri Render (Akıllı Video Çalar Ekranı)
+            // 6. Dinamik Galeri
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
             if (activeData.gallery.length === 0) {
-                galleryGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Galeride henüz bir dosya yok.</p>';
+                galleryGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Galeride henüz dosya bulunmuyor.</p>';
             } else {
                 activeData.gallery.forEach(item => {
                     const mediaBox = document.createElement('div');
@@ -1251,7 +1271,7 @@
                 });
             }
 
-            // 7. Onaylanmış Yazılar Duvarı
+            // 7. Taraftar Yazıları
             const postsContainer = document.getElementById('posts-container');
             postsContainer.innerHTML = '';
             const approvedPosts = activeData.posts.filter(p => p.approved === true);
@@ -1333,7 +1353,7 @@
             }
         }
 
-        // --- TAB 1: TARAFTAR YAZILARI ---
+        // --- TAB 1: MESAJ YÖNETİMİ ---
         function renderAdminPanel() {
             const container = document.getElementById('admin-posts-list');
             container.innerHTML = '';
@@ -1382,10 +1402,11 @@
             }
         }
 
-        // --- TAB 2: SİTE METİNLERİ, LOGO & HERO BG ---
+        // --- TAB 2: SİTE AYARLARI ---
         function loadSettingsToAdminForm() {
             document.getElementById('edit-logo-url').value = activeData.logoUrl || '';
             document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
+            document.getElementById('edit-header-title').value = activeData.headerTitle || 'KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ';
             document.getElementById('edit-hero-title').value = activeData.hero.title;
             document.getElementById('edit-hero-slogan').value = activeData.hero.slogan;
 
@@ -1412,6 +1433,7 @@
         function saveSettings() {
             activeData.logoUrl = cleanImageUrl(document.getElementById('edit-logo-url').value);
             activeData.heroBgUrl = cleanImageUrl(document.getElementById('edit-hero-bg-url').value);
+            activeData.headerTitle = document.getElementById('edit-header-title').value.trim();
             activeData.hero.title = document.getElementById('edit-hero-title').value;
             activeData.hero.slogan = document.getElementById('edit-hero-slogan').value;
 
@@ -1436,11 +1458,11 @@
 
             saveAllData();
             renderAllSections();
-            alert("Site ve Logo bilgileri başarıyla güncellendi!");
+            alert("Site bilgileri başarıyla güncellendi!");
             toggleAdminModal();
         }
 
-        // --- TAB 3: MEDYA / GALERİ ---
+        // --- TAB 3: GALERİ YÖNETİMİ ---
         function renderAdminGallery() {
             const container = document.getElementById('admin-gallery-list');
             container.innerHTML = '';
@@ -1498,7 +1520,7 @@
             }
         }
 
-        // --- TAB 4: TASARIM & TEMA ---
+        // --- TAB 4: TASARIM SEÇİMİ ---
         function previewTheme() {
             const selectedTheme = document.getElementById('theme-select').value;
             document.getElementById('theme-styles').innerHTML = themes[selectedTheme];
@@ -1509,11 +1531,11 @@
             activeData.currentTheme = selectedTheme;
             saveAllData();
             renderAllSections();
-            alert("Sitenin hazır tasarımı başarıyla değiştirildi ve kaydedildi!");
+            alert("Sitenin tasarımı güncellendi!");
             toggleAdminModal();
         }
 
-        // --- TAB 5: ŞİFRE DEĞİŞTİRME ---
+        // --- TAB 5: GÜVENLİK ---
         function changeAdminPassword() {
             const currInput = document.getElementById('current-password-input').value;
             const newInput = document.getElementById('new-password-input').value;
@@ -1541,11 +1563,11 @@
             document.getElementById('new-password-input').value = '';
             document.getElementById('new-password-confirm').value = '';
 
-            alert("Yönetim paneli şifreniz başarıyla değiştirildi!");
+            alert("Şifre güncellendi!");
             toggleAdminModal();
         }
 
-        // İlk açılışta verileri çek
+        // İlk Yükleme
         window.onload = function() {
             loadAllData();
         };
