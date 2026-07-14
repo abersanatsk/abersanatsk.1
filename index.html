@@ -425,7 +425,7 @@
             text-transform: uppercase;
         }
 
-        /* --- GALERİ --- */
+        /* --- MEDYA GALERİ (MİLİMETRİK EŞİTLEME YAPILDI) --- */
         .gallery-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
@@ -434,17 +434,19 @@
 
         .gallery-item {
             position: relative;
-            height: 280px;
+            width: 100%;
+            aspect-ratio: 16 / 10; /* Tüm medya bileşenlerinin oranı birebir sabitlendi! */
             overflow: hidden;
             border: 2px solid var(--text-dark);
-            background-color: #000;
+            background-color: #000000;
         }
 
         .gallery-item img, .gallery-item iframe, .gallery-item video {
             width: 100%;
             height: 100%;
-            object-fit: cover;
+            object-fit: cover; /* Taşmaları engeller, her görseli kutuya tam sığdırır */
             border: none;
+            display: block;
         }
 
         /* --- BİZE YAZIN (TARAFTAR BLOG) --- */
@@ -702,6 +704,23 @@
             color: #000;
         }
 
+        .admin-btn-edit-inline {
+            background-color: #2b6cb0;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .admin-btn-edit-inline:hover {
+            opacity: 0.8;
+        }
+
         .admin-btn-delete {
             background-color: #d90429;
             color: white;
@@ -816,7 +835,6 @@
                     <li><a href="#galeri">Medya</a></li>
                     <li><a href="#bize-yazin">Bize Yazın</a></li>
                     <li><a href="#iletisim">İletişim</a></li>
-                    <!-- Dinamik menü bağlantıları buraya yüklenecek -->
                 </ul>
             </nav>
         </div>
@@ -969,7 +987,7 @@
                 <button type="button" class="admin-sidebar-btn" id="tabTransBtn" onclick="switchTab('transfers')">Transfer Gündemi</button>
                 <button type="button" class="admin-sidebar-btn" id="tabFixBtn" onclick="switchTab('fixture')">Fikstür / Sonuçlar</button>
                 <button type="button" class="admin-sidebar-btn" id="tabGalBtn" onclick="switchTab('gallery')">Medya / Galeri</button>
-                <button type="button" class="admin-sidebar-btn" id="tabPagesBtn" onclick="switchTab('pages')">Yeni Sayfa Ekle</button>
+                <button type="button" class="admin-sidebar-btn" id="tabPagesBtn" onclick="switchTab('pages')">Yeni Sayfa Ekle/Düzenle</button>
                 <button type="button" class="admin-sidebar-btn" id="tabMsgBtn" onclick="switchTab('messages')">Taraftar Yazıları</button>
                 <button type="button" class="admin-sidebar-btn" id="tabSecBtn" onclick="switchTab('security')">Tema & Şifre</button>
             </div>
@@ -1217,11 +1235,15 @@
                     <div id="admin-gallery-list" style="max-height: 300px; overflow-y: auto;"></div>
                 </div>
 
-                <!-- TAB: SAYFA EKLEME (YENİ EKLEME) -->
+                <!-- TAB: SAYFA EKLEME / DÜZENLEME (EDİTÖR DESTEKLİ GÜNCELLENDİ) -->
                 <div id="tabPages" class="admin-tab-content">
-                    <div class="admin-section-heading">YENİ SAYFA EKLE VE YÖNET</div>
-                    <div class="blog-form-wrapper" style="box-shadow: none; margin-bottom: 2rem;">
-                        <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000; text-transform: uppercase;">YENİ SAYFA BİLGİLERİ</h5>
+                    <div class="admin-section-heading" id="pages-tab-heading">YENİ SAYFA EKLE VE YÖNET</div>
+                    <div class="blog-form-wrapper" style="box-shadow: none; margin-bottom: 2rem; border: 2px solid var(--text-dark);" id="page-form-container">
+                        <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000; text-transform: uppercase;" id="page-form-title">YENİ SAYFA BİLGİLERİ</h5>
+                        
+                        <!-- Sayfa ID Gizli Input (Düzenleme için) -->
+                        <input type="hidden" id="edit-page-id" value="">
+
                         <div class="form-group">
                             <label>Sayfa / Menü Adı (Kısa ve tek kelime önerilir)</label>
                             <input type="text" id="new-page-menu-title" class="form-control" placeholder="Örn: Tesislerimiz, Altyapı">
@@ -1235,10 +1257,14 @@
                             <input type="text" id="new-page-slogan" class="form-control" placeholder="Opsiyonel slogan yazısı">
                         </div>
                         <div class="form-group">
-                            <label>Sayfa İçerik Metni</label>
+                            <label>Sayfa İçerik Metni (Detaylı Bilgiler)</label>
                             <textarea id="new-page-content" rows="6" class="form-control" placeholder="Sayfanın detaylı metnini buraya yazın..."></textarea>
                         </div>
-                        <button type="button" class="submit-btn" onclick="addCustomPage()">Yeni Sayfayı Yayına Al</button>
+                        
+                        <div style="display: flex; gap: 10px;">
+                            <button type="button" class="submit-btn" id="save-page-btn" onclick="saveCustomPage()" style="flex: 1;">Yeni Sayfayı Yayına Al</button>
+                            <button type="button" class="submit-btn" id="cancel-edit-page-btn" onclick="cancelPageEdit()" style="background-color: #666; display: none; flex: 0.4;">İptal Et</button>
+                        </div>
                     </div>
 
                     <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000;">EKLENEN DİNAMİK SAYFALAR</h5>
@@ -1247,7 +1273,7 @@
                             <tr>
                                 <th>Menü Adı</th>
                                 <th>Bölüm Başlığı</th>
-                                <th>İşlem</th>
+                                <th>İşlemler</th>
                             </tr>
                         </thead>
                         <tbody id="admin-pages-list"></tbody>
@@ -1379,9 +1405,9 @@
             },
             about: {
                 title1: "İnanmış Bir Takım Ruhu.",
-                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim og yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.",
+                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim ve yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.",
                 title2: "Zafere Giden Kararlı Yol.",
-                text2: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü og odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek og sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar og sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz."
+                text2: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz."
             },
             contact: {
                 phone: "0 536 893 94 15",
@@ -1404,7 +1430,7 @@
             gallery: [
                 { id: 1, type: "image", url: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=800" }
             ],
-            customPages: [] // Dinamik olarak eklenen sayfalar buraya kayıt edilecek
+            customPages: []
         };
 
         let activeData = {};
@@ -1570,7 +1596,7 @@
                 });
             }
 
-            // 6. Galeri
+            // 6. Galeri (EŞİT KUTU MODÜLÜ RENDER)
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
             const safeGallery = Array.isArray(activeData.gallery) ? activeData.gallery : [];
@@ -1595,11 +1621,10 @@
                 });
             }
 
-            // --- DİNAMİK OLARAK EKLENEN SAYFALARI RENDER ETME (YENİ) ---
+            // --- DİNAMİK OLARAK EKLENEN SAYFALARI RENDER ETME ---
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             const mainNavLinks = document.getElementById('main-nav-links');
             
-            // Önce sadece dinamik nav linkleri temizle (Varsayılan nav linkleri koru)
             const defaultNavHtml = `
                 <li><a href="#kulup">Hakkımızda</a></li>
                 <li><a href="#kadro">Oyuncularımız</a></li>
@@ -1616,11 +1641,8 @@
             
             safeCustomPages.forEach(page => {
                 const safeId = 'dynamic-' + page.id;
-                
-                // 1. Menüye link olarak ekle:
                 mainNavLinks.innerHTML += `<li><a href="#${safeId}">${page.menuTitle}</a></li>`;
                 
-                // 2. Sitenin gövdesine yeni bölüm olarak enjekte et:
                 dynamicContainer.innerHTML += `
                     <section id="${safeId}">
                         <div class="container">
@@ -1806,7 +1828,7 @@
             }
         }
 
-        // --- DİNAMİK SAYFA EKLEME METODLARI (YENİ) ---
+        // --- DİNAMİK SAYFA EKLEME/DÜZENLEME METODLARI (DÜZENLEME DESTEĞİ EKLENDİ) ---
         function renderAdminPages() {
             try {
                 const list = document.getElementById('admin-pages-list');
@@ -1818,7 +1840,10 @@
                         <tr>
                             <td><strong>${p.menuTitle}</strong></td>
                             <td>${p.title}</td>
-                            <td><button type="button" class="admin-btn-delete" onclick="deleteCustomPage(${p.id})">Sil</button></td>
+                            <td>
+                                <button type="button" class="admin-btn-edit-inline" onclick="startEditPage(${p.id})">Düzenle</button>
+                                <button type="button" class="admin-btn-delete" onclick="deleteCustomPage(${p.id})">Sil</button>
+                            </td>
                         </tr>
                     `;
                 });
@@ -1827,8 +1852,54 @@
             }
         }
 
-        function addCustomPage() {
+        // Düzenleme Modunu Başlatan Fonksiyon
+        function startEditPage(id) {
             try {
+                const safeCustomPages = Array.isArray(activeData.customPages) ? activeData.customPages : [];
+                const page = safeCustomPages.find(p => p.id === id);
+                
+                if (page) {
+                    // Form elemanlarını doldur
+                    document.getElementById('edit-page-id').value = page.id;
+                    document.getElementById('new-page-menu-title').value = page.menuTitle;
+                    document.getElementById('new-page-title').value = page.title;
+                    document.getElementById('new-page-slogan').value = page.slogan || '';
+                    document.getElementById('new-page-content').value = page.content;
+
+                    // Form tasarımını "Düzenleme" moduna çek
+                    document.getElementById('page-form-title').innerText = "SAYFAYI DÜZENLE";
+                    document.getElementById('save-page-btn').innerText = "Değişiklikleri Kaydet";
+                    document.getElementById('page-form-container').style.borderColor = "#2b6cb0"; // Mavi çerçeve ile vurgu yap
+                    
+                    // İptal butonunu görünür kıl
+                    document.getElementById('cancel-edit-page-btn').style.display = "block";
+                    
+                    // Formun tepesine odaklan
+                    document.getElementById('page-form-container').scrollIntoView({ behavior: 'smooth' });
+                }
+            } catch (e) {
+                alert("Düzenleme modu başlatılamadı: " + e.message);
+            }
+        }
+
+        // Düzenlemeyi İptal Etme
+        function cancelPageEdit() {
+            document.getElementById('edit-page-id').value = '';
+            document.getElementById('new-page-menu-title').value = '';
+            document.getElementById('new-page-title').value = '';
+            document.getElementById('new-page-slogan').value = '';
+            document.getElementById('new-page-content').value = '';
+
+            document.getElementById('page-form-title').innerText = "YENİ SAYFA BİLGİLERİ";
+            document.getElementById('save-page-btn').innerText = "Yeni Sayfayı Yayına Al";
+            document.getElementById('page-form-container').style.borderColor = "var(--text-dark)";
+            document.getElementById('cancel-edit-page-btn').style.display = "none";
+        }
+
+        // Sayfa Ekleme veya Güncelleme Fonksiyonu (Tek Merkezden Kontrol)
+        function saveCustomPage() {
+            try {
+                const pageId = document.getElementById('edit-page-id').value;
                 const menuTitle = document.getElementById('new-page-menu-title').value.trim();
                 const title = document.getElementById('new-page-title').value.trim();
                 const slogan = document.getElementById('new-page-slogan').value.trim();
@@ -1841,23 +1912,33 @@
 
                 if (!Array.isArray(activeData.customPages)) activeData.customPages = [];
 
-                activeData.customPages.push({
-                    id: Date.now(),
-                    menuTitle, title, slogan, content
-                });
+                if (pageId) {
+                    // --- GÜNCELLEME MODU ---
+                    const pageIndex = activeData.customPages.findIndex(p => p.id == pageId);
+                    if (pageIndex !== -1) {
+                        activeData.customPages[pageIndex].menuTitle = menuTitle;
+                        activeData.customPages[pageIndex].title = title;
+                        activeData.customPages[pageIndex].slogan = slogan;
+                        activeData.customPages[pageIndex].content = content;
+                        alert("BAŞARILI: Sayfa başarıyla güncellendi!");
+                    } else {
+                        alert("Sayfa bulunamadı!");
+                    }
+                } else {
+                    // --- YENİ KAYIT MODU ---
+                    activeData.customPages.push({
+                        id: Date.now(),
+                        menuTitle, title, slogan, content
+                    });
+                    alert("BAŞARILI: Yeni sayfa oluşturuldu ve menüye eklendi!");
+                }
 
                 saveAllData();
                 renderAllSections();
                 renderAdminPages();
-
-                document.getElementById('new-page-menu-title').value = '';
-                document.getElementById('new-page-title').value = '';
-                document.getElementById('new-page-slogan').value = '';
-                document.getElementById('new-page-content').value = '';
-                
-                alert("BAŞARILI: Yeni sayfa oluşturuldu ve menüye başarıyla eklendi!");
+                cancelPageEdit(); // Formu temizle
             } catch (e) {
-                alert("Sayfa eklenirken bir sorun oluştu: " + e.message);
+                alert("Sayfa kaydedilirken bir sorun oluştu: " + e.message);
             }
         }
 
