@@ -41,12 +41,12 @@
             image-rendering: crisp-edges !important;               /* Firefox keskinleştirme */
             -webkit-font-smoothing: antialiased;
             backface-visibility: hidden;
-            transform: translateZ(0); /* Donanım hızlandırmayı tetikler, pikselleri canlandırır */
-            filter: contrast(1.02) saturate(1.04) brightness(0.98); /* Dinamik renk ve netlik kalibrasyonu */
+            transform: translateZ(0); /* Donanım hızlandırmayı tetikler */
+            filter: contrast(1.02) saturate(1.04) brightness(0.98); /* Dinamik renk kalibrasyonu */
             transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        /* Görsellerin üzerine gelindiğinde kontrastı daha da keskinleştiren lüks efekt */
+        /* Görsellerin üzerine gelindiğinde kontrastı keskinleştiren efekt */
         img:hover, .player-card:hover .player-img-box img, .kit-card:hover .kit-img-box img {
             filter: contrast(1.08) saturate(1.08) brightness(1.02) !important;
         }
@@ -76,7 +76,7 @@
             padding: 0 3rem;
         }
 
-        /* --- AKIŞKAN ASİMETRİK ARKA PLAN IŞIKLARI --- */
+        /* --- AKIŞKAN ARKA PLAN IŞIKLARI --- */
         body::before {
             content: '';
             position: fixed;
@@ -127,7 +127,24 @@
             text-decoration: none;
             color: #ffffff;
             display: flex;
-            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+
+        /* Dinamik ve Bozulmayan Logo Görsel Alanı */
+        .logo-img-wrapper {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: none; /* Logo URL eklenene kadar gizli kalır */
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .logo-img-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
         }
 
         .logo-text-top {
@@ -189,7 +206,7 @@
             width: 100%;
         }
 
-        /* --- HERO: BOZULMAYAN ARKA PLAN & YAŞAYAN SANAT --- */
+        /* --- HERO: BOZULMAYAN ARKA PLAN --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -208,7 +225,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover !important; /* Arka planın bozulmasını engelleyen kesin çözüm */
+            background-size: cover !important; /* Bozulmaları tamamen engelleyen sabitleyici */
             background-position: center center !important;
             background-repeat: no-repeat !important;
             filter: brightness(0.25) contrast(1.1);
@@ -1010,8 +1027,13 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo-container">
-                    <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
-                    <div class="logo-text-sub">SPOR KULÜBÜ</div>
+                    <div class="logo-img-wrapper" id="header-logo-wrapper">
+                        <img src="" id="header-logo-img" alt="Logo" onerror="handleLogoFallback(this)">
+                    </div>
+                    <div>
+                        <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
+                        <div class="logo-text-sub">SPOR KULÜBÜ</div>
+                    </div>
                 </a>
                 <ul class="nav-links" id="main-nav-links">
                     <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li>
@@ -1193,8 +1215,8 @@
                 <!-- TAB: AYARLAR -->
                 <div id="tabSettings" class="admin-tab-content active">
                     <div class="admin-section-heading">GENEL AYARLAR</div>
-                    <div class="form-group"><label>Logo URL (Opsiyonel)</label><input type="text" id="edit-logo-url" class="form-control"></div>
-                    <div class="form-group"><label>Hero Arka Plan Görsel URL (Drive Linkleri Otomatik Çevrilir)</label><input type="text" id="edit-hero-bg-url" class="form-control"></div>
+                    <div class="form-group"><label>Logo URL (Drive/Normal)</label><input type="text" id="edit-logo-url" class="form-control"></div>
+                    <div class="form-group"><label>Hero Arka Plan Görsel URL (Drive/Normal)</label><input type="text" id="edit-hero-bg-url" class="form-control"></div>
                     <div class="form-group"><label>Kulüp Başlığı</label><input type="text" id="edit-header-title" class="form-control"></div>
                     <div class="form-group"><label>Hero Başlığı</label><input type="text" id="edit-hero-title" class="form-control"></div>
                     <div class="form-group"><label>Slogan</label><input type="text" id="edit-hero-slogan" class="form-control"></div>
@@ -1205,7 +1227,7 @@
                     <button type="button" class="submit-btn" onclick="saveSettings()">Ayarları Kaydet</button>
                 </div>
 
-                <!-- TAB: TİPOGRAFİ & STİL (YENİ EKİP SİSTEMİ) -->
+                <!-- TAB: TİPOGRAFİ & STİL -->
                 <div id="tabStyle" class="admin-tab-content">
                     <div class="admin-section-heading">TİPOGRAFİ & STİL EDİTÖRÜ</div>
                     <div class="form-group">
@@ -1244,7 +1266,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Genel Vurgu Rengi (Kırmızı, Turuncu vb.)</label>
+                        <label>Genel Vurgu Rengi</label>
                         <input type="color" id="style-accent-color" class="form-control" style="height:50px;">
                     </div>
                     <button type="button" class="submit-btn" onclick="saveTypographyStyles()">Yazı & Renk Stillerini Uygula</button>
@@ -1268,7 +1290,7 @@
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
                         <div class="form-group"><label>Hoca Ad Soyad</label><input type="text" id="new-staff-name" class="form-control"></div>
                         <div class="form-group"><label>Görevi</label><input type="text" id="new-staff-role" class="form-control"></div>
-                        <div class="form-group"><label>Resim URL</label><input type="text" id="new-staff-img" class="form-control"></div>
+                        <div class="form-group"><label>Resim URL (Drive/Normal)</label><input type="text" id="new-staff-img" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="addStaffMember()">Hoca Ekle</button>
                     </div>
                     <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-staff-list"></tbody></table>
@@ -1295,7 +1317,7 @@
                     <div class="admin-section-heading">YENİ SEZON FORMALARI YÖNETİMİ</div>
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
                         <div class="form-group"><label>Forma Adı / Teması</label><input type="text" id="new-kit-title" class="form-control"></div>
-                        <div class="form-group"><label>Büyük Boyut Forma Resim URL</label><input type="text" id="new-kit-img" class="form-control"></div>
+                        <div class="form-group"><label>Büyük Boyut Forma Resim URL (Drive/Normal)</label><input type="text" id="new-kit-img" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="addKit()">Formayı Ekle</button>
                     </div>
                     <table class="data-table"><thead><tr><th>Forma Adı</th><th>Görsel Linki</th><th>İşlem</th></tr></thead><tbody id="admin-kits-list"></tbody></table>
@@ -1308,7 +1330,7 @@
                         <div class="form-group"><label>Oyuncu Adı</label><input type="text" id="new-trans-name" class="form-control"></div>
                         <div class="form-group"><label>Kulüp Akışı</label><input type="text" id="new-trans-club" class="form-control"></div>
                         <div class="form-group"><label>Durum</label><input type="text" id="new-trans-status" class="form-control"></div>
-                        <div class="form-group"><label>Resim URL</label><input type="text" id="new-trans-img" class="form-control"></div>
+                        <div class="form-group"><label>Resim URL (Drive/Normal)</label><input type="text" id="new-trans-img" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="addTransfer()">Transfer Ekle</button>
                     </div>
                     <table class="data-table"><thead><tr><th>Resim</th><th>Oyuncu</th><th>Kulüp</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="admin-transfer-list"></tbody></table>
@@ -1332,7 +1354,7 @@
                     <div class="admin-section-heading">MEDYA LİSTESİ</div>
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
                         <div class="form-group"><label>Tür</label><select id="new-media-type" class="form-control"><option value="image">Fotoğraf</option><option value="video">Video</option></select></div>
-                        <div class="form-group"><label>URL</label><input type="text" id="new-media-url" class="form-control"></div>
+                        <div class="form-group"><label>URL (Drive/Normal)</label><input type="text" id="new-media-url" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="addGalleryItem()">Galeriye Ekle</button>
                     </div>
                     <div id="admin-gallery-list"></div>
@@ -1346,7 +1368,7 @@
                         <div class="form-group"><label>Menü Adı</label><input type="text" id="new-page-menu-title" class="form-control"></div>
                         <div class="form-group"><label>Büyük Başlık</label><input type="text" id="new-page-title" class="form-control"></div>
                         <div class="form-group"><label>Slogan</label><input type="text" id="new-page-slogan" class="form-control"></div>
-                        <div class="form-group"><label>Görsel URL</label><input type="text" id="new-page-image-url" class="form-control"></div>
+                        <div class="form-group"><label>Görsel URL (Drive/Normal)</label><input type="text" id="new-page-image-url" class="form-control"></div>
                         <div class="form-group"><label>Detaylı İçerik</label><textarea id="new-page-content" rows="4" class="form-control"></textarea></div>
                         <button type="button" class="submit-btn" id="save-page-btn" onclick="saveCustomPage()">Sayfayı Kaydet</button>
                         <button type="button" class="submit-btn" id="cancel-edit-page-btn" onclick="cancelPageEdit()" style="background:#64748b; display:none; margin-top:0.5rem;">İptal</button>
@@ -1408,12 +1430,12 @@
     </footer>
 
     <script>
-        // --- GOOGLE DRIVE LİNK DÖNÜŞTÜRÜCÜ (EXPERT ALGORITHM) ---
+        // --- GOOGLE DRIVE DIRECT LINK TRANSLATOR (BEST PERFORMANCE) ---
         function convertDriveUrl(url) {
             if (!url || typeof url !== 'string') return '';
             let rawUrl = url.trim();
             
-            // Google Drive Paylaşım Linklerini Tespit Etme
+            // Google Drive Paylaşım Linklerini Çeviren Algoritma
             if (rawUrl.includes('drive.google.com/file/d/')) {
                 const parts = rawUrl.split('/file/d/');
                 if (parts[1]) {
@@ -1427,10 +1449,10 @@
                     return `https://docs.google.com/uc?export=view&id=${fileId}`;
                 }
             } else if (rawUrl.includes('drive.google.com/uc?id=')) {
-                return rawUrl; // Zaten uc formatındaysa dokunma
+                return rawUrl;
             }
             
-            // ImgBB Dönüştürücü Desteği
+            // ImgBB Link Düzeltici
             if (rawUrl.includes('ibb.co/') && !rawUrl.includes('i.ibb.co')) {
                 const parts = rawUrl.split('/');
                 const id = parts[parts.length - 1] || parts[parts.length - 2];
@@ -1440,7 +1462,7 @@
             return rawUrl;
         }
 
-        // --- ZİYARETÇİ SAYACI ---
+        // --- TRAFFIC MONITOR ---
         function updateTrafficStats() {
             try {
                 let totalVisits = parseInt(localStorage.getItem('aber_total_visits') || "0");
@@ -1499,7 +1521,6 @@
             headerTitle: "KARAMAN ABER SANAT GÜCÜ",
             hero: { title: "İNANÇ", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
             contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "ridvan@abersanatsk.org", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
-            // Yeni Tipografi Özelleştirme Değerleri
             styles: {
                 fontSport: "'Space Grotesk', sans-serif",
                 fontMain: "'Syne', sans-serif",
@@ -1522,7 +1543,7 @@
 
         function loadAllData() {
             try {
-                const saved = localStorage.getItem('aber_sk_premium_data_v13');
+                const saved = localStorage.getItem('aber_sk_premium_data_v14');
                 activeData = JSON.parse(JSON.stringify(defaultData));
                 if (saved) {
                     const parsed = JSON.parse(saved);
@@ -1547,14 +1568,13 @@
         }
 
         function saveAllData() {
-            localStorage.setItem('aber_sk_premium_data_v13', JSON.stringify(activeData));
+            localStorage.setItem('aber_sk_premium_data_v14', JSON.stringify(activeData));
         }
 
         function applySavedTheme() {
             const selectedTheme = activeData.currentTheme || "classic";
             const selectedLayout = activeData.currentLayout || "asymmetric";
             
-            // Dinamik Tipografi Değerlerini Yükle
             const s = activeData.styles || defaultData.styles;
             const customStyleVars = `
                 :root {
@@ -1580,8 +1600,20 @@
             document.getElementById('header-club-title').innerText = rawHeaderTitle;
             document.getElementById('footer-logo-text').innerText = rawHeaderTitle;
 
+            // Logo Render Ayarı (Drive Desteğiyle)
+            const headerLogoImg = document.getElementById('header-logo-img');
+            const headerLogoWrapper = document.getElementById('header-logo-wrapper');
+            if (activeData.logoUrl && activeData.logoUrl.trim() !== "") {
+                const convertedLogo = convertDriveUrl(activeData.logoUrl);
+                headerLogoImg.src = convertedLogo;
+                headerLogoWrapper.style.display = "block";
+            } else {
+                headerLogoWrapper.style.display = "none";
+            }
+
+            // Hero Arka Planı (Drive Desteğiyle)
             const heroBgOverlay = document.getElementById('hero-bg-overlay');
-            const cleanBg = convertDriveUrl(activeData.heroBgUrl); // Google Drive Uyumlu
+            const cleanBg = convertDriveUrl(activeData.heroBgUrl);
             heroBgOverlay.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
             
             document.getElementById('hero-title-text').innerHTML = (heroData.title || defaultData.hero.title).replace('\n', '<br>');
@@ -1793,7 +1825,6 @@
             saveAllData(); renderAllSections(); alert("Ayarlar Kaydedildi!");
         }
 
-        // TİPOGRAFİ & STİL EDİTÖRÜ KAYDETME
         function loadStyleToAdminForm() {
             const s = activeData.styles || defaultData.styles;
             document.getElementById('style-font-sport').value = s.fontSport || "'Space Grotesk', sans-serif";
