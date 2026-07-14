@@ -85,6 +85,7 @@
             border: 2px solid var(--text-dark);
             padding: 2px;
             background: #fff;
+            display: block; /* Logoyu görünür kıl */
         }
 
         .logo-text {
@@ -585,6 +586,7 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo-container">
+                    <!-- Dinamik Kulüp Logosu (Sol Üstte Görünür) -->
                     <img id="club-logo-img" src="logo.png" alt="ABER SK" class="club-logo" onerror="handleLogoFallback(this);">
                     <div class="logo-text">Aber</div>
                 </a>
@@ -898,13 +900,12 @@
     <!-- JS KODLARI -->
     <script>
         // --- AKILLI REHBER VE DOĞRU LİNK TEMİZLEYİCİ ---
-        // Kullanıcı ne kopyalarsa kopyalasın, sonu .png/.jpg biten doğrudan resim adresine çeviren sihirli fonksiyon
         function cleanImageUrl(dirtyUrl) {
             if (!dirtyUrl) return '';
             
             let url = dirtyUrl.trim();
             
-            // Eğer doğrudan HTML kodu yapıştırdıysa (örn: <img src="..." />) içindeki linki ayıkla
+            // Eğer doğrudan HTML kodu yapıştırdıysa içindeki linki ayıkla
             if (url.startsWith('<') && url.includes('src=')) {
                 const match = url.match(/src="([^"]+)"/);
                 if (match && match[1]) {
@@ -912,13 +913,11 @@
                 }
             }
 
-            // Eğer ImgBB sayfa linki yapıştırdıysa (örn: https://ibb.co/XF3f8pY)
+            // Eğer ImgBB sayfa linki yapıştırdıysa otomatik olarak doğrudan i.ibb.co link şablonuna dönüştür
             if (url.includes('ibb.co/') && !url.includes('i.ibb.co')) {
-                // ibb.co'nun sonundaki ID'yi bul (örn: XF3f8pY)
                 const parts = url.split('/');
                 const id = parts[parts.length - 1] || parts[parts.length - 2];
                 if (id && id.length >= 5) {
-                    // Otomatik olarak doğrudan i.ibb.co link şablonuna dönüştür
                     return `https://i.ibb.co/${id}/image.png`;
                 }
             }
@@ -926,19 +925,15 @@
             return url;
         }
 
-        // Logo kontrolü
+        // Logo kontrolü (Sonsuz döngüyü engellemek için özelleştirilmiş hata yakalama yapısı)
         function handleLogoFallback(imgElement) {
-            if (activeData.logoUrl) {
-                imgElement.src = cleanImageUrl(activeData.logoUrl);
-                return;
-            }
-
             if (imgElement.src.endsWith('logo.png')) {
                 imgElement.src = 'logo.png.png';
             } else if (imgElement.src.endsWith('logo.png.png')) {
                 imgElement.src = 'logo.jpg';
             } else {
-                imgElement.style.display = 'none';
+                // Eğer özel logo URL'si de kırıksa, geçici bir yer tutucu veya boş bir yuvarlak göster
+                imgElement.src = 'https://placehold.co/100x100/000/fff?text=LOGO';
             }
         }
 
@@ -1038,14 +1033,14 @@
             },
             about: {
                 title1: "İnanmış Bir Takım Ruhu.",
-                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim ve yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.",
+                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder.",
                 title2: "Zafere Giden Kararlı Yol.",
-                text2: "Sloganımız olan 'İnanç Kanatlandırır' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz."
+                text2: "Sloganımız olan 'İnanç Kanatlandırır' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz."
             },
             futbol: {
                 title: "Sadece Futbol",
-                desc: "Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz.",
-                desc2: "Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyor hem de taktiksel zekalarını futbol zekasıyla birleştiriyoruz.",
+                desc: "Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz.",
+                desc2: "Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz.",
                 imgUrl: "https://images.unsplash.com/photo-1518063319789-7217e6706b04?q=80&w=800"
             },
             gallery: [
@@ -1083,7 +1078,7 @@
 
         // --- TÜM SİTEYİ GÜNCELLE (RENDER) ---
         function renderAllSections() {
-            // 0. Logo (Akıllı temizleyici ile temizlenmiş)
+            // 0. Logo (Sitedeki sol üst logo alanı, artık admin panelinden gelen veriyi dinamik olarak çeker)
             const logoImg = document.getElementById('club-logo-img');
             logoImg.src = cleanImageUrl(activeData.logoUrl || "logo.png");
 
@@ -1117,7 +1112,7 @@
             document.getElementById('transfer-badge-text').innerText = activeData.transfers.badge;
             document.getElementById('transfer-desc-text').innerText = activeData.transfers.desc;
 
-            // 6. Galeri / Medya Render (Akıllı temizleyici ile temizlenmiş)
+            // 6. Galeri / Medya Render
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
             if (activeData.gallery.length === 0) {
@@ -1299,7 +1294,6 @@
         }
 
         function saveSettings() {
-            // Kaydederken doğrudan temizlenmiş link formatını kaydet
             activeData.logoUrl = cleanImageUrl(document.getElementById('edit-logo-url').value);
             activeData.hero.title = document.getElementById('edit-hero-title').value;
             activeData.hero.slogan = document.getElementById('edit-hero-slogan').value;
