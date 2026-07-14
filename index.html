@@ -2,45 +2,17 @@
 <html lang="tr">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Karaman Aber Sanat Gücü Spor Kulübü</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;700;900&display=swap" rel="stylesheet">
-    
-    <!-- DİNAMİK STİL TANKI -->
-    <style id="theme-styles"></style>
-    <style id="frame-styles"></style>
-
+    <title>Karaman Aber Sanat Gücü</title>
     <style>
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
-        
-        /* ÇERÇEVE STİLLERİ İÇİN GENEL SINIFLAR */
-        .img-modern { border: 3px solid var(--accent-red); border-radius: 4px; }
-        .img-minimal { border: none; border-radius: 50%; box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
-        .img-neon { border: 2px solid var(--accent-red); box-shadow: 0 0 15px var(--accent-red); border-radius: 10px; }
-        
-        /* DİĞER BİLEŞENLER AYNI KALDI, PANEL MODAL EKLENDİ */
-        .admin-modal { display: none; position: fixed; top:0; left:0; width:100%; height:100%; background: rgba(0,0,0,0.9); z-index: 9999; justify-content:center; align-items:center; }
-        .admin-content { background: #fff; width: 90%; height: 90vh; display: flex; position: relative; }
-        .admin-sidebar { width: 250px; background: #222; color: #fff; padding: 2rem; overflow-y: auto; }
-        .admin-body { flex-grow: 1; padding: 3rem; overflow-y: auto; }
-        .admin-tab-content { display: none; }
-        .admin-tab-content.active { display: block; }
-        .form-control { width: 100%; padding: 0.8rem; margin-bottom: 1rem; border: 1px solid #ccc; }
-        .submit-btn { padding: 1rem; background: var(--accent-red); color: #fff; border:none; cursor:pointer; width: 100%; }
-        
-        @media (max-width: 992px) { .admin-content { flex-direction: column; } }
+        /* Hata durumunda bile en azından bu bloklar görünecek */
+        body { font-family: sans-serif; }
+        .section-title { font-size: 2rem; font-weight: bold; margin: 2rem 0; }
+        .board-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 20px; }
     </style>
 </head>
 <body>
 
-    <!-- SİTE İÇERİĞİ KISMI (ÖNCEKİ YAPI İLE AYNI, YENİ BÖLÜMLER EKLENDİ) -->
-    <!-- (Aşağıdaki kısım önceki yapıyla tamamen aynı olup, sadece #teknik-heyet section'ı eklenecektir) -->
-    
-    <!-- YÖNETİM KURULU VE TEKNİK HEYET GÖSTERİMİ -->
+    <!-- İçerik Alanı -->
     <section id="yonetim-kurulu">
         <div class="container">
             <h2 class="section-title">Yönetim Kurulu</h2>
@@ -55,96 +27,48 @@
         </div>
     </section>
 
-    <!-- ADMIN PANEL -->
-    <div class="admin-modal" id="adminModal">
-        <div class="admin-content">
-            <span onclick="toggleAdminModal()" style="position:absolute; right:20px; top:10px; cursor:pointer; font-size:2rem;">&times;</span>
-            <div class="admin-sidebar">
-                <button onclick="switchTab('style')">Tema & Stil</button>
-                <button onclick="switchTab('board')">Yönetim</button>
-                <button onclick="switchTab('tech')">Teknik Heyet</button>
-                <!-- Diğer butonlar -->
-            </div>
-            <div class="admin-body">
-                <!-- TEMA STİL TABI -->
-                <div id="tabStyle" class="admin-tab-content active">
-                    <label>Renk Teması</label>
-                    <select id="theme-select" class="form-control" onchange="applyStyle()">
-                        <option value="classic">Klasik</option>
-                        <option value="dark">Karanlık</option>
-                        <option value="royal">Asil Mavi</option>
-                    </select>
-                    <label>Fotoğraf Çerçeve Stili</label>
-                    <select id="frame-select" class="form-control" onchange="applyStyle()">
-                        <option value="img-modern">Modern (Çerçeveli)</option>
-                        <option value="img-minimal">Minimal (Yuvarlak)</option>
-                        <option value="img-neon">Neon (Işıltılı)</option>
-                    </select>
-                </div>
-                <!-- DİĞER TABS -->
-            </div>
-        </div>
-    </div>
-
     <script>
-        // --- STİL VE ÇERÇEVE MOTORU ---
-        function applyStyle() {
-            const theme = document.getElementById('theme-select').value;
-            const frame = document.getElementById('frame-select').value;
-            
-            // Renkleri uygula
-            document.getElementById('theme-styles').innerHTML = themes[theme];
-            
-            // Çerçeve stilini tüm görsellere uygula
-            const imgs = document.querySelectorAll('.board-img');
-            imgs.forEach(img => {
-                img.className = 'board-img ' + frame;
-            });
+        // --- GÜVENLİ YÜKLEME MOTORU ---
+        let activeData = {};
 
-            activeData.currentTheme = theme;
-            activeData.currentFrame = frame;
-            saveAllData();
-        }
-
-        // --- TEKNİK HEYET VE YÖNETİM KURULU RENDER MOTORU ---
-        function renderBoardAndTech() {
-            const frameClass = activeData.currentFrame || 'img-modern';
-            
-            // Yönetim Render
-            const boardContainer = document.getElementById('board-container');
-            boardContainer.innerHTML = (activeData.board || []).map(b => `
-                <div class="board-card">
-                    <div class="board-img-wrapper"><img src="${b.img}" class="board-img ${frameClass}"></div>
-                    <h3>${b.name}</h3><p>${b.role}</p>
-                </div>
-            `).join('');
-
-            // Teknik Heyet Render
-            const techContainer = document.getElementById('tech-container');
-            techContainer.innerHTML = (activeData.tech || []).map(t => `
-                <div class="board-card">
-                    <div class="board-img-wrapper"><img src="${t.img}" class="board-img ${frameClass}"></div>
-                    <h3>${t.name}</h3><p>${t.role}</p>
-                </div>
-            `).join('');
-        }
-
-        // --- ŞİFRE ONARIM MOTORU ---
-        function changeAdminPassword() {
-            const current = document.getElementById('current-password-input').value;
-            const news = document.getElementById('new-password-input').value;
-            
-            // Toleranslı Kontrol
-            if (current === (activeData.adminPassword || "admin")) {
-                activeData.adminPassword = news;
-                saveAllData();
-                alert("Başarıyla güncellendi!");
-            } else {
-                alert("Mevcut şifre hatalı.");
+        function loadAllData() {
+            try {
+                const saved = localStorage.getItem('aber_sk_pro_data_v6');
+                if (!saved) {
+                    console.log("Veri bulunamadı, varsayılanlar yükleniyor.");
+                    activeData = { board: [], tech: [], players: [], fixtures: [], posts: [] };
+                } else {
+                    activeData = JSON.parse(saved);
+                    // Dizi kontrolleri (Hata vermemesi için)
+                    if (!Array.isArray(activeData.board)) activeData.board = [];
+                    if (!Array.isArray(activeData.tech)) activeData.tech = [];
+                }
+                renderBoardAndTech();
+            } catch (e) {
+                console.error("Kritik Hata, yapı sıfırlanıyor:", e);
+                // Eğer hata alırsak sistemi sıfırla ki site açılsın
+                activeData = { board: [], tech: [], players: [], fixtures: [], posts: [] };
+                renderBoardAndTech();
             }
         }
-        
-        // (Diğer yardımcı fonksiyonlar önceki koddan korunmuştur)
+
+        function renderBoardAndTech() {
+            try {
+                const bCont = document.getElementById('board-container');
+                const tCont = document.getElementById('tech-container');
+                
+                if (bCont) {
+                    bCont.innerHTML = activeData.board.map(b => `<div>${b.name}</div>`).join('');
+                }
+                if (tCont) {
+                    tCont.innerHTML = activeData.tech.map(t => `<div>${t.name}</div>`).join('');
+                }
+            } catch (e) {
+                console.error("Render hatası:", e);
+            }
+        }
+
+        window.onload = loadAllData;
     </script>
 </body>
 </html>
