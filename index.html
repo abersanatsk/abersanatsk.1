@@ -1338,7 +1338,7 @@
                 title1: "İnanmış Bir Takım Ruhu.",
                 text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim ve yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.",
                 title2: "Zafere Giden Kararlı Yol.",
-                text2: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz."
+                text2: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar og sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz."
             },
             contact: {
                 phone: "0 536 893 94 15",
@@ -1365,7 +1365,7 @@
 
         let activeData = {};
 
-        // --- GÜVENLİ DERİN BİRLEŞTİRİCİ VERİ YÜKLEME MOTORU ---
+        // --- GÜVENLİ DERİN BİRLEŞTİRİCİ VERİ YÜKLEME MOTORU (GÜNCELLENDİ) ---
         function loadAllData() {
             try {
                 const saved = localStorage.getItem('aber_sk_pro_data_v6');
@@ -1386,6 +1386,15 @@
                         }
                     }
                 }
+
+                // --- %100 ÇÖKME KORUMASI: Tüm Array (Dizi) yapılarını onar ---
+                const arrayKeys = ['players', 'transfers', 'fixtures', 'gallery', 'posts'];
+                arrayKeys.forEach(key => {
+                    if (!Array.isArray(activeData[key])) {
+                        activeData[key] = defaultData[key] ? JSON.parse(JSON.stringify(defaultData[key])) : [];
+                    }
+                });
+
                 applySavedTheme();
                 renderAllSections();
             } catch (e) {
@@ -1444,13 +1453,14 @@
             document.getElementById('about-card-title2').innerText = aboutData.title2 || defaultData.about.title2;
             document.getElementById('about-card-text2').innerText = aboutData.text2 || defaultData.about.text2;
 
-            // 3. Oyuncularımız
+            // 3. Oyuncularımız (GÜVENLİ LENGTH KONTROLÜ)
             const playersGrid = document.getElementById('players-container');
             playersGrid.innerHTML = '';
-            if (!activeData.players || activeData.players.length === 0) {
+            const safePlayers = Array.isArray(activeData.players) ? activeData.players : [];
+            if (safePlayers.length === 0) {
                 playersGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Oyuncu kadrosu henüz eklenmedi.</p>';
             } else {
-                activeData.players.forEach(p => {
+                safePlayers.forEach(p => {
                     const cleanPImg = cleanImageUrl(p.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300';
                     playersGrid.innerHTML += `
                         <div class="player-card">
@@ -1472,13 +1482,14 @@
                 });
             }
 
-            // 4. Transferler
+            // 4. Transferler (GÜVENLİ LENGTH KONTROLÜ)
             const transfersGrid = document.getElementById('transfers-container');
             transfersGrid.innerHTML = '';
-            if (!activeData.transfers || activeData.transfers.length === 0) {
+            const safeTransfers = Array.isArray(activeData.transfers) ? activeData.transfers : [];
+            if (safeTransfers.length === 0) {
                 transfersGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Transfer gündemi boş.</p>';
             } else {
-                activeData.transfers.forEach(t => {
+                safeTransfers.forEach(t => {
                     const cleanTImg = cleanImageUrl(t.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300';
                     transfersGrid.innerHTML += `
                         <div class="transfer-card">
@@ -1495,13 +1506,14 @@
                 });
             }
 
-            // 5. Fikstür
+            // 5. Fikstür (GÜVENLİ LENGTH KONTROLÜ)
             const fixtureGrid = document.getElementById('fixture-container');
             fixtureGrid.innerHTML = '';
-            if (!activeData.fixtures || activeData.fixtures.length === 0) {
+            const safeFixtures = Array.isArray(activeData.fixtures) ? activeData.fixtures : [];
+            if (safeFixtures.length === 0) {
                 fixtureGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Fikstür bilgisi girilmedi.</p>';
             } else {
-                activeData.fixtures.forEach(f => {
+                safeFixtures.forEach(f => {
                     fixtureGrid.innerHTML += `
                         <div class="fixture-card">
                             <div class="fixture-team home">${f.home}</div>
@@ -1515,13 +1527,14 @@
                 });
             }
 
-            // 6. Galeri
+            // 6. Galeri (GÜVENLİ LENGTH KONTROLÜ)
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
-            if (activeData.gallery.length === 0) {
+            const safeGallery = Array.isArray(activeData.gallery) ? activeData.gallery : [];
+            if (safeGallery.length === 0) {
                 galleryGrid.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">Galeri boş.</p>';
             } else {
-                activeData.gallery.forEach(item => {
+                safeGallery.forEach(item => {
                     const mediaBox = document.createElement('div');
                     mediaBox.className = 'gallery-item';
                     
@@ -1539,10 +1552,11 @@
                 });
             }
 
-            // 7. Taraftar Mesajları
+            // 7. Taraftar Mesajları (GÜVENLİ LENGTH KONTROLÜ)
             const postsContainer = document.getElementById('posts-container');
             postsContainer.innerHTML = '';
-            const approvedPosts = activeData.posts.filter(p => p.approved === true);
+            const safePosts = Array.isArray(activeData.posts) ? activeData.posts : [];
+            const approvedPosts = safePosts.filter(p => p.approved === true);
             if (approvedPosts.length === 0) {
                 postsContainer.innerHTML = '<p style="color: var(--text-muted); font-style: italic;">İlk taraftar yazan siz olun!</p>';
             } else {
@@ -1570,6 +1584,7 @@
             const nameInput = document.getElementById('name').value;
             const messageInput = document.getElementById('message').value;
 
+            if (!Array.isArray(activeData.posts)) activeData.posts = [];
             activeData.posts.push({
                 id: Date.now(),
                 author: nameInput,
@@ -1709,9 +1724,9 @@
             try {
                 const list = document.getElementById('admin-squad-list');
                 list.innerHTML = '';
-                if (!activeData.players) activeData.players = [];
+                const safePlayers = Array.isArray(activeData.players) ? activeData.players : [];
 
-                activeData.players.forEach(p => {
+                safePlayers.forEach(p => {
                     const cleanPImg = cleanImageUrl(p.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=100';
                     list.innerHTML += `
                         <tr>
@@ -1743,7 +1758,7 @@
                     return;
                 }
 
-                if (!activeData.players) activeData.players = [];
+                if (!Array.isArray(activeData.players)) activeData.players = [];
 
                 activeData.players.push({
                     id: Date.now(),
@@ -1769,7 +1784,8 @@
         function deletePlayer(id) {
             try {
                 if(confirm("Bu oyuncuyu kadrodan silmek istediğinize emin misiniz?")) {
-                    activeData.players = activeData.players.filter(p => p.id !== id);
+                    const safePlayers = Array.isArray(activeData.players) ? activeData.players : [];
+                    activeData.players = safePlayers.filter(p => p.id !== id);
                     saveAllData();
                     renderAllSections();
                     renderAdminSquad();
@@ -1784,9 +1800,9 @@
             try {
                 const list = document.getElementById('admin-transfer-list');
                 list.innerHTML = '';
-                if(!activeData.transfers) activeData.transfers = [];
+                const safeTransfers = Array.isArray(activeData.transfers) ? activeData.transfers : [];
 
-                activeData.transfers.forEach(t => {
+                safeTransfers.forEach(t => {
                     const cleanTImg = cleanImageUrl(t.img) || 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=100';
                     list.innerHTML += `
                         <tr>
@@ -1815,7 +1831,7 @@
                     return;
                 }
 
-                if(!activeData.transfers) activeData.transfers = [];
+                if (!Array.isArray(activeData.transfers)) activeData.transfers = [];
 
                 activeData.transfers.push({
                     id: Date.now(), name, club, status, img
@@ -1838,7 +1854,8 @@
         function deleteTransfer(id) {
             try {
                 if(confirm("Bu transfer kaydını silmek istiyor musunuz?")) {
-                    activeData.transfers = activeData.transfers.filter(t => t.id !== id);
+                    const safeTransfers = Array.isArray(activeData.transfers) ? activeData.transfers : [];
+                    activeData.transfers = safeTransfers.filter(t => t.id !== id);
                     saveAllData();
                     renderAllSections();
                     renderAdminTransfers();
@@ -1849,13 +1866,14 @@
             }
         }
 
+        // FİKSTÜR, GALERİ VE DİĞER FONKSİYONLAR DA AYNI KORUYUCU YAPIYA ALINDI
         function renderAdminFixture() {
             try {
                 const list = document.getElementById('admin-fixture-list');
                 list.innerHTML = '';
-                if(!activeData.fixtures) activeData.fixtures = [];
+                const safeFixtures = Array.isArray(activeData.fixtures) ? activeData.fixtures : [];
 
-                activeData.fixtures.forEach(f => {
+                safeFixtures.forEach(f => {
                     list.innerHTML += `
                         <tr>
                             <td>${f.home}</td>
@@ -1883,7 +1901,7 @@
                     return;
                 }
 
-                if(!activeData.fixtures) activeData.fixtures = [];
+                if (!Array.isArray(activeData.fixtures)) activeData.fixtures = [];
 
                 activeData.fixtures.push({
                     id: Date.now(), home, away, score, date
@@ -1906,7 +1924,8 @@
         function deleteFixture(id) {
             try {
                 if(confirm("Bu maç bilgisini fikstürden kaldırmak istiyor musunuz?")) {
-                    activeData.fixtures = activeData.fixtures.filter(f => f.id !== id);
+                    const safeFixtures = Array.isArray(activeData.fixtures) ? activeData.fixtures : [];
+                    activeData.fixtures = safeFixtures.filter(f => f.id !== id);
                     saveAllData();
                     renderAllSections();
                     renderAdminFixture();
@@ -1921,8 +1940,9 @@
             try {
                 const list = document.getElementById('admin-gallery-list');
                 list.innerHTML = '';
+                const safeGallery = Array.isArray(activeData.gallery) ? activeData.gallery : [];
 
-                activeData.gallery.forEach(item => {
+                safeGallery.forEach(item => {
                     list.innerHTML += `
                         <div class="admin-list-item">
                             <div>
@@ -1948,6 +1968,8 @@
                     return;
                 }
 
+                if (!Array.isArray(activeData.gallery)) activeData.gallery = [];
+
                 activeData.gallery.push({ id: Date.now(), type, url });
                 saveAllData();
                 renderAllSections();
@@ -1962,7 +1984,8 @@
         function deleteGalleryItem(id) {
             try {
                 if(confirm("Bu medyayı silmek istediğinize emin misiniz?")) {
-                    activeData.gallery = activeData.gallery.filter(g => g.id !== id);
+                    const safeGallery = Array.isArray(activeData.gallery) ? activeData.gallery : [];
+                    activeData.gallery = safeGallery.filter(g => g.id !== id);
                     saveAllData();
                     renderAllSections();
                     renderAdminGallery();
@@ -1977,8 +2000,9 @@
             try {
                 const list = document.getElementById('admin-posts-list');
                 list.innerHTML = '';
+                const safePosts = Array.isArray(activeData.posts) ? activeData.posts : [];
                 
-                activeData.posts.forEach(post => {
+                safePosts.forEach(post => {
                     list.innerHTML += `
                         <div class="admin-list-item">
                             <div>
@@ -1999,7 +2023,8 @@
 
         function approvePost(id) {
             try {
-                const post = activeData.posts.find(p => p.id === id);
+                const safePosts = Array.isArray(activeData.posts) ? activeData.posts : [];
+                const post = safePosts.find(p => p.id === id);
                 if(post) {
                     post.approved = true;
                     saveAllData();
@@ -2015,7 +2040,8 @@
         function deletePost(id) {
             try {
                 if(confirm("Bu mesajı tamamen silmek istiyor musunuz?")) {
-                    activeData.posts = activeData.posts.filter(p => p.id !== id);
+                    const safePosts = Array.isArray(activeData.posts) ? activeData.posts : [];
+                    activeData.posts = safePosts.filter(p => p.id !== id);
                     saveAllData();
                     renderAllSections();
                     renderAdminMessages();
