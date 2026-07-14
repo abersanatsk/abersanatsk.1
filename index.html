@@ -143,13 +143,13 @@
 
         /* --- HERO --- */
         .hero {
-            min-height: 95vh;
+            min-height: 100vh;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 8rem 2rem 4rem 2rem;
+            padding: 10rem 2rem 4rem 2rem;
             position: relative;
             background-size: cover;
             background-position: center;
@@ -169,6 +169,7 @@
         .hero-content-wrapper {
             position: relative;
             z-index: 2;
+            max-width: 1000px;
         }
 
         .hero-title {
@@ -182,18 +183,31 @@
             margin-bottom: 2rem;
         }
 
-        .hero-slogan {
+        .hero-slogan-wrapper {
+            margin: 2rem auto;
+            max-width: 800px;
+            border-left: 5px solid var(--accent-red);
+            padding: 1rem 2rem;
+            background: rgba(230, 57, 70, 0.04);
+            border-radius: 0 16px 16px 0;
+            text-align: left;
+        }
+
+        .hero-slogan-title {
             font-family: var(--font-sport);
-            font-size: 2.2rem;
+            font-size: 1.5rem;
             font-weight: 900;
+            color: var(--accent-red);
             text-transform: uppercase;
-            color: #ffffff;
-            background: var(--text-dark);
-            letter-spacing: 4px;
-            padding: 10px 30px;
-            border-radius: 12px;
-            display: inline-block;
-            box-shadow: 0 10px 30px rgba(15, 23, 42, 0.2);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero-slogan-text {
+            font-size: 1.15rem;
+            font-weight: 500;
+            color: var(--text-dark);
+            line-height: 1.6;
         }
 
         .hero-signature {
@@ -233,38 +247,6 @@
             height: 5px;
             background: var(--accent-red);
             border-radius: 2px;
-        }
-
-        /* --- HAKKIMIZDA --- */
-        .about-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 3rem;
-        }
-
-        .about-card {
-            background: var(--premium-gray);
-            padding: 3rem;
-            border-radius: 20px;
-            box-shadow: var(--card-shadow);
-            transition: all 0.3s ease;
-        }
-
-        .about-card:hover {
-            transform: translateY(-5px);
-        }
-
-        .about-card h3 {
-            font-size: 1.6rem;
-            font-weight: 700;
-            color: var(--text-dark);
-            margin-bottom: 1.5rem;
-        }
-
-        .about-card p {
-            color: var(--text-muted);
-            font-size: 1.05rem;
-            line-height: 1.8;
         }
 
         /* --- PREMIUM GRID BOARDS (YÖNETİM & TEKNİK HEYET) --- */
@@ -403,7 +385,7 @@
             color: var(--text-dark);
         }
 
-        /* --- YENİ SEZON FORMALARI (BÜYÜK BOYUT GALERİ) --- */
+        /* --- FORMALARIMIZ --- */
         .kits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
@@ -425,7 +407,7 @@
 
         .kit-img-box {
             width: 100%;
-            height: 520px; /* Büyük Boyutlu Görünüm */
+            height: 520px;
             background: var(--premium-gray);
             overflow: hidden;
         }
@@ -778,6 +760,40 @@
             padding: 3.5rem;
             overflow-y: auto;
             background-color: #f8fafc;
+            position: relative;
+        }
+
+        /* Sayfa Sayacı Kartları */
+        .analytics-container {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analytic-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            padding: 1.5rem;
+            border-radius: 16px;
+            flex: 1;
+            box-shadow: 0 4px 12px rgba(15, 23, 42, 0.02);
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .analytic-card span {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .analytic-card strong {
+            font-size: 2rem;
+            font-family: var(--font-sport);
+            color: var(--text-dark);
         }
 
         .admin-tab-content { display: none; }
@@ -880,7 +896,7 @@
 
         @media (max-width: 992px) {
             .hero-title { font-size: 3.5rem; }
-            .about-grid, .blog-container, .contact-grid, .kits-grid {
+            .blog-container, .contact-grid, .kits-grid {
                 grid-template-columns: 1fr;
             }
             nav {
@@ -908,10 +924,9 @@
                     </div>
                 </a>
                 <ul class="nav-links" id="main-nav-links">
-                    <li><a href="#kulup">Hakkımızda</a></li>
                     <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li>
                     <li><a href="#teknik-heyet">Teknik Heyet</a></li>
-                    <li><a href="#kadro">Oyuncularımız</a></li>
+                    <li><a href="#kadro">Kadromuz</a></li>
                     <li><a href="#formalar">Formalarımız</a></li>
                     <li><a href="#transferler">Transferler</a></li>
                     <li><a href="#fikstur">Fikstür</a></li>
@@ -928,37 +943,23 @@
         <div class="hero-overlay" id="hero-bg-overlay"></div>
         <div class="hero-content-wrapper">
             <h1 class="hero-title" id="hero-title-text">KARAMAN<br>ABER SANAT GÜCÜ<br>SPOR KULÜBÜ</h1>
-            <div class="hero-slogan" id="hero-slogan-text">İNANÇ KANATLANDIRIR</div>
+            <div class="hero-slogan-wrapper">
+                <div class="hero-slogan-title">İNANÇ KANATLANDIRIR</div>
+                <div class="hero-slogan-text">Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.</div>
+            </div>
         </div>
         <div class="hero-signature">© RIDVAN ARSLAN</div>
     </section>
 
-    <!-- HAKKIMIZDA BÖLÜMÜ -->
-    <section id="kulup">
-        <div class="container">
-            <h2 class="section-title">Biz Kimiz?</h2>
-            <div class="about-grid">
-                <div class="about-card">
-                    <h3 id="about-card-title1">İnanmış Bir Takım Ruhu.</h3>
-                    <p id="about-card-text1">Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini og takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim og yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.</p>
-                </div>
-                <div class="about-card">
-                    <h3 id="about-card-title2">Zafere Giden Kararlı Yol.</h3>
-                    <p id="about-card-text2">Sloganımız olan "İNANÇ KANATLANDIRIR" ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz.</p>
-                </div>
-            </div>
-        </div>
-    </section>
-
     <!-- YÖNETİM KURULU BÖLÜMÜ -->
-    <section id="yonetim-kurulu">
+    <section id="yonetim-kurulu" style="border-top:none;">
         <div class="container">
             <h2 class="section-title">Yönetim Kurulu</h2>
             <div class="board-grid" id="board-container"></div>
         </div>
     </section>
 
-    <!-- TEKNİK HEYET BÖLÜMÜ (YENİ) -->
+    <!-- TEKNİK HEYET BÖLÜMÜ -->
     <section id="teknik-heyet">
         <div class="container">
             <h2 class="section-title">Teknik Heyet</h2>
@@ -966,10 +967,10 @@
         </div>
     </section>
 
-    <!-- OYUNCULARIMIZ (KADRO) BÖLÜMÜ -->
+    <!-- KADROMUZ BÖLÜMÜ -->
     <section id="kadro">
         <div class="container">
-            <h2 class="section-title">Kadro ve Oyuncularımız</h2>
+            <h2 class="section-title">Kadromuz</h2>
             <div id="gk-section"><h3 class="position-group-title">Kaleciler</h3><div class="players-grid" id="gk-players-container"></div></div>
             <div id="df-section"><h3 class="position-group-title">Defans Oyuncuları</h3><div class="players-grid" id="df-players-container"></div></div>
             <div id="mf-section"><h3 class="position-group-title">Orta Saha Oyuncuları</h3><div class="players-grid" id="mf-players-container"></div></div>
@@ -977,10 +978,10 @@
         </div>
     </section>
 
-    <!-- YENİ SEZON FORMALARI BÖLÜMÜ (YENİ) -->
+    <!-- FORMALARIMIZ BÖLÜMÜ -->
     <section id="formalar">
         <div class="container">
-            <h2 class="section-title">Yeni Sezon Formaları</h2>
+            <h2 class="section-title">Formalarımız</h2>
             <div class="kits-grid" id="kits-container"></div>
         </div>
     </section>
@@ -1076,7 +1077,6 @@
             <div class="admin-sidebar">
                 <h3>Aber SK Dashboard</h3>
                 <button type="button" class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Site Ayarları</button>
-                <button type="button" class="admin-sidebar-btn" id="tabAboutBtn" onclick="switchTab('about')">Hakkımızda</button>
                 <button type="button" class="admin-sidebar-btn" id="tabBoardBtn" onclick="switchTab('board')">Yönetim Kurulu</button>
                 <button type="button" class="admin-sidebar-btn" id="tabStaffBtn" onclick="switchTab('staff')">Teknik Heyet</button>
                 <button type="button" class="admin-sidebar-btn" id="tabSquadBtn" onclick="switchTab('squad')">Oyuncu Kadrosu</button>
@@ -1090,6 +1090,18 @@
             </div>
 
             <div class="admin-body">
+                <!-- ANALYTICS PANEL (ZİYARETÇİ SAYAÇLARI) -->
+                <div class="analytics-container">
+                    <div class="analytic-card">
+                        <span>Günlük Giriş</span>
+                        <strong id="daily-visits-counter">0</strong>
+                    </div>
+                    <div class="analytic-card">
+                        <span>Toplam Giriş</span>
+                        <strong id="total-visits-counter">0</strong>
+                    </div>
+                </div>
+
                 <!-- TAB: AYARLAR -->
                 <div id="tabSettings" class="admin-tab-content active">
                     <div class="admin-section-heading">GENEL AYARLAR</div>
@@ -1105,16 +1117,6 @@
                     <button type="button" class="submit-btn" onclick="saveSettings()">Ayarları Kaydet</button>
                 </div>
 
-                <!-- TAB: HAKKIMIZDA -->
-                <div id="tabAbout" class="admin-tab-content">
-                    <div class="admin-section-heading">HAKKIMIZDA METİNLERİ</div>
-                    <div class="form-group"><label>Başlık 1</label><input type="text" id="edit-about-title1" class="form-control"></div>
-                    <div class="form-group"><label>İçerik 1</label><textarea id="edit-about-text1" class="form-control" rows="4"></textarea></div>
-                    <div class="form-group"><label>Başlık 2</label><input type="text" id="edit-about-title2" class="form-control"></div>
-                    <div class="form-group"><label>İçerik 2</label><textarea id="edit-about-text2" class="form-control" rows="4"></textarea></div>
-                    <button type="button" class="submit-btn" onclick="saveAbout()">Metinleri Kaydet</button>
-                </div>
-
                 <!-- TAB: YÖNETİM KURULU -->
                 <div id="tabBoard" class="admin-tab-content">
                     <div class="admin-section-heading">YÖNETİM KURULU</div>
@@ -1127,7 +1129,7 @@
                     <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-board-list"></tbody></table>
                 </div>
 
-                <!-- TAB: TEKNİK HEYET (YENİ) -->
+                <!-- TAB: TEKNİK HEYET -->
                 <div id="tabStaff" class="admin-tab-content">
                     <div class="admin-section-heading">TEKNİK HEYET YÖNETİMİ</div>
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
@@ -1155,7 +1157,7 @@
                     <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Mevki</th><th>Özellikler</th><th>İşlem</th></tr></thead><tbody id="admin-squad-list"></tbody></table>
                 </div>
 
-                <!-- TAB: SEZON FORMALARI (YENİ) -->
+                <!-- TAB: SEZON FORMALARI -->
                 <div id="tabKits" class="admin-tab-content">
                     <div class="admin-section-heading">YENİ SEZON FORMALARI YÖNETİMİ</div>
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
@@ -1227,12 +1229,18 @@
 
                 <!-- TAB: TEMA VE ŞİFRE -->
                 <div id="tabSecurity" class="admin-tab-content">
-                    <div class="admin-section-heading">GÜVENLİK AYARLARI</div>
+                    <div class="admin-section-heading">TEMA SEÇİMİ VE GÜVENLİK</div>
                     <div class="form-group">
-                        <label>Tema Değiştir</label>
+                        <label>Zengin Tema Kombinasyonları</label>
                         <select id="theme-select" class="form-control" onchange="previewTheme()">
-                            <option value="classic">Klasik Premium Teması</option>
-                            <option value="dark">Karanlık Premium Teması</option>
+                            <option value="classic">Kırmızı & Beyaz (Modern Aydınlık)</option>
+                            <option value="dark">Kırmızı & Koyu Gri (Neon Gece)</option>
+                            <option value="karamanAtesi">Karaman Ateşi (Sıcak Canlı Kırmızı)</option>
+                            <option value="retro">Bordo & Kemik (Retro Premium)</option>
+                            <option value="royal">Asil Mavi & Altın (Saray Şıklığı)</option>
+                            <option value="pitch">Çimen Yeşili & Koyu Orman</option>
+                            <option value="legend">Lacivert & Altın (Efsane Çubuklu)</option>
+                            <option value="cyberpunk">Koyu Kömür & Parlak Turuncu (Gelecekçi)</option>
                         </select>
                         <button type="button" class="submit-btn" style="margin-top:1rem;" onclick="saveTheme()">Temayı Kaydet</button>
                     </div>
@@ -1256,6 +1264,35 @@
     </footer>
 
     <script>
+        // --- ZİYARETÇİ SAYACI ALTYAPISI ---
+        function updateTrafficStats() {
+            try {
+                let totalVisits = parseInt(localStorage.getItem('aber_total_visits') || "0");
+                let dailyVisits = parseInt(localStorage.getItem('aber_daily_visits') || "0");
+                let lastVisitDate = localStorage.getItem('aber_last_visit_date') || "";
+
+                let todayStr = new Date().toDateString();
+
+                if (lastVisitDate !== todayStr) {
+                    dailyVisits = 1;
+                    localStorage.setItem('aber_last_visit_date', todayStr);
+                } else {
+                    dailyVisits++;
+                }
+
+                totalVisits++;
+
+                localStorage.setItem('aber_total_visits', totalVisits.toString());
+                localStorage.setItem('aber_daily_visits', dailyVisits.toString());
+
+                // Yönetim paneli elementleri
+                document.getElementById('daily-visits-counter').innerText = dailyVisits;
+                document.getElementById('total-visits-counter').innerText = totalVisits;
+            } catch (e) {
+                console.error("Ziyaretçi istatistikleri yüklenirken hata oluştu:", e);
+            }
+        }
+
         function cleanImageUrl(dirtyUrl) {
             if (!dirtyUrl || typeof dirtyUrl !== 'string') return '';
             let url = dirtyUrl.trim();
@@ -1300,18 +1337,12 @@
             heroBgUrl: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=1200",
             headerTitle: "KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ",
             hero: { title: "KARAMAN\nABER SANAT GÜCÜ\nSPOR KULÜBÜ", slogan: "İNANÇ KANATLANDIRIR" },
-            about: {
-                title1: "İnanmış Bir Takım Ruhu.",
-                text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini og takım bütünlüğünü temsil eder.",
-                title2: "Zafere Giden Kararlı Yol.",
-                text2: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz."
-            },
             contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "ridvan@abersanatsk.org", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
             posts: [],
             players: [],
             board: [{ id: 1, name: "Rıdvan Arslan", role: "Kulüp Başkanı", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=300" }],
-            staff: [{ id: 1, name: "Teknik Hoca", role: "Teknik Direktör", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300" }], // Teknik heyet varsayılan veri
-            kits: [{ id: 1, title: "2026 İç Saha Forması", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=600" }], // Forma varsayılan veri
+            staff: [{ id: 1, name: "Teknik Hoca", role: "Teknik Direktör", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300" }],
+            kits: [{ id: 1, title: "2026 İç Saha Forması", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=600" }],
             transfers: [],
             fixtures: [],
             gallery: [],
@@ -1322,7 +1353,7 @@
 
         function loadAllData() {
             try {
-                const saved = localStorage.getItem('aber_sk_premium_data_v7');
+                const saved = localStorage.getItem('aber_sk_premium_data_v8');
                 activeData = JSON.parse(JSON.stringify(defaultData));
                 if (saved) {
                     const parsed = JSON.parse(saved);
@@ -1338,6 +1369,7 @@
                 arrayKeys.forEach(key => { if (!Array.isArray(activeData[key])) activeData[key] = []; });
                 applySavedTheme();
                 renderAllSections();
+                updateTrafficStats(); // Sayaçları yükle ve arttır
             } catch (e) {
                 activeData = JSON.parse(JSON.stringify(defaultData));
                 saveAllData();
@@ -1346,7 +1378,7 @@
         }
 
         function saveAllData() {
-            localStorage.setItem('aber_sk_premium_data_v7', JSON.stringify(activeData));
+            localStorage.setItem('aber_sk_premium_data_v8', JSON.stringify(activeData));
         }
 
         function applySavedTheme() {
@@ -1357,7 +1389,6 @@
 
         function renderAllSections() {
             const heroData = activeData.hero || defaultData.hero;
-            const aboutData = activeData.about || defaultData.about;
             const contactData = activeData.contact || defaultData.contact;
 
             document.getElementById('club-logo-img').src = cleanImageUrl(activeData.logoUrl) || defaultData.logoUrl;
@@ -1369,12 +1400,6 @@
             const cleanBg = cleanImageUrl(activeData.heroBgUrl);
             heroSection.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
             document.getElementById('hero-title-text').innerText = heroData.title || defaultData.hero.title;
-            document.getElementById('hero-slogan-text').innerText = heroData.slogan || defaultData.hero.slogan;
-
-            document.getElementById('about-card-title1').innerText = aboutData.title1 || defaultData.about.title1;
-            document.getElementById('about-card-text1').innerText = aboutData.text1 || defaultData.about.text1;
-            document.getElementById('about-card-title2').innerText = aboutData.title2 || defaultData.about.title2;
-            document.getElementById('about-card-text2').innerText = aboutData.text2 || defaultData.about.text2;
 
             // Yönetim Kurulu Render
             const boardContainer = document.getElementById('board-container');
@@ -1387,7 +1412,7 @@
                     </div>`;
             });
 
-            // Teknik Heyet Render (YENİ)
+            // Teknik Heyet Render
             const staffContainer = document.getElementById('staff-container');
             staffContainer.innerHTML = '';
             (activeData.staff || []).forEach(s => {
@@ -1430,7 +1455,7 @@
             document.getElementById('mf-section').style.display = mfContainer.innerHTML ? 'block' : 'none';
             document.getElementById('fw-section').style.display = fwContainer.innerHTML ? 'block' : 'none';
 
-            // Forma Render (YENİ)
+            // Forma Render
             const kitsContainer = document.getElementById('kits-container');
             kitsContainer.innerHTML = '';
             (activeData.kits || []).forEach(k => {
@@ -1481,8 +1506,8 @@
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             const mainNavLinks = document.getElementById('main-nav-links');
             mainNavLinks.innerHTML = `
-                <li><a href="#kulup">Hakkımızda</a></li><li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li><li><a href="#teknik-heyet">Teknik Heyet</a></li>
-                <li><a href="#kadro">Oyuncularımız</a></li><li><a href="#formalar">Formalarımız</a></li><li><a href="#transferler">Transferler</a></li>
+                <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li><li><a href="#teknik-heyet">Teknik Heyet</a></li>
+                <li><a href="#kadro">Kadromuz</a></li><li><a href="#formalar">Formalarımız</a></li><li><a href="#transferler">Transferler</a></li>
                 <li><a href="#fikstur">Fikstür</a></li><li><a href="#galeri">Medya</a></li><li><a href="#bize-yazin">Bize Yazın</a></li><li><a href="#iletisim">İletişim</a></li>`;
             dynamicContainer.innerHTML = '';
             (activeData.customPages || []).forEach(cp => {
@@ -1537,13 +1562,12 @@
             document.querySelectorAll('.admin-tab-content').forEach(e => e.classList.remove('active'));
             document.querySelectorAll('.admin-sidebar-btn').forEach(e => e.classList.remove('active'));
             
-            const btnMap = { settings: 'tabSetBtn', about: 'tabAboutBtn', board: 'tabBoardBtn', staff: 'tabStaffBtn', squad: 'tabSquadBtn', kits: 'tabKitsBtn', transfers: 'tabTransBtn', fixture: 'tabFixBtn', gallery: 'tabGalBtn', pages: 'tabPagesBtn', messages: 'tabMsgBtn', security: 'tabSecBtn' };
+            const btnMap = { settings: 'tabSetBtn', board: 'tabBoardBtn', staff: 'tabStaffBtn', squad: 'tabSquadBtn', kits: 'tabKitsBtn', transfers: 'tabTransBtn', fixture: 'tabFixBtn', gallery: 'tabGalBtn', pages: 'tabPagesBtn', messages: 'tabMsgBtn', security: 'tabSecBtn' };
             
             document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
             document.getElementById(btnMap[name]).classList.add('active');
 
             if(name === 'settings') loadSettingsToAdminForm();
-            else if(name === 'about') loadAboutToAdminForm();
             else if(name === 'board') renderAdminBoard();
             else if(name === 'staff') renderAdminStaff();
             else if(name === 'squad') renderAdminSquad();
@@ -1584,23 +1608,6 @@
             saveAllData(); renderAllSections(); alert("Ayarlar Kaydedildi!");
         }
 
-        function loadAboutToAdminForm() {
-            const aboutData = activeData.about || defaultData.about;
-            document.getElementById('edit-about-title1').value = aboutData.title1 || '';
-            document.getElementById('edit-about-text1').value = aboutData.text1 || '';
-            document.getElementById('edit-about-title2').value = aboutData.title2 || '';
-            document.getElementById('edit-about-text2').value = aboutData.text2 || '';
-        }
-
-        function saveAbout() {
-            if(!activeData.about) activeData.about = {};
-            activeData.about.title1 = document.getElementById('edit-about-title1').value;
-            activeData.about.text1 = document.getElementById('edit-about-text1').value;
-            activeData.about.title2 = document.getElementById('edit-about-title2').value;
-            activeData.about.text2 = document.getElementById('edit-about-text2').value;
-            saveAllData(); renderAllSections(); alert("Metinler Kaydedildi!");
-        }
-
         // BÖLÜM EKLE / SİL MOTORLARI
         function renderAdminBoard() {
             const list = document.getElementById('admin-board-list'); list.innerHTML = '';
@@ -1619,7 +1626,7 @@
         }
         function deleteBoardMember(id) { activeData.board = activeData.board.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminBoard(); }
 
-        // Teknik Heyet İşlemleri (YENİ)
+        // Teknik Heyet İşlemleri
         function renderAdminStaff() {
             const list = document.getElementById('admin-staff-list'); list.innerHTML = '';
             (activeData.staff || []).forEach(s => {
@@ -1638,7 +1645,7 @@
         }
         function deleteStaffMember(id) { activeData.staff = activeData.staff.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminStaff(); }
 
-        // Forma Ekleme İşlemleri (YENİ)
+        // Forma Ekleme İşlemleri
         function renderAdminKits() {
             const list = document.getElementById('admin-kits-list'); list.innerHTML = '';
             (activeData.kits || []).forEach(k => {
@@ -1784,9 +1791,16 @@
             activeData.adminPassword = nw; saveAllData(); alert("Şifre güncellendi!");
         }
 
+        // --- ULTRA ZENGİN VE MUHTEŞEM TEMA SEÇENEKLERİ ---
         const themes = {
             classic: `:root { --bg-white: #ffffff; --bg-dark: #0a0e17; --text-light: #ffffff; --text-dark: #0f172a; --text-muted: #64748b; --accent-red: #e63946; --premium-gray: #f8fafc; --card-shadow: 0 10px 30px rgba(15, 23, 42, 0.04); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
-            dark: `:root { --bg-white: #0a0e17; --bg-dark: #ffffff; --text-light: #000000; --text-dark: #f8fafc; --text-muted: #94a3b8; --accent-red: #ff4d5a; --premium-gray: #1e293b; --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`
+            dark: `:root { --bg-white: #0a0e17; --bg-dark: #ffffff; --text-light: #000000; --text-dark: #f8fafc; --text-muted: #94a3b8; --accent-red: #ff4d5a; --premium-gray: #1e293b; --card-shadow: 0 10px 30px rgba(0, 0, 0, 0.5); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
+            karamanAtesi: `:root { --bg-white: #fffdfd; --bg-dark: #200104; --text-light: #ffffff; --text-dark: #2b0206; --text-muted: #a63f4b; --accent-red: #c1121f; --premium-gray: #fff0f1; --card-shadow: 0 10px 30px rgba(193, 18, 31, 0.05); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
+            retro: `:root { --bg-white: #f5ebe0; --bg-dark: #3a1f13; --text-light: #f5ebe0; --text-dark: #3a1f13; --text-muted: #7f5539; --accent-red: #9e2a2b; --premium-gray: #e3d5ca; --card-shadow: 0 10px 30px rgba(58, 31, 19, 0.06); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
+            royal: `:root { --bg-white: #ffffff; --bg-dark: #0b1a30; --text-light: #ffffff; --text-dark: #0d1f3d; --text-muted: #617899; --accent-red: #b89047; --premium-gray: #f2f6fc; --card-shadow: 0 10px 30px rgba(13, 31, 61, 0.04); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
+            pitch: `:root { --bg-white: #ffffff; --bg-dark: #122913; --text-light: #ffffff; --text-dark: #173319; --text-muted: #537a56; --accent-red: #2d8a4e; --premium-gray: #f3f9f4; --card-shadow: 0 10px 30px rgba(23, 51, 25, 0.04); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
+            legend: `:root { --bg-white: #ffffff; --bg-dark: #111a2e; --text-light: #ffffff; --text-dark: #162447; --text-muted: #516280; --accent-red: #d4af37; --premium-gray: #f5f7fa; --card-shadow: 0 10px 30px rgba(22, 36, 71, 0.05); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`,
+            cyberpunk: `:root { --bg-white: #0c0f12; --bg-dark: #ffffff; --text-light: #000000; --text-dark: #e2e8f0; --text-muted: #94a3b8; --accent-red: #f97316; --premium-gray: #181f25; --card-shadow: 0 10px 35px rgba(0, 0, 0, 0.6); --font-main: 'Inter', sans-serif; --font-sport: 'Rajdhani', sans-serif; }`
         };
 
         window.onload = loadAllData;
