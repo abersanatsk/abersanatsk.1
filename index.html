@@ -7,7 +7,7 @@
     <!-- Google Fonts: Inter -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght=0,300;0,400;0,600;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,300;0,400;0,600;0,800;0,900;1,800;1,900&display=swap" rel="stylesheet">
     
     <style id="theme-styles">
         :root {
@@ -680,12 +680,58 @@
             border: 1px solid #ddd;
             padding: 12px;
             text-align: left;
+            color: #000;
         }
 
         .data-table th {
             background-color: #eee;
             font-weight: 900;
             text-transform: uppercase;
+        }
+
+        /* Liste ve Buton Tasarımları (YENİ EKLENDİ) */
+        .admin-list-item {
+            background: #fff;
+            padding: 1rem;
+            border: 1px solid #ccc;
+            margin-bottom: 0.8rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #000;
+        }
+
+        .admin-btn-delete {
+            background-color: #d90429;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            transition: opacity 0.2s;
+        }
+
+        .admin-btn-delete:hover {
+            opacity: 0.8;
+        }
+
+        .admin-btn-approve {
+            background-color: #2b9348;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            font-weight: 800;
+            cursor: pointer;
+            text-transform: uppercase;
+            font-size: 0.75rem;
+            margin-right: 5px;
+            transition: opacity 0.2s;
+        }
+
+        .admin-btn-approve:hover {
+            opacity: 0.8;
         }
 
         /* --- FOOTER --- */
@@ -795,7 +841,7 @@
                 </div>
                 <div class="about-card">
                     <h3 id="about-card-title2">Zafere Giden Kararlı Yol.</h3>
-                    <p id="about-card-text2">Sloganımız olan "İnanç Kanatlandırır" ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar and sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz.</p>
+                    <p id="about-card-text2">Sloganımız olan "İNANÇ KANATLANDIRIR" ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz.</p>
                 </div>
             </div>
         </div>
@@ -912,14 +958,14 @@
             <!-- Sol Menü -->
             <div class="admin-sidebar">
                 <h3>Aber SK Yönetim</h3>
-                <button class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Site Ayarları</button>
-                <button class="admin-sidebar-btn" id="tabAboutBtn" onclick="switchTab('about')">Hakkımızda</button>
-                <button class="admin-sidebar-btn" id="tabSquadBtn" onclick="switchTab('squad')">Oyuncu Kadrosu</button>
-                <button class="admin-sidebar-btn" id="tabTransBtn" onclick="switchTab('transfers')">Transfer Gündemi</button>
-                <button class="admin-sidebar-btn" id="tabFixBtn" onclick="switchTab('fixture')">Fikstür / Sonuçlar</button>
-                <button class="admin-sidebar-btn" id="tabGalBtn" onclick="switchTab('gallery')">Medya / Galeri</button>
-                <button class="admin-sidebar-btn" id="tabMsgBtn" onclick="switchTab('messages')">Taraftar Yazıları</button>
-                <button class="admin-sidebar-btn" id="tabSecBtn" onclick="switchTab('security')">Tema & Şifre</button>
+                <button type="button" class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Site Ayarları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabAboutBtn" onclick="switchTab('about')">Hakkımızda</button>
+                <button type="button" class="admin-sidebar-btn" id="tabSquadBtn" onclick="switchTab('squad')">Oyuncu Kadrosu</button>
+                <button type="button" class="admin-sidebar-btn" id="tabTransBtn" onclick="switchTab('transfers')">Transfer Gündemi</button>
+                <button type="button" class="admin-sidebar-btn" id="tabFixBtn" onclick="switchTab('fixture')">Fikstür / Sonuçlar</button>
+                <button type="button" class="admin-sidebar-btn" id="tabGalBtn" onclick="switchTab('gallery')">Medya / Galeri</button>
+                <button type="button" class="admin-sidebar-btn" id="tabMsgBtn" onclick="switchTab('messages')">Taraftar Yazıları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabSecBtn" onclick="switchTab('security')">Tema & Şifre</button>
             </div>
 
             <!-- Sağ İçerik Alanı -->
@@ -970,7 +1016,7 @@
                             <input type="text" id="edit-email2" class="form-control">
                         </div>
                     </div>
-                    <button class="submit-btn" onclick="saveSettings()">Site Ayarlarını Kaydet</button>
+                    <button type="button" class="submit-btn" onclick="saveSettings()">Site Ayarlarını Kaydet</button>
                 </div>
 
                 <!-- TAB: HAKKIMIZDA -->
@@ -992,14 +1038,14 @@
                         <label>Paragraf 2</label>
                         <textarea id="edit-about-text2" class="form-control" rows="5"></textarea>
                     </div>
-                    <button class="submit-btn" onclick="saveAbout()">Metinleri Kaydet</button>
+                    <button type="button" class="submit-btn" onclick="saveAbout()">Metinleri Kaydet</button>
                 </div>
 
                 <!-- TAB: SQUAD / OYUNCU KADROSU -->
                 <div id="tabSquad" class="admin-tab-content">
                     <div class="admin-section-heading">OYUNCU KADROSU YÖNETİMİ</div>
                     <div class="blog-form-wrapper" style="box-shadow: none; margin-bottom: 2rem;">
-                        <h5 style="margin-bottom: 1rem; font-weight: 900; text-transform: uppercase;">YENİ OYUNCU EKLE</h5>
+                        <h5 style="margin-bottom: 1rem; font-weight: 900; text-transform: uppercase; color: #000;">YENİ OYUNCU EKLE</h5>
                         <div class="admin-grid-2">
                             <div class="form-group">
                                 <label>Oyuncu Adı Soyadı</label>
@@ -1038,10 +1084,10 @@
                             <label>Oyuncu Fotoğraf URL (Boş bırakabilirsiniz)</label>
                             <input type="text" id="new-player-img" class="form-control">
                         </div>
-                        <button class="submit-btn" onclick="addPlayer()">Kadroya Ekle</button>
+                        <button type="button" class="submit-btn" onclick="addPlayer()">Kadroya Ekle</button>
                     </div>
 
-                    <h5 style="margin-bottom: 1rem; font-weight: 900;">MEVCUT KADRO</h5>
+                    <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000;">MEVCUT KADRO</h5>
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1060,7 +1106,7 @@
                 <div id="tabTransfers" class="admin-tab-content">
                     <div class="admin-section-heading">TRANSFER GÜNDEMİ YÖNETİMİ</div>
                     <div class="blog-form-wrapper" style="box-shadow: none; margin-bottom: 2rem;">
-                        <h5 style="margin-bottom: 1rem; font-weight: 900; text-transform: uppercase;">YENİ BİLGİ VE OYUNCU EKLE</h5>
+                        <h5 style="margin-bottom: 1rem; font-weight: 900; text-transform: uppercase; color: #000;">YENİ BİLGİ VE OYUNCU EKLE</h5>
                         <div class="admin-grid-2">
                             <div class="form-group">
                                 <label>Oyuncu Adı Soyadı</label>
@@ -1081,10 +1127,10 @@
                                 <input type="text" id="new-trans-img" class="form-control">
                             </div>
                         </div>
-                        <button class="submit-btn" onclick="addTransfer()">Transfer Bilgisi Ekle</button>
+                        <button type="button" class="submit-btn" onclick="addTransfer()">Transfer Bilgisi Ekle</button>
                     </div>
 
-                    <h5 style="margin-bottom: 1rem; font-weight: 900;">GÜNCEL TRANSFER LİSTESİ</h5>
+                    <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000;">GÜNCEL TRANSFER LİSTESİ</h5>
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1103,7 +1149,7 @@
                 <div id="tabFixture" class="admin-tab-content">
                     <div class="admin-section-heading">FİKSTÜR & MAÇ YÖNETİMİ</div>
                     <div class="blog-form-wrapper" style="box-shadow: none; margin-bottom: 2rem;">
-                        <h5 style="margin-bottom: 1rem; font-weight: 900; text-transform: uppercase;">YENİ MAÇ EKLE</h5>
+                        <h5 style="margin-bottom: 1rem; font-weight: 900; text-transform: uppercase; color: #000;">YENİ MAÇ EKLE</h5>
                         <div class="admin-grid-2">
                             <div class="form-group">
                                 <label>Ev Sahibi Takım</label>
@@ -1124,10 +1170,10 @@
                                 <input type="text" id="new-fix-date" class="form-control" placeholder="Örn: 24 Temmuz 2026 / 17:00">
                             </div>
                         </div>
-                        <button class="submit-btn" onclick="addFixture()">Maçı Fikstüre Ekle</button>
+                        <button type="button" class="submit-btn" onclick="addFixture()">Maçı Fikstüre Ekle</button>
                     </div>
 
-                    <h5 style="margin-bottom: 1rem; font-weight: 900;">MEVCUT FİKSTÜR</h5>
+                    <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000;">MEVCUT FİKSTÜR</h5>
                     <table class="data-table">
                         <thead>
                             <tr>
@@ -1146,7 +1192,7 @@
                 <div id="tabGallery" class="admin-tab-content">
                     <div class="admin-section-heading">MEDYA VE GALERİ ALANI</div>
                     <div class="blog-form-wrapper" style="box-shadow: none; margin-bottom: 2rem;">
-                        <h5 style="margin-bottom: 1rem; font-weight: 900;">YENİ MEDYA DOSYASI EKLE</h5>
+                        <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000;">YENİ MEDYA DOSYASI EKLE</h5>
                         <div class="form-group">
                             <label>Medya Türü</label>
                             <select id="new-media-type" class="form-control">
@@ -1158,10 +1204,10 @@
                             <label>Bağlantı Adresi (URL)</label>
                             <input type="text" id="new-media-url" class="form-control" placeholder="Fotoğraf veya video bağlantısını yapıştırın">
                         </div>
-                        <button class="submit-btn" onclick="addGalleryItem()">Galeriye Kaydet</button>
+                        <button type="button" class="submit-btn" onclick="addGalleryItem()">Galeriye Kaydet</button>
                     </div>
 
-                    <h5 style="margin-bottom: 1rem; font-weight: 900;">GALERİDEKİ TÜM DOSYALAR</h5>
+                    <h5 style="margin-bottom: 1rem; font-weight: 900; color: #000;">GALERİDEKİ TÜM DOSYALAR</h5>
                     <div id="admin-gallery-list" style="max-height: 300px; overflow-y: auto;"></div>
                 </div>
 
@@ -1186,7 +1232,7 @@
                             <option value="karamanAtesi">Karaman Ateşi (Kırmızı Detaylı Beyaz Zemin, Gümüş Detaylar)</option>
                             <option value="retro">Retro Klasik (Kemik Zemin, Koyu Kahve & Bordo)</option>
                         </select>
-                        <button class="submit-btn" style="margin-top: 1rem;" onclick="saveTheme()">Tasarımı Değiştir ve Kaydet</button>
+                        <button type="button" class="submit-btn" style="margin-top: 1rem;" onclick="saveTheme()">Tasarımı Değiştir ve Kaydet</button>
                     </div>
 
                     <div class="form-group">
@@ -1201,7 +1247,7 @@
                         <label>Yeni Şifre Tekrar</label>
                         <input type="password" id="new-password-confirm" class="form-control">
                     </div>
-                    <button class="submit-btn" onclick="changeAdminPassword()">Yönetici Şifresini Güncelle</button>
+                    <button type="button" class="submit-btn" onclick="changeAdminPassword()">Yönetici Şifresini Güncelle</button>
                 </div>
 
             </div>
@@ -1294,7 +1340,7 @@
                 title1: "İnanmış Bir Takım Ruhu.",
                 text1: "Karaman Aber Sanat Gücü Spor Kulübü, yeşil sahalarda sadece fiziksel gücü değil, sarsılmaz bir disiplini ve takım bütünlüğünü temsil eder. Bizler, sporcularımızın karakter gelişimini en ön planda tutarak dürüstlük, azim ve yüksek ahlak bilinciyle geleceğin futbolcularını yetiştiriyoruz.",
                 title2: "Zafere Giden Kararlı Yol.",
-                text2: "Sloganımız olan 'İnanç Kanatlandırır' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz."
+                text2: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz. Genç yetenekleri keşfedip onları modern futbol metodolojisiyle hazırlayarak sadece skor üreten değil, sahada duruşuyla fark yaratan inanmış bir jenerasyon kuruyoruz. Karaman Aber Sanat Gücü olarak tüm enerjimizi, gücümüzü ve odağımızı tamamen yeşil sahalara yansıtıyoruz. Tek ve sarsılmaz branşımız olan Futbolda, altyapıdan A takıma kadar modern taktikler, disiplinli idmanlar ve sarsılmaz bir takım ruhu aşılıyoruz. Futbolcularımıza modern antrenman metodolojisi sunarak hem fiziksel gelişimlerini zirveye taşıyoruz."
             },
             contact: {
                 phone: "0 536 893 94 15",
@@ -1625,7 +1671,7 @@
                         <td><strong>${p.name}</strong></td>
                         <td>${p.position}</td>
                         <td>Yaş: ${p.age || '--'} | Boy: ${p.height || '--'} cm | Kilo: ${p.weight || '--'} kg | Ayak: ${p.foot || 'Sağ'}</td>
-                        <td><button class="admin-btn-delete" onclick="deletePlayer(${p.id})">Sil</button></td>
+                        <td><button type="button" class="admin-btn-delete" onclick="deletePlayer(${p.id})">Sil</button></td>
                     </tr>
                 `;
             });
@@ -1687,7 +1733,7 @@
                         <td><strong>${t.name}</strong></td>
                         <td>${t.club}</td>
                         <td>${t.status}</td>
-                        <td><button class="admin-btn-delete" onclick="deleteTransfer(${t.id})">Sil</button></td>
+                        <td><button type="button" class="admin-btn-delete" onclick="deleteTransfer(${t.id})">Sil</button></td>
                     </tr>
                 `;
             });
@@ -1742,7 +1788,7 @@
                         <td><strong>${f.score || 'v'}</strong></td>
                         <td>${f.away}</td>
                         <td>${f.date}</td>
-                        <td><button class="admin-btn-delete" onclick="deleteFixture(${f.id})">Sil</button></td>
+                        <td><button type="button" class="admin-btn-delete" onclick="deleteFixture(${f.id})">Sil</button></td>
                     </tr>
                 `;
             });
@@ -1795,7 +1841,7 @@
                         <div>
                             <strong>[${item.type.toUpperCase()}]</strong> - ${item.url}
                         </div>
-                        <button class="admin-btn-delete" onclick="deleteGalleryItem(${item.id})">Sil</button>
+                        <button type="button" class="admin-btn-delete" onclick="deleteGalleryItem(${item.id})">Sil</button>
                     </div>
                 `;
             });
@@ -1840,8 +1886,8 @@
                             <div style="font-size:0.8rem; color:${post.approved ? 'green':'red'}">Durum: ${post.approved ? 'Yayında' : 'Onay Bekliyor'}</div>
                         </div>
                         <div>
-                            ${!post.approved ? `<button class="admin-btn-approve" onclick="approvePost(${post.id})">Onayla</button>` : ''}
-                            <button class="admin-btn-delete" onclick="deletePost(${post.id})">Sil</button>
+                            ${!post.approved ? `<button type="button" class="admin-btn-approve" onclick="approvePost(${post.id})">Onayla</button>` : ''}
+                            <button type="button" class="admin-btn-delete" onclick="deletePost(${post.id})">Sil</button>
                         </div>
                     </div>
                 `;
@@ -1902,7 +1948,7 @@
             alert("Şifre güncellendi!");
         }
 
-        // --- GELİŞMİŞ VE SÜSLÜ TEMALAR ---
+        // --- GELİŞMİŞ TEMALAR ---
         const themes = {
             classic: `
                 :root {
