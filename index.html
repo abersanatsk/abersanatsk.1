@@ -10,6 +10,7 @@
     
     <style id="theme-styles">
         :root {
+            /* Varsayılan: Siyah, Beyaz ve Kırmızı (Aber Efsanesi) */
             --bg-main: #070707; --bg-card: #111111; --text-main: #ffffff; --text-muted: #a1a1aa; 
             --accent-color: #e60000; --border-color: rgba(255, 255, 255, 0.08); --header-bg: rgba(7, 7, 7, 0.85);
             --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif;
@@ -43,7 +44,7 @@
         .hero-bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover !important; background-position: center center !important; filter: brightness(0.35); z-index: 1; }
         .hero-content-wrapper { position: relative; z-index: 2; max-width: 1100px; width: 100%; text-align: var(--global-text-align); }
         .hero-title-sculpture { font-family: var(--font-sport); font-size: var(--hero-title-size); font-weight: 700; text-transform: uppercase; line-height: 0.9; letter-spacing: -4px; color: #ffffff; text-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); margin-bottom: 3rem; }
-        .hero-slogan-monument { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px); border-left: 4px solid var(--accent-color); padding: 3.5rem; border-radius: var(--card-radius); max-width: 850px; display: inline-block; text-align: var(--global-text-align); }
+        .hero-slogan-monument { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px); border-left: 4px solid var(--accent-color); padding: 3.5rem; border-radius: var(--card-radius); max-width: 850px; display: inline-block; text-align: var(--global-text-align); border-right: 1px solid rgba(255,255,255,0.1); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
 
         /* SECTIONS & GRIDS */
         section { padding: 8rem 0; border-top: 1px solid var(--border-color); }
@@ -69,12 +70,13 @@
         /* FOOTER */
         footer { padding: 4rem 0; background-color: #000; color: #fff; text-align: center; border-top: 1px solid #111; }
         .footer-logo { font-family: var(--font-sport); font-size: 1.8rem; margin-bottom: 1rem; color: #fff; }
-        .admin-trigger { font-size: 0.75rem; color: #444; cursor: pointer; margin-top: 2rem; }
+        .admin-trigger { font-size: 0.75rem; color: #444; cursor: pointer; margin-top: 2rem; transition: color 0.3s; }
+        .admin-trigger:hover { color: var(--accent-color); }
 
-        /* ADMIN PANEL */
+        /* ADMIN PANEL (Şifreli ve Sadece Linkli) */
         .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.95); z-index: 1000; justify-content: center; align-items: center; }
         .admin-content { background: #0c0f17; border-radius: 20px; width: 95%; max-width: 1400px; height: 85vh; display: flex; border: 1px solid #222; color: white; overflow: hidden; }
-        .close-admin { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 10; }
+        .close-admin { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 10; color: white; }
         .admin-sidebar { width: 280px; background: #06080d; padding: 2rem 1rem; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; border-right: 1px solid #222; }
         .admin-sidebar-btn { background: none; border: none; color: #72829c; padding: 12px 15px; text-align: left; font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.3s; }
         .admin-sidebar-btn:hover, .admin-sidebar-btn.active { color: #fff; background: #e60000; }
@@ -83,12 +85,14 @@
         .admin-tab-content.active { display: block; }
         
         .form-group { margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .form-group label { display: block; color: #e60000; font-weight: 700; text-transform: uppercase; margin-bottom: 0.5rem; font-size: 0.8rem; }
-        .form-control { width: 100%; padding: 1rem; background: #111; border: 1px solid #333; color: white; border-radius: 8px; outline: none; }
-        .submit-btn { width: 100%; padding: 1.2rem; background: #e60000; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; }
+        .form-group label { display: block; color: #e60000; font-weight: 700; text-transform: uppercase; margin-bottom: 0.8rem; font-size: 0.85rem; letter-spacing: 1px; }
+        .form-control { width: 100%; padding: 1rem; background: #111; border: 1px solid #333; color: white; border-radius: 8px; outline: none; transition: border-color 0.3s; }
+        .form-control:focus { border-color: #e60000; }
+        .submit-btn { width: 100%; padding: 1.2rem; background: #e60000; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; font-size: 1rem; letter-spacing: 1px; transition: opacity 0.3s; }
+        .submit-btn:hover { opacity: 0.8; }
         
         .admin-list-item { background: #111; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; margin-top: 10px; }
-        .btn-del { background: #ff3344; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; }
+        .btn-del { background: #ff3344; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -121,8 +125,8 @@
         <div class="hero-content-wrapper">
             <h1 class="hero-title-sculpture" id="hero-title-text">İNANÇ<br><span>MÜZESİ</span></h1>
             <div class="hero-slogan-monument">
-                <div style="color:var(--accent-color); font-weight:bold; margin-bottom:10px;">İNANÇ KANATLANDIRIR</div>
-                <div id="hero-slogan-text">Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.</div>
+                <div style="color:var(--accent-color); font-weight:bold; margin-bottom:10px; font-family: var(--font-sport); letter-spacing: 2px;">İNANÇ KANATLANDIRIR</div>
+                <div id="hero-slogan-text" style="font-size: 1.2rem; font-weight: 600;">Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.</div>
             </div>
         </div>
     </section>
@@ -139,8 +143,8 @@
     <footer>
         <div class="container">
             <div class="footer-logo">KARAMAN ABER SANAT GÜCÜ</div>
-            <p>KARAMAN ABER MÜHENDSİLİK ENERJİ SAN.TİC.LTD.ŞTİ.</p>
-            <p style="color:#777; margin-top:10px;">©RIDVAN ARSLAN</p>
+            <p style="font-weight: bold;">KARAMAN ABER MÜHENDİSLİK ENERJİ SAN.TİC.LTD.ŞTİ.</p>
+            <p style="color:#777; margin-top:10px; letter-spacing: 1px;">©RIDVAN ARSLAN</p>
             <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
         </div>
     </footer>
@@ -150,7 +154,7 @@
         <div class="admin-content">
             <span class="close-admin" onclick="toggleAdminModal()">&times;</span>
             <div class="admin-sidebar">
-                <h3 style="color:#e60000; text-align:center; margin-bottom:20px;">Aber Dashboard</h3>
+                <h3 style="color:#e60000; text-align:center; margin-bottom:20px; font-family: var(--font-sport);">Aber Dashboard</h3>
                 <button class="admin-sidebar-btn active" onclick="switchTab('settings', this)">Genel Ayarlar</button>
                 <button class="admin-sidebar-btn" onclick="switchTab('style', this)">Tasarım & Yerleşim</button>
                 <button class="admin-sidebar-btn" onclick="switchTab('board', this)">Yönetim Kurulu</button>
@@ -164,135 +168,150 @@
             </div>
 
             <div class="admin-body">
+                <h1 style="text-align: center; margin-bottom: 2rem; font-family: var(--font-sport); letter-spacing: 1px;" id="panel-title">Genel Site Ayarları</h1>
+                
                 <!-- 1. GENEL AYARLAR -->
                 <div id="tab-settings" class="admin-tab-content active">
-                    <h2 style="margin-bottom:20px;">Genel Site Ayarları</h2>
                     <div class="form-group">
-                        <label>Kulüp Logosu</label>
-                        <input type="file" class="form-control" onchange="uploadImage(this, 400, 'logoUrl')">
+                        <label>KULÜP LOGOSU (URL)</label>
+                        <input type="text" id="set-logo-url" class="form-control" placeholder="Örn: https://raw.githubusercontent.com/kullanici/repo/main/logo.png">
                     </div>
                     <div class="form-group">
-                        <label>Ana Arka Plan Görseli</label>
-                        <input type="file" class="form-control" onchange="uploadImage(this, 1920, 'heroBgUrl')">
+                        <label>ANA ARKA PLAN GÖRSELİ (URL)</label>
+                        <input type="text" id="set-bg-url" class="form-control" placeholder="Örn: https://raw.githubusercontent.com/kullanici/repo/main/arkaplan.jpg">
                     </div>
-                    <div class="form-group"><label>Slogan</label><input type="text" id="set-slogan" class="form-control"></div>
-                    <button class="submit-btn" onclick="saveGeneralSettings()">Kaydet</button>
+                    <div class="form-group">
+                        <label>SLOGAN</label>
+                        <input type="text" id="set-slogan" class="form-control">
+                    </div>
+                    <button class="submit-btn" onclick="saveGeneralSettings()">KAYDET</button>
                 </div>
 
                 <!-- 2. TASARIM VE YERLEŞİM -->
                 <div id="tab-style" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Tipografi & Yerleşim</h2>
                     <div class="form-group">
-                        <label>Logo Boyutu: <span id="logo-preview">80</span>px</label>
+                        <label>LOGO BOYUTU: <span id="logo-preview" style="color: white;">80</span> px</label>
                         <input type="range" id="style-logo-size" min="40" max="250" value="80" class="form-control" oninput="document.getElementById('logo-preview').innerText = this.value">
                     </div>
                     <div class="form-group">
-                        <label>Yazı Hizalaması</label>
+                        <label>SİTE GENEL YAZI HİZALAMASI</label>
                         <select id="style-align" class="form-control">
-                            <option value="left">Sola Yaslı</option>
-                            <option value="center">Ortalı</option>
+                            <option value="left">Sola Yaslı (Modern)</option>
+                            <option value="center">Ortalı (Klasik)</option>
                             <option value="right">Sağa Yaslı</option>
                         </select>
                     </div>
-                    <button class="submit-btn" onclick="saveStyleSettings()">Uygula</button>
+                    <button class="submit-btn" onclick="saveStyleSettings()">TASARIMI UYGULA</button>
                 </div>
 
                 <!-- 3. YÖNETİM KURULU -->
                 <div id="tab-board" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Yönetim Kurulu Ekle</h2>
                     <div class="form-group">
-                        <label>İsim Soyisim</label><input type="text" id="board-name" class="form-control">
-                        <label style="margin-top:10px;">Görevi</label><input type="text" id="board-role" class="form-control">
-                        <label style="margin-top:10px;">Fotoğraf Seç</label><input type="file" class="form-control" onchange="storeTempImage(this)">
-                        <button class="submit-btn" onclick="addDynamicItem('board')">Listeye Ekle</button>
+                        <label>İSİM SOYİSİM</label><input type="text" id="board-name" class="form-control">
+                        <label style="margin-top:1rem;">GÖREVİ</label><input type="text" id="board-role" class="form-control">
+                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
+                        <input type="text" id="board-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
+                        <button class="submit-btn" onclick="addDynamicItem('board')">LİSTEYE EKLE</button>
                     </div>
                     <div id="admin-list-board"></div>
                 </div>
 
                 <!-- 4. TEKNİK HEYET -->
                 <div id="tab-staff" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Teknik Heyet Ekle</h2>
                     <div class="form-group">
-                        <label>İsim Soyisim</label><input type="text" id="staff-name" class="form-control">
-                        <label style="margin-top:10px;">Görevi</label><input type="text" id="staff-role" class="form-control">
-                        <label style="margin-top:10px;">Fotoğraf Seç</label><input type="file" class="form-control" onchange="storeTempImage(this)">
-                        <button class="submit-btn" onclick="addDynamicItem('staff')">Listeye Ekle</button>
+                        <label>İSİM SOYİSİM</label><input type="text" id="staff-name" class="form-control">
+                        <label style="margin-top:1rem;">GÖREVİ</label><input type="text" id="staff-role" class="form-control">
+                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
+                        <input type="text" id="staff-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
+                        <button class="submit-btn" onclick="addDynamicItem('staff')">LİSTEYE EKLE</button>
                     </div>
                     <div id="admin-list-staff"></div>
                 </div>
 
                 <!-- 5. KADROMUZ -->
                 <div id="tab-squad" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Oyuncu Ekle</h2>
                     <div class="form-group">
-                        <label>İsim Soyisim</label><input type="text" id="squad-name" class="form-control">
-                        <label style="margin-top:10px;">Mevki</label>
+                        <label>İSİM SOYİSİM</label><input type="text" id="squad-name" class="form-control">
+                        <label style="margin-top:1rem;">MEVKİ</label>
                         <select id="squad-role" class="form-control"><option>Kaleci</option><option>Defans</option><option>Orta Saha</option><option>Forvet</option></select>
-                        <label style="margin-top:10px;">Fotoğraf Seç</label><input type="file" class="form-control" onchange="storeTempImage(this)">
-                        <button class="submit-btn" onclick="addDynamicItem('squad')">Oyuncuyu Ekle</button>
+                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
+                        <input type="text" id="squad-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
+                        <button class="submit-btn" onclick="addDynamicItem('squad')">OYUNCUYU EKLE</button>
                     </div>
                     <div id="admin-list-squad"></div>
                 </div>
 
                 <!-- 6. FORMALAR -->
                 <div id="tab-kits" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Forma Ekle</h2>
                     <div class="form-group">
-                        <label>Forma Adı (Örn: İç Saha)</label><input type="text" id="kits-name" class="form-control">
-                        <label style="margin-top:10px;">Forma Görseli</label><input type="file" class="form-control" onchange="storeTempImage(this)">
-                        <button class="submit-btn" onclick="addDynamicItem('kits')">Formayı Ekle</button>
+                        <label>FORMA ADI (Örn: İç Saha)</label><input type="text" id="kits-name" class="form-control">
+                        <label style="margin-top:1rem;">FORMA GÖRSELİ URL (GitHub vb.)</label>
+                        <input type="text" id="kits-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
+                        <button class="submit-btn" onclick="addDynamicItem('kits')">FORMAYI EKLE</button>
                     </div>
                     <div id="admin-list-kits"></div>
                 </div>
 
                 <!-- 7. TRANSFERLER -->
                 <div id="tab-transfers" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Transfer Ekle</h2>
                     <div class="form-group">
-                        <label>Oyuncu Adı</label><input type="text" id="transfers-name" class="form-control">
-                        <label style="margin-top:10px;">Durum</label>
+                        <label>OYUNCU ADI</label><input type="text" id="transfers-name" class="form-control">
+                        <label style="margin-top:1rem;">DURUM (Geldi / Gitti)</label>
                         <select id="transfers-role" class="form-control"><option>Geldi</option><option>Gitti</option></select>
-                        <label style="margin-top:10px;">Fotoğraf Seç</label><input type="file" class="form-control" onchange="storeTempImage(this)">
-                        <button class="submit-btn" onclick="addDynamicItem('transfers')">Transferi Ekle</button>
+                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
+                        <input type="text" id="transfers-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
+                        <button class="submit-btn" onclick="addDynamicItem('transfers')">TRANSFERİ EKLE</button>
                     </div>
                     <div id="admin-list-transfers"></div>
                 </div>
 
                 <!-- 8. FİKSTÜR -->
                 <div id="tab-fixture" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Maç Ekle</h2>
-                    <div class="form-group" style="display:flex; gap:10px; align-items:center;">
-                        <input type="text" id="fix-home" placeholder="Ev Sahibi" class="form-control">
-                        <input type="text" id="fix-score" placeholder="Skor (Örn: 2-1)" class="form-control" style="width:100px; text-align:center;">
-                        <input type="text" id="fix-away" placeholder="Deplasman" class="form-control">
+                    <div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
+                        <div style="flex:1;">
+                            <label>EV SAHİBİ</label>
+                            <input type="text" id="fix-home" class="form-control">
+                        </div>
+                        <div style="width:120px;">
+                            <label>SKOR</label>
+                            <input type="text" id="fix-score" placeholder="Örn: 2-1" class="form-control" style="text-align:center;">
+                        </div>
+                        <div style="flex:1;">
+                            <label>DEPLASMAN</label>
+                            <input type="text" id="fix-away" class="form-control">
+                        </div>
                     </div>
-                    <button class="submit-btn" onclick="addFixture()">Maçı Ekle</button>
+                    <button class="submit-btn" onclick="addFixture()">MAÇI EKLE</button>
                     <div id="admin-list-fixture" style="margin-top:20px;"></div>
                 </div>
 
                 <!-- 9. MEDYA / GALERİ -->
                 <div id="tab-gallery" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Medya Yükle</h2>
                     <div class="form-group">
-                        <label>YouTube Linki (veya GitHub Resim Linki)</label>
-                        <input type="text" id="media-url" class="form-control" placeholder="https://youtube.com/... veya https://raw.github...">
-                        <button class="submit-btn" onclick="addMedia()">Galeriye Ekle</button>
+                        <label>YOUTUBE VİDEO LİNKİ VEYA GITHUB RESİM URL'Sİ</label>
+                        <input type="text" id="media-url" class="form-control" placeholder="https://youtube.com/watch?v=... veya https://raw.githubusercontent.com/...">
+                        <button class="submit-btn" onclick="addMedia()">GALERİYE EKLE</button>
                     </div>
                     <div id="admin-list-gallery"></div>
                 </div>
 
                 <!-- 10. TEMA VE GÜVENLİK -->
                 <div id="tab-theme" class="admin-tab-content">
-                    <h2 style="margin-bottom:20px;">Tema & Güvenlik</h2>
                     <div class="form-group">
-                        <label>Sitenin Renk Teması</label>
+                        <label>SİTENİN RENK TEMASI</label>
                         <select id="theme-select" class="form-control">
-                            <option value="aberEfsanesi">Aber Efsanesi (Siyah/Beyaz/Kırmızı)</option>
-                            <option value="karanlik">Tam Karanlık Mod</option>
-                            <option value="aydinlik">Aydınlık Mod</option>
+                            <option value="aberEfsanesi">Aber Efsanesi (Siyah / Beyaz / Kırmızı) - Önerilen</option>
+                            <option value="karanlik">Tam Karanlık Mod (Siyah / Gri)</option>
+                            <option value="aydinlik">Aydınlık Mod (Beyaz / Siyah)</option>
                         </select>
+                        <button class="submit-btn" onclick="saveTheme()">TEMAYI UYGULA</button>
                     </div>
-                    <button class="submit-btn" onclick="saveTheme()">Temayı Uygula</button>
+                    
+                    <div class="form-group" style="margin-top: 2rem;">
+                        <label>YÖNETİM PANELİ ŞİFRESİNİ DEĞİŞTİR</label>
+                        <input type="password" id="new-password" class="form-control" placeholder="Yeni şifrenizi girin">
+                        <button class="submit-btn" onclick="changePassword()">ŞİFREYİ GÜNCELLE</button>
+                    </div>
                 </div>
 
             </div>
@@ -300,16 +319,27 @@
     </div>
 
     <script>
-        // --- VERİ YAPISI ---
-        let activeData = JSON.parse(localStorage.getItem('aber_data_v20')) || {
-            logoUrl: "", heroBgUrl: "", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.",
+        // --- VERİ YAPISI (Artık sadece URL tabanlı) ---
+        let activeData = JSON.parse(localStorage.getItem('aber_data_v21')) || {
+            adminPassword: "admin", // Varsayılan Şifre
+            logoUrl: "", heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
+            slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.",
             styles: { logoSize: "80px", align: "center" }, theme: "aberEfsanesi",
             board: [], staff: [], squad: [], kits: [], transfers: [], fixture: [], gallery: []
         };
-        let tempImageBase64 = "";
 
-        // --- PANEL KONTROLLERİ ---
-        function loginAdmin() { document.getElementById('adminModal').style.display = 'flex'; loadPanelData(); renderAllAdminLists(); }
+        // --- ŞİFRELİ PANEL GİRİŞ KONTROLÜ ---
+        function loginAdmin() { 
+            const pwd = prompt("Yönetim paneli şifresini giriniz:");
+            if (pwd === activeData.adminPassword) {
+                document.getElementById('adminModal').style.display = 'flex'; 
+                loadPanelData(); 
+                renderAllAdminLists(); 
+            } else if (pwd !== null) {
+                alert("Hatalı şifre girdiniz!");
+            }
+        }
+        
         function toggleAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
         
         function switchTab(tabId, btn) {
@@ -317,37 +347,29 @@
             document.querySelectorAll('.admin-sidebar-btn').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
             btn.classList.add('active');
+            document.getElementById('panel-title').innerText = btn.innerText;
         }
 
-        // --- RESİM YÜKLEME VE SIKIŞTIRMA MOTURU ---
-        function uploadImage(input, maxWidth, targetKey) {
-            const file = input.files[0]; if(!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) {
-                const img = new Image();
-                img.onload = function() {
-                    const canvas = document.createElement('canvas');
-                    let w = img.width, h = img.height;
-                    if(w > maxWidth) { h = Math.round(h * maxWidth / w); w = maxWidth; }
-                    canvas.width = w; canvas.height = h;
-                    canvas.getContext('2d').drawImage(img, 0, 0, w, h);
-                    activeData[targetKey] = canvas.toDataURL(file.type === 'image/png' ? 'image/png' : 'image/jpeg', 0.85);
-                    saveData(); renderSite(); alert("Görsel Güncellendi!");
-                }; img.src = e.target.result;
-            }; reader.readAsDataURL(file);
-        }
-
-        function storeTempImage(input) {
-            const file = input.files[0]; if(!file) return;
-            const reader = new FileReader();
-            reader.onload = function(e) { tempImageBase64 = e.target.result; }; // Listeler için hafif sıkıştırmasız
-            reader.readAsDataURL(file);
+        function changePassword() {
+            const newPwd = document.getElementById('new-password').value.trim();
+            if(!newPwd) return alert("Şifre boş olamaz!");
+            activeData.adminPassword = newPwd;
+            saveData();
+            document.getElementById('new-password').value = '';
+            alert("Yönetici şifresi başarıyla güncellendi!");
         }
 
         // --- AYARLARI KAYDETME ---
-        function saveData() { localStorage.setItem('aber_data_v20', JSON.stringify(activeData)); }
+        function saveData() { localStorage.setItem('aber_data_v21', JSON.stringify(activeData)); }
         
-        function saveGeneralSettings() { activeData.slogan = document.getElementById('set-slogan').value; saveData(); renderSite(); alert("Kaydedildi!"); }
+        function saveGeneralSettings() { 
+            activeData.logoUrl = document.getElementById('set-logo-url').value.trim();
+            activeData.heroBgUrl = document.getElementById('set-bg-url').value.trim();
+            activeData.slogan = document.getElementById('set-slogan').value.trim(); 
+            saveData(); 
+            renderSite(); 
+            alert("Genel Ayarlar Kaydedildi!"); 
+        }
         
         function saveStyleSettings() { 
             activeData.styles.logoSize = document.getElementById('style-logo-size').value + 'px';
@@ -358,39 +380,47 @@
         function saveTheme() { activeData.theme = document.getElementById('theme-select').value; saveData(); applyTheme(); alert("Tema Uygulandı!"); }
 
         function loadPanelData() {
-            document.getElementById('set-slogan').value = activeData.slogan;
+            document.getElementById('set-logo-url').value = activeData.logoUrl || "";
+            document.getElementById('set-bg-url').value = activeData.heroBgUrl || "";
+            document.getElementById('set-slogan').value = activeData.slogan || "";
             document.getElementById('style-logo-size').value = parseInt(activeData.styles.logoSize);
             document.getElementById('style-align').value = activeData.styles.align;
             document.getElementById('theme-select').value = activeData.theme;
         }
 
-        // --- DİNAMİK İÇERİK EKLEME (CRUD) ---
+        // --- SADECE URL İLE DİNAMİK İÇERİK EKLEME (CRUD) ---
         function addDynamicItem(type) {
-            const name = document.getElementById(type + '-name').value;
+            const name = document.getElementById(type + '-name').value.trim();
             const roleEl = document.getElementById(type + '-role');
-            const role = roleEl ? roleEl.value : '';
+            const role = roleEl ? roleEl.value.trim() : '';
+            let imgUrl = document.getElementById(type + '-img-url').value.trim();
+            
             if(!name) return alert("İsim/Ad alanı zorunludur!");
+            if(!imgUrl) imgUrl = "https://via.placeholder.com/400x500/111111/e60000?text=Gorsel+Yok"; // Varsayılan boş resim
             
-            activeData[type].push({ id: Date.now(), name, role, img: tempImageBase64 || 'https://via.placeholder.com/300x300?text=Gorsel+Yok' });
-            tempImageBase64 = ""; // sıfırla
+            activeData[type].push({ id: Date.now(), name, role, img: imgUrl });
+            
+            // Temizlik
             document.getElementById(type + '-name').value = ''; 
+            if(roleEl && type !== 'squad' && type !== 'transfers') roleEl.value = '';
+            document.getElementById(type + '-img-url').value = '';
             
-            saveData(); renderAllAdminLists(); renderSite(); alert("Eklendi!");
+            saveData(); renderAllAdminLists(); renderSite(); alert("Başarıyla Eklendi!");
         }
 
         function addFixture() {
-            const home = document.getElementById('fix-home').value;
-            const score = document.getElementById('fix-score').value;
-            const away = document.getElementById('fix-away').value;
-            if(!home || !away) return;
+            const home = document.getElementById('fix-home').value.trim();
+            const score = document.getElementById('fix-score').value.trim();
+            const away = document.getElementById('fix-away').value.trim();
+            if(!home || !away) return alert("Ev sahibi ve deplasman takımları girilmelidir.");
             activeData.fixture.push({ home, score: score || 'v', away });
             document.getElementById('fix-home').value = ''; document.getElementById('fix-score').value = ''; document.getElementById('fix-away').value = '';
             saveData(); renderAllAdminLists(); renderSite();
         }
 
         function addMedia() {
-            const url = document.getElementById('media-url').value;
-            if(!url) return;
+            const url = document.getElementById('media-url').value.trim();
+            if(!url) return alert("Lütfen bir URL girin.");
             const isYoutube = url.includes('youtube.com') || url.includes('youtu.be');
             let finalUrl = url;
             if(isYoutube) {
@@ -399,7 +429,7 @@
             }
             activeData.gallery.push({ url: finalUrl, isYoutube });
             document.getElementById('media-url').value = '';
-            saveData(); renderAllAdminLists(); renderSite();
+            saveData(); renderAllAdminLists(); renderSite(); alert("Medya Eklendi!");
         }
 
         function deleteItem(type, index) { activeData[type].splice(index, 1); saveData(); renderAllAdminLists(); renderSite(); }
@@ -420,22 +450,32 @@
 
             const galBox = document.getElementById('admin-list-gallery'); galBox.innerHTML = '';
             activeData.gallery.forEach((item, i) => {
-                galBox.innerHTML += `<div class="admin-list-item"><span>${item.isYoutube ? 'Video' : 'Resim'}: ${item.url.substring(0,30)}...</span><button class="btn-del" onclick="deleteItem('gallery', ${i})">Sil</button></div>`;
+                galBox.innerHTML += `<div class="admin-list-item"><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:80%;">${item.isYoutube ? 'Video' : 'Resim'}: ${item.url}</span><button class="btn-del" onclick="deleteItem('gallery', ${i})">Sil</button></div>`;
             });
         }
 
         function renderSite() {
-            if(activeData.logoUrl) { document.getElementById('header-logo-img').src = activeData.logoUrl; document.getElementById('header-logo-wrapper').style.display = 'flex'; }
-            if(activeData.heroBgUrl) document.getElementById('hero-bg-overlay').style.backgroundImage = `url(${activeData.heroBgUrl})`;
+            const headerLogoImg = document.getElementById('header-logo-img');
+            const headerLogoWrapper = document.getElementById('header-logo-wrapper');
+            if(activeData.logoUrl) { 
+                headerLogoImg.src = activeData.logoUrl; 
+                headerLogoWrapper.style.display = 'flex'; 
+            } else {
+                headerLogoWrapper.style.display = 'none';
+            }
+
+            if(activeData.heroBgUrl) {
+                document.getElementById('hero-bg-overlay').style.backgroundImage = `url('${activeData.heroBgUrl}')`;
+            }
             document.getElementById('hero-slogan-text').innerText = activeData.slogan;
 
             // Kart Şablonu
-            const buildCard = (i) => `<div class="card"><div class="card-img-box"><img src="${i.img}"></div><div class="card-content"><div class="card-title">${i.name}</div><div class="card-subtitle">${i.role}</div></div></div>`;
+            const buildCard = (i) => `<div class="card"><div class="card-img-box"><img src="${i.img}" loading="lazy"></div><div class="card-content"><div class="card-title">${i.name}</div><div class="card-subtitle">${i.role}</div></div></div>`;
             
             document.getElementById('front-board').innerHTML = activeData.board.map(buildCard).join('');
             document.getElementById('front-staff').innerHTML = activeData.staff.map(buildCard).join('');
             document.getElementById('front-squad').innerHTML = activeData.squad.map(buildCard).join('');
-            document.getElementById('front-kits').innerHTML = activeData.kits.map(i => `<div class="card"><div class="card-img-box" style="height:500px;"><img src="${i.img}"></div><div class="card-content"><div class="card-title">${i.name}</div></div></div>`).join('');
+            document.getElementById('front-kits').innerHTML = activeData.kits.map(i => `<div class="card"><div class="card-img-box" style="height:500px;"><img src="${i.img}" loading="lazy"></div><div class="card-content"><div class="card-title">${i.name}</div></div></div>`).join('');
             document.getElementById('front-transfers').innerHTML = activeData.transfers.map(buildCard).join('');
             
             document.getElementById('front-fixture').innerHTML = activeData.fixture.map(i => `
@@ -448,7 +488,7 @@
 
             document.getElementById('front-gallery').innerHTML = activeData.gallery.map(i => `
                 <div class="card" style="height:250px;">
-                    ${i.isYoutube ? `<iframe width="100%" height="100%" src="${i.url}" frameborder="0" allowfullscreen></iframe>` : `<img src="${i.url}" style="width:100%;height:100%;object-fit:cover;">`}
+                    ${i.isYoutube ? `<iframe width="100%" height="100%" src="${i.url}" frameborder="0" allowfullscreen></iframe>` : `<img src="${i.url}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`}
                 </div>
             `).join('');
         }
@@ -466,7 +506,7 @@
             if(t === 'aydinlik') { document.documentElement.style.setProperty('--bg-main', '#f4f4f4'); document.documentElement.style.setProperty('--bg-card', '#ffffff'); document.documentElement.style.setProperty('--text-main', '#111111'); document.documentElement.style.setProperty('--accent-color', '#000000'); }
         }
 
-        // Başlangıç
+        // Başlangıç Yüklemesi
         applyStyles(); applyTheme(); renderSite();
     </script>
 </body>
