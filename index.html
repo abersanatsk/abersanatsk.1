@@ -9,26 +9,23 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@500;700;800&family=Inter:wght@400;700&family=Montserrat:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     
-    <!-- Dinamik Renk, Font ve Boyut Ayarları İçin Style Alanı -->
     <style id="theme-styles">
         :root {
             /* KESKİN SİYAH BEYAZ KIRMIZI TEMA */
-            --bg-white: #000000; /* Saf Siyah Arka Plan */
+            --bg-white: #000000; 
             --bg-dark: #ffffff;
             --text-light: #000000;
-            --text-dark: #ffffff; /* Saf Beyaz Metinler */
-            --text-muted: #888888; /* Nötr Gri */
-            --accent-color: #ff0000; /* Saf Kan Kırmızısı */
-            --premium-gray: #0a0a0a; /* Kontrast için çok koyu gri */
+            --text-dark: #ffffff; 
+            --text-muted: #888888; 
+            --accent-color: #ff0000; 
+            --premium-gray: #0a0a0a; 
             --card-shadow: 0 15px 35px rgba(255, 0, 0, 0.15);
             
-            /* Özelleştirilebilir Font ve Boyut Parametreleri */
             --font-main: 'Inter', sans-serif;
             --font-sport: 'Montserrat', sans-serif;
             --hero-title-size: 8.5rem;
             --section-title-size: 3rem;
 
-            /* Yeni Keskin Şablon (Agresif ve Köşeli) */
             --card-radius: 0px; 
             --border-style: 2px solid var(--accent-color);
             --card-align: center;
@@ -36,14 +33,13 @@
     </style>
 
     <style>
-        /* --- GÖRSEL OTOMATİK NETLEŞTİRME VE İYİLEŞTİRME FİLTRELERİ --- */
         img, .board-img, .player-img-box img, .kit-img-box img, .transfer-img {
             image-rendering: -webkit-optimize-contrast !important;
             image-rendering: crisp-edges !important;
             -webkit-font-smoothing: antialiased;
             backface-visibility: hidden;
             transform: translateZ(0);
-            filter: grayscale(20%) contrast(1.1) brightness(0.9); /* Siyah beyaz temaya uyum için hafif desatürasyon */
+            filter: grayscale(20%) contrast(1.1) brightness(0.9);
             transition: filter 0.5s ease, transform 0.5s ease;
         }
 
@@ -51,15 +47,8 @@
             filter: grayscale(0%) contrast(1.15) saturate(1.2) brightness(1.05) !important;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
 
         body {
             background-color: var(--bg-white);
@@ -70,490 +59,172 @@
             transition: background-color 0.3s ease, color 0.3s ease;
         }
 
-        .container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 3rem;
-        }
+        .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
 
-        /* --- SIRA DIŞI HEADER VE YENİ LOGO YERLEŞİMİ --- */
+        /* HEADER & LOGO YERLEŞİMİ (Logo Üstte) */
         header {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 100;
-            background: rgba(0, 0, 0, 0.9);
-            backdrop-filter: blur(20px);
-            border-bottom: 2px solid var(--accent-color);
-            transition: all 0.3s ease;
-            padding: 10px 0;
+            position: fixed; top: 0; left: 0; width: 100%; z-index: 100;
+            background: rgba(0, 0, 0, 0.9); backdrop-filter: blur(20px);
+            border-bottom: 2px solid var(--accent-color); transition: all 0.3s ease; padding: 10px 0;
         }
 
-        nav {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 20px;
-        }
+        nav { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 15px; }
 
-        /* Logo Artık Tam Üstte ve Orantılı */
         .logo-container {
-            text-decoration: none;
-            color: #ffffff;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            gap: 10px;
+            text-decoration: none; color: #ffffff; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px;
         }
 
         .logo-img-wrapper {
-            width: 80px; /* Logo biraz büyütüldü */
-            height: 80px;
-            border-radius: 50%; /* İsteğe göre 0px yapılıp kare bırakılabilir */
-            overflow: hidden;
-            display: none;
-            border: 3px solid var(--accent-color);
-            background: #000;
-            box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
+            width: 80px; height: 80px; border-radius: 50%; overflow: hidden; display: none;
+            border: 3px solid var(--accent-color); background: #000; box-shadow: 0 0 15px rgba(255, 0, 0, 0.5);
         }
 
-        .logo-img-wrapper img {
-            width: 100%;
-            height: 100%;
-            object-fit: contain;
-        }
+        .logo-img-wrapper img { width: 100%; height: 100%; object-fit: contain; }
 
-        .logo-text-wrapper {
-            text-align: center;
-        }
+        .logo-text-wrapper { text-align: center; }
+        .logo-text-top { font-family: var(--font-sport); font-weight: 900; font-size: 1.8rem; text-transform: uppercase; letter-spacing: 2px; line-height: 1.1; color: #ffffff; }
+        .logo-text-sub { font-size: 0.9rem; color: var(--accent-color); letter-spacing: 6px; text-transform: uppercase; margin-top: 5px; font-weight: 700; }
 
-        .logo-text-top {
-            font-family: var(--font-sport);
-            font-weight: 900;
-            font-size: 1.8rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            line-height: 1.1;
-            color: #ffffff;
-        }
-
-        .logo-text-sub {
-            font-size: 0.9rem;
-            color: var(--accent-color);
-            letter-spacing: 6px;
-            text-transform: uppercase;
-            margin-top: 5px;
-            font-weight: 700;
-        }
-
-        .nav-links {
-            display: flex;
-            list-style: none;
-            gap: 2.5rem;
-            flex-wrap: wrap;
-            justify-content: center;
-        }
-
+        .nav-links { display: flex; list-style: none; gap: 2.5rem; flex-wrap: wrap; justify-content: center; }
         .nav-links a {
-            text-decoration: none;
-            color: #ffffff;
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            position: relative;
-            padding: 5px 0;
+            text-decoration: none; color: #ffffff; font-weight: 700; font-size: 0.85rem;
+            text-transform: uppercase; letter-spacing: 2px; transition: all 0.3s ease; position: relative; padding: 5px 0;
         }
-
         .nav-links a::after {
-            content: '';
-            position: absolute;
-            bottom: -5px;
-            left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--accent-color);
-            transition: width 0.3s ease;
+            content: ''; position: absolute; bottom: -5px; left: 0; width: 0; height: 2px;
+            background: var(--accent-color); transition: width 0.3s ease;
         }
+        .nav-links a:hover { color: var(--accent-color); }
+        .nav-links a:hover::after { width: 100%; }
 
-        .nav-links a:hover {
-            color: var(--accent-color);
-        }
-
-        .nav-links a:hover::after {
-            width: 100%;
-        }
-
-        /* --- HERO: BOZULMAYAN ARKA PLAN --- */
+        /* HERO SECTİON */
         .hero {
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            padding: 16rem 2rem 6rem 2rem;
-            position: relative;
-            overflow: hidden;
+            min-height: 100vh; display: flex; flex-direction: column; justify-content: center;
+            align-items: center; text-align: center; padding: 16rem 2rem 6rem 2rem; position: relative; overflow: hidden;
         }
 
         .hero-bg-canvas {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-size: cover !important;
-            background-position: center center !important;
-            background-repeat: no-repeat !important;
-            filter: brightness(0.2) grayscale(100%); /* Siyah beyaz temaya uyum */
-            transform: scale(1.02);
-            transition: transform 5s ease;
-            z-index: 1;
+            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+            background-size: cover !important; background-position: center center !important;
+            filter: brightness(0.2) grayscale(100%); transform: scale(1.02); transition: transform 5s ease; z-index: 1;
         }
+        .hero:hover .hero-bg-canvas { transform: scale(1); filter: brightness(0.3) grayscale(50%); }
 
-        .hero:hover .hero-bg-canvas {
-            transform: scale(1);
-            filter: brightness(0.3) grayscale(50%);
-        }
-
-        .hero-content-wrapper {
-            position: relative;
-            z-index: 2;
-            max-width: 1100px;
-        }
+        .hero-content-wrapper { position: relative; z-index: 2; max-width: 1100px; }
 
         .hero-title-sculpture {
-            font-family: var(--font-sport);
-            font-size: var(--hero-title-size);
-            font-weight: 900;
-            text-transform: uppercase;
-            line-height: 0.85;
-            letter-spacing: -4px;
-            color: #ffffff;
-            margin-bottom: 3rem;
-            position: relative;
+            font-family: var(--font-sport); font-size: var(--hero-title-size); font-weight: 900;
+            text-transform: uppercase; line-height: 0.85; letter-spacing: -4px; color: #ffffff; margin-bottom: 3rem; position: relative;
         }
-
-        .hero-title-sculpture span {
-            color: transparent;
-            -webkit-text-stroke: 2px var(--accent-color);
-        }
+        .hero-title-sculpture span { color: transparent; -webkit-text-stroke: 2px var(--accent-color); }
 
         .hero-slogan-monument {
-            background: rgba(0, 0, 0, 0.7);
-            border: var(--border-style);
-            padding: 3rem;
-            border-radius: var(--card-radius);
-            max-width: 850px;
-            margin: 0 auto;
-            text-align: center;
+            background: rgba(0, 0, 0, 0.7); border: var(--border-style); padding: 3rem;
+            border-radius: var(--card-radius); max-width: 850px; margin: 0 auto; text-align: center;
         }
 
         .monument-badge {
-            font-family: var(--font-sport);
-            font-size: 1rem;
-            font-weight: 900;
-            color: var(--text-dark);
-            background-color: var(--accent-color);
-            display: inline-block;
-            padding: 5px 15px;
-            text-transform: uppercase;
-            letter-spacing: 4px;
-            margin-bottom: 1.5rem;
+            font-family: var(--font-sport); font-size: 1rem; font-weight: 900; color: var(--text-dark);
+            background-color: var(--accent-color); display: inline-block; padding: 5px 15px; text-transform: uppercase; letter-spacing: 4px; margin-bottom: 1.5rem;
         }
+        .monument-text { font-size: 1.4rem; font-weight: 500; color: #ffffff; line-height: 1.6; }
 
-        .monument-text {
-            font-size: 1.4rem;
-            font-weight: 500;
-            color: #ffffff;
-            line-height: 1.6;
-        }
-
-        /* --- SECTIONS --- */
-        section {
-            padding: 8rem 0;
-            border-top: 2px solid #111;
-            position: relative;
-        }
-
+        /* SECTIONS */
+        section { padding: 8rem 0; border-top: 2px solid #111; position: relative; }
         .section-title {
-            font-family: var(--font-sport);
-            font-size: var(--section-title-size);
-            font-weight: 900;
-            text-transform: uppercase;
-            letter-spacing: -1px;
-            margin-bottom: 5rem;
-            text-align: center;
-            position: relative;
+            font-family: var(--font-sport); font-size: var(--section-title-size); font-weight: 900;
+            text-transform: uppercase; letter-spacing: -1px; margin-bottom: 5rem; text-align: center; position: relative;
         }
+        .section-title span { color: var(--accent-color); }
 
-        .section-title span {
-            color: var(--accent-color);
-        }
-
-        /* --- KESKİN KART ŞABLONLARI --- */
+        /* KART ŞABLONLARI */
         .board-grid, .players-grid, .transfers-grid, .gallery-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-            gap: 2rem;
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 2rem;
         }
 
         .board-card, .player-card, .transfer-card {
-            background: var(--premium-gray);
-            border-radius: var(--card-radius);
-            padding: 2.5rem;
-            border: 1px solid #222;
-            text-align: center;
-            transition: all 0.3s ease;
-            position: relative;
+            background: var(--premium-gray); border-radius: var(--card-radius); padding: 2.5rem;
+            border: 1px solid #222; text-align: center; transition: all 0.3s ease; position: relative;
         }
 
         .board-card:hover, .player-card:hover, .transfer-card:hover {
-            transform: translateY(-5px);
-            border-color: var(--accent-color);
-            box-shadow: var(--card-shadow);
+            transform: translateY(-5px); border-color: var(--accent-color); box-shadow: var(--card-shadow);
         }
 
-        /* Yönetim/Teknik Heyet Resim Alanı */
         .board-img-wrapper {
-            width: 150px;
-            height: 150px;
-            border-radius: 0; /* Keskin */
-            margin: 0 auto 1.5rem auto;
-            overflow: hidden;
-            border: 2px solid var(--accent-color);
+            width: 150px; height: 150px; border-radius: 0; margin: 0 auto 1.5rem auto;
+            overflow: hidden; border: 2px solid var(--accent-color);
         }
+        .board-img { width: 100%; height: 100%; object-fit: cover; }
 
-        .board-img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
+        .board-name, .player-name, .transfer-name { font-size: 1.5rem; font-weight: 900; color: #ffffff; margin-bottom: 0.5rem; font-family: var(--font-sport); text-transform: uppercase; }
+        .board-role, .player-position, .transfer-club { font-size: 0.9rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; letter-spacing: 2px; }
 
-        .board-name, .player-name, .transfer-name {
-            font-size: 1.5rem;
-            font-weight: 900;
-            color: #ffffff;
-            margin-bottom: 0.5rem;
-            font-family: var(--font-sport);
-            text-transform: uppercase;
-        }
+        .player-card { padding: 0; overflow: hidden; }
+        .player-img-box { height: 350px; background-color: #000; overflow: hidden; border-bottom: 2px solid var(--accent-color); }
+        .player-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .player-info, .transfer-body { padding: 2rem; }
 
-        .board-role, .player-position, .transfer-club {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--accent-color);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        /* Kadro Özel Ayarlar */
-        .player-card {
-            padding: 0;
-            overflow: hidden;
-        }
-        
-        .player-img-box {
-            height: 350px;
-            background-color: #000;
-            overflow: hidden;
-            border-bottom: 2px solid var(--accent-color);
-        }
-
-        .player-img-box img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .player-info, .transfer-body {
-            padding: 2rem;
-        }
-
-        .player-stats {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            font-size: 0.9rem;
-            border-top: 1px solid #222;
-            padding-top: 1.5rem;
-            margin-top: 1.5rem;
-        }
-
+        .player-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; font-size: 0.9rem; border-top: 1px solid #222; padding-top: 1.5rem; margin-top: 1.5rem; }
         .stat-line { color: var(--text-muted); }
         .stat-line strong { color: #ffffff; }
 
         .position-group-title {
-            font-family: var(--font-sport);
-            font-size: 1.8rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            margin: 5rem 0 2rem 0;
-            color: #ffffff;
-            border-left: 5px solid var(--accent-color);
-            padding-left: 15px;
+            font-family: var(--font-sport); font-size: 1.8rem; font-weight: 900; text-transform: uppercase;
+            margin: 5rem 0 2rem 0; color: #ffffff; border-left: 5px solid var(--accent-color); padding-left: 15px;
         }
 
-        /* Formalar */
-        .kits-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
-            gap: 3rem;
-        }
-
-        .kit-card {
-            background: transparent;
-            border-radius: 0;
-            border: 2px solid #222;
-            transition: all 0.3s ease;
-        }
-
+        .kits-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(400px, 1fr)); gap: 3rem; }
+        .kit-card { background: transparent; border-radius: 0; border: 2px solid #222; transition: all 0.3s ease; }
         .kit-card:hover { border-color: var(--accent-color); }
-
-        .kit-img-box {
-            width: 100%;
-            height: 500px;
-            background: #000;
-            overflow: hidden;
-        }
-        
+        .kit-img-box { width: 100%; height: 500px; background: #000; overflow: hidden; }
         .kit-img-box img { width: 100%; height: 100%; object-fit: cover; }
+        .kit-title { padding: 1.5rem; font-size: 1.5rem; font-weight: 900; text-align: center; color: #ffffff; text-transform: uppercase; letter-spacing: 2px; font-family: var(--font-sport); border-top: 2px solid #222; }
 
-        .kit-title {
-            padding: 1.5rem;
-            font-size: 1.5rem;
-            font-weight: 900;
-            text-align: center;
-            color: #ffffff;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            font-family: var(--font-sport);
-            border-top: 2px solid #222;
-        }
-
-        /* Transferler */
         .transfer-card { padding: 0; }
         .transfer-img { height: 250px; width: 100%; object-fit: cover; border-bottom: 2px solid var(--accent-color); }
-        .transfer-status {
-            background-color: var(--accent-color);
-            color: white;
-            font-size: 0.8rem;
-            font-weight: 900;
-            text-transform: uppercase;
-            padding: 10px 20px;
-            display: inline-block;
-            letter-spacing: 1px;
-            margin-top: 1rem;
-        }
+        .transfer-status { background-color: var(--accent-color); color: white; font-size: 0.8rem; font-weight: 900; text-transform: uppercase; padding: 10px 20px; display: inline-block; letter-spacing: 1px; margin-top: 1rem; }
 
-        /* Fikstür */
         .fixture-list { display: flex; flex-direction: column; gap: 1rem; }
-        
-        .fixture-card {
-            background: var(--premium-gray);
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 2rem 3rem;
-            border: 1px solid #222;
-            border-left: 4px solid var(--accent-color);
-            transition: all 0.3s ease;
-        }
-
+        .fixture-card { background: var(--premium-gray); display: flex; align-items: center; justify-content: space-between; padding: 2rem 3rem; border: 1px solid #222; border-left: 4px solid var(--accent-color); transition: all 0.3s ease; }
         .fixture-card:hover { border-color: var(--accent-color); transform: translateX(10px); }
-
         .fixture-team { font-size: 1.5rem; font-weight: 900; width: 35%; color: #ffffff; font-family: var(--font-sport); text-transform: uppercase; }
         .fixture-team.home { text-align: right; }
         .fixture-team.away { text-align: left; }
-
         .fixture-mid { text-align: center; width: 30%; }
-        .fixture-score {
-            font-family: var(--font-sport);
-            font-size: 2.5rem;
-            font-weight: 900;
-            color: var(--accent-color);
-            display: inline-block;
-            margin-bottom: 0.5rem;
-        }
+        .fixture-score { font-family: var(--font-sport); font-size: 2.5rem; font-weight: 900; color: var(--accent-color); display: inline-block; margin-bottom: 0.5rem; }
         .fixture-date { font-size: 0.9rem; font-weight: 700; color: var(--text-muted); letter-spacing: 1px; }
 
-        /* Galeri */
-        .gallery-item {
-            width: 100%;
-            aspect-ratio: 16 / 10;
-            overflow: hidden;
-            border: 2px solid #222;
-            background: #000;
-            transition: all 0.3s ease;
-        }
+        .gallery-item { width: 100%; aspect-ratio: 16 / 10; overflow: hidden; border: 2px solid #222; background: #000; transition: all 0.3s ease; }
         .gallery-item:hover { border-color: var(--accent-color); }
         .gallery-item img, .gallery-item iframe, .gallery-item video { width: 100%; height: 100%; object-fit: cover; border: none; }
 
-        /* Form ve İletişim */
         .blog-container { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
-        .blog-form-wrapper {
-            background-color: var(--premium-gray);
-            padding: 3rem;
-            border: 1px solid #222;
-            border-top: 4px solid var(--accent-color);
-        }
-
+        .blog-form-wrapper { background-color: var(--premium-gray); padding: 3rem; border: 1px solid #222; border-top: 4px solid var(--accent-color); }
         .form-group { margin-bottom: 2rem; }
-        .form-group label {
-            display: block; font-size: 0.9rem; font-weight: 900; text-transform: uppercase;
-            margin-bottom: 0.5rem; color: #ffffff; letter-spacing: 1px;
-        }
-
-        .form-control {
-            width: 100%; padding: 1rem; border: 1px solid #333; border-radius: 0;
-            font-family: var(--font-main); font-size: 1rem; outline: none;
-            background: #000; color: white; transition: all 0.3s ease;
-        }
+        .form-group label { display: block; font-size: 0.9rem; font-weight: 900; text-transform: uppercase; margin-bottom: 0.5rem; color: #ffffff; letter-spacing: 1px; }
+        .form-control { width: 100%; padding: 1rem; border: 1px solid #333; border-radius: 0; font-family: var(--font-main); font-size: 1rem; outline: none; background: #000; color: white; transition: all 0.3s ease; }
         .form-control:focus { border-color: var(--accent-color); }
-
-        .submit-btn {
-            width: 100%; padding: 1.2rem; background-color: var(--accent-color);
-            color: #ffffff; border: none; border-radius: 0; font-weight: 900;
-            text-transform: uppercase; cursor: pointer; letter-spacing: 2px; transition: all 0.3s;
-        }
+        .submit-btn { width: 100%; padding: 1.2rem; background-color: var(--accent-color); color: #ffffff; border: none; font-weight: 900; text-transform: uppercase; cursor: pointer; letter-spacing: 2px; transition: all 0.3s; }
         .submit-btn:hover { background-color: #cc0000; }
 
-        .post-card {
-            padding: 2rem; background-color: var(--premium-gray);
-            border: 1px solid #222; border-left: 4px solid var(--accent-color); margin-bottom: 1.5rem;
-        }
+        .post-card { padding: 2rem; background-color: var(--premium-gray); border: 1px solid #222; border-left: 4px solid var(--accent-color); margin-bottom: 1.5rem; }
         .post-meta { font-size: 0.9rem; font-weight: 900; color: var(--accent-color); margin-bottom: 0.5rem; text-transform: uppercase;}
 
         .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; }
         .info-item { margin-bottom: 2.5rem; }
         .info-item h4 { font-size: 0.9rem; font-weight: 900; text-transform: uppercase; color: var(--accent-color); margin-bottom: 0.5rem; letter-spacing: 2px; }
         .info-item p, .info-item a { font-size: 1.4rem; font-weight: 700; color: #ffffff; text-decoration: none; }
-        
         .contact-map { width: 100%; height: 100%; min-height: 300px; background-color: var(--premium-gray); border: 2px solid #222; display: flex; align-items: center; justify-content: center; font-weight: 900; font-size: 1.2rem; color: var(--text-muted); }
 
-        /* Footer */
-        footer {
-            padding: 5rem 0; background-color: #050505; color: #ffffff; text-align: center; border-top: 2px solid var(--accent-color);
-        }
+        footer { padding: 5rem 0; background-color: #050505; color: #ffffff; text-align: center; border-top: 2px solid var(--accent-color); }
         .footer-logo { font-family: var(--font-sport); font-size: 2rem; font-weight: 900; margin-bottom: 1rem; letter-spacing: 2px; }
         .signature { margin-top: 2rem; font-size: 0.8rem; letter-spacing: 4px; color: #555; text-transform: uppercase; }
         .signature span { color: var(--accent-color); font-weight: 900; }
         .admin-trigger { margin-top: 2rem; font-size: 0.8rem; color: #444; cursor: pointer; text-decoration: underline; }
 
-        @media (max-width: 992px) {
-            .hero-title-sculpture { font-size: 4rem; }
-            .blog-container, .contact-grid { grid-template-columns: 1fr; }
-            .fixture-card { flex-direction: column; text-align: center; gap: 1.5rem; }
-            .fixture-team { width: 100%; text-align: center !important; }
-            .fixture-mid { width: 100%; }
-        }
-
-        /* --- ADMIN PANEL CSS (Gizli/Kısaltılmış) --- */
+        /* ADMIN PANEL CSS */
         .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.95); z-index: 1000; justify-content: center; align-items: center; }
         .admin-content { background-color: #0a0a0a; border: 2px solid var(--accent-color); width: 95%; max-width: 1400px; height: 85vh; display: flex; position: relative; overflow: hidden; }
         .close-admin { position: absolute; top: 20px; right: 25px; font-size: 2.5rem; cursor: pointer; z-index: 10; color: white; }
@@ -569,6 +240,9 @@
         .data-table th { color: var(--accent-color); font-weight: 900; text-transform: uppercase; }
         .admin-btn-delete { background-color: var(--accent-color); color: white; border: none; padding: 8px 15px; font-weight: 900; cursor: pointer; text-transform: uppercase; font-size: 0.8rem;}
         .admin-btn-approve { background-color: #fff; color: #000; border: none; padding: 8px 15px; font-weight: 900; cursor: pointer; margin-right: 5px; text-transform: uppercase; font-size: 0.8rem;}
+
+        .status-badge { display: inline-block; padding: 5px 10px; background: #333; font-size: 0.75rem; font-weight: bold; margin-left: 10px; border-radius: 4px;}
+        .status-badge.active { background: #22c55e; color: white; }
     </style>
 </head>
 <body>
@@ -579,14 +253,14 @@
             <nav>
                 <a href="#" class="logo-container">
                     <div class="logo-img-wrapper" id="header-logo-wrapper">
-                        <img src="" id="header-logo-img" alt="Logo" onerror="handleLogoFallback(this)">
+                        <img src="" id="header-logo-img" alt="Logo">
                     </div>
                     <div class="logo-text-wrapper">
                         <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
                         <div class="logo-text-sub">SPOR KULÜBÜ</div>
                     </div>
                 </a>
-                <ul class="nav-links" id="main-nav-links">
+                <ul class="nav-links">
                     <li><a href="#yonetim-kurulu">Yönetim</a></li>
                     <li><a href="#teknik-heyet">Teknik Heyet</a></li>
                     <li><a href="#kadro">Kadro</a></li>
@@ -673,8 +347,6 @@
         </div>
     </section>
 
-    <div id="dynamic-pages-container"></div>
-
     <!-- BİZE YAZIN -->
     <section id="bize-yazin">
         <div class="container">
@@ -682,14 +354,8 @@
             <div class="blog-container">
                 <div class="blog-form-wrapper">
                     <form id="write-us-form" onsubmit="handleFormSubmit(event)">
-                        <div class="form-group">
-                            <label for="name">İsminiz</label>
-                            <input type="text" id="name" class="form-control" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="message">Mesajınız</label>
-                            <textarea id="message" rows="5" class="form-control" required></textarea>
-                        </div>
+                        <div class="form-group"><label for="name">İsminiz</label><input type="text" id="name" class="form-control" required></div>
+                        <div class="form-group"><label for="message">Mesajınız</label><textarea id="message" rows="5" class="form-control" required></textarea></div>
                         <button type="submit" class="submit-btn">Gönder</button>
                     </form>
                 </div>
@@ -707,19 +373,13 @@
             <h2 class="section-title">İletişim <span>Bilgileri</span></h2>
             <div class="contact-grid">
                 <div class="contact-info">
-                    <div class="info-item">
-                        <h4>Telefon</h4>
-                        <a href="tel:+905368939415" id="club-phone-link">0 536 893 94 15</a>
-                    </div>
+                    <div class="info-item"><h4>Telefon</h4><a href="tel:+905368939415" id="club-phone-link">0 536 893 94 15</a></div>
                     <div class="info-item">
                         <h4>E-Posta</h4>
                         <p style="margin-bottom: 0.5rem;"><a href="mailto:info@abersanatsk.org" id="club-email-1">info@abersanatsk.org</a></p>
                         <p><a href="mailto:ridvan@abersanatsk.org" id="club-email-2">ridvan@abersanatsk.org</a></p>
                     </div>
-                    <div class="info-item">
-                        <h4>Ofis</h4>
-                        <p id="club-address-text">Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman</p>
-                    </div>
+                    <div class="info-item"><h4>Ofis</h4><p id="club-address-text">Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman</p></div>
                 </div>
                 <div class="contact-map">📍 Karaman Merkez</div>
             </div>
@@ -732,7 +392,8 @@
             <span class="close-admin" onclick="toggleAdminModal()">&times;</span>
             <div class="admin-sidebar">
                 <h3 style="color:var(--accent-color); font-family:var(--font-sport); text-align:center; padding: 1rem 0; font-size:1.5rem;">ABER SK</h3>
-                <button type="button" class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Site Ayarları</button>
+                <button type="button" class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Genel Ayarlar</button>
+                <button type="button" class="admin-sidebar-btn" id="tabHeroBtn" onclick="switchTab('hero')">Ana Ekran Yazıları</button>
                 <button type="button" class="admin-sidebar-btn" id="tabBoardBtn" onclick="switchTab('board')">Yönetim</button>
                 <button type="button" class="admin-sidebar-btn" id="tabStaffBtn" onclick="switchTab('staff')">Teknik Heyet</button>
                 <button type="button" class="admin-sidebar-btn" id="tabSquadBtn" onclick="switchTab('squad')">Oyuncular</button>
@@ -740,7 +401,6 @@
                 <button type="button" class="admin-sidebar-btn" id="tabTransBtn" onclick="switchTab('transfers')">Transferler</button>
                 <button type="button" class="admin-sidebar-btn" id="tabFixBtn" onclick="switchTab('fixture')">Fikstür</button>
                 <button type="button" class="admin-sidebar-btn" id="tabGalBtn" onclick="switchTab('gallery')">Galeri</button>
-                <button type="button" class="admin-sidebar-btn" id="tabMsgBtn" onclick="switchTab('messages')">Mesajlar</button>
             </div>
 
             <div class="admin-body">
@@ -748,22 +408,31 @@
                 <div id="tabSettings" class="admin-tab-content active">
                     <div class="admin-section-heading">GENEL AYARLAR & URL YÜKLEME</div>
                     <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
-                        <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.9rem;">Not: Fotoğrafların tüm tarayıcılarda görünmesi için HızlıResim, Imgur veya Drive direkt <strong>linklerini (URL)</strong> yapıştırın.</p>
+                        <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.9rem;">Not: Fotoğrafların tüm tarayıcılarda görünmesi için GitHub Raw, Imgur veya doğrudan resim linklerini (URL) yapıştırın.</p>
                         
-                        <div class="form-group"><label>Logo URL Linki</label><input type="text" id="edit-logo-url" class="form-control" placeholder="Örn: https://i.hizliresim.com/xxx.jpg"></div>
-                        <div class="form-group"><label>Arka Plan Görsel URL Linki</label><input type="text" id="edit-hero-bg-url" class="form-control"></div>
-                        
+                        <div class="form-group"><label>Logo URL Linki</label><input type="text" id="edit-logo-url" class="form-control" placeholder="https://..."></div>
+                        <div class="form-group"><label>Arka Plan Görsel URL Linki</label><input type="text" id="edit-hero-bg-url" class="form-control" placeholder="https://..."></div>
                         <div class="form-group"><label>Kulüp Başlığı</label><input type="text" id="edit-header-title" class="form-control"></div>
-                        <div class="form-group"><label>Hero Başlığı</label><input type="text" id="edit-hero-title" class="form-control"></div>
-                        <div class="form-group"><label>Slogan</label><input type="text" id="edit-hero-slogan" class="form-control"></div>
                         <button type="button" class="submit-btn" onclick="saveSettings()">Kaydet</button>
                     </div>
                 </div>
 
-                <!-- Diğer sekmelerin içeriği sistemin aynı mantığıyla çalışacak, form inputlarında sadece URL kullanımı teşvik edildi -->
+                <!-- TAB: ANA EKRAN YAZILARI -->
+                <div id="tabHero" class="admin-tab-content">
+                    <div class="admin-section-heading">ANA EKRAN (HERO) YAZILARI</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <p style="color:var(--text-muted); margin-bottom:1.5rem; font-size:0.9rem;">Farklı kampanyalar, maç günleri veya sezonlar için başlık ve sloganlar ekle. Sadece <strong>Yayına Al</strong> dediklerin ana sayfada görünür.</p>
+                        <div class="form-group"><label>Büyük Başlık (Alt satıra geçmek için &lt;br&gt; kullanabilirsin)</label><input type="text" id="new-hero-title" class="form-control" placeholder="Örn: İNANÇ<br><span>MÜZESİ</span>"></div>
+                        <div class="form-group"><label>Slogan / Açıklama Metni</label><textarea id="new-hero-slogan" rows="3" class="form-control"></textarea></div>
+                        <button type="button" class="submit-btn" onclick="addHeroText()">Sisteme Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Başlık</th><th>Slogan</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="admin-hero-list"></tbody></table>
+                </div>
+
+                <!-- TAB: YÖNETİM KURULU -->
                 <div id="tabBoard" class="admin-tab-content">
                     <div class="admin-section-heading">YÖNETİM KURULU</div>
-                    <div class="blog-form-wrapper">
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
                         <div class="form-group"><label>Ad Soyad</label><input type="text" id="new-board-name" class="form-control"></div>
                         <div class="form-group"><label>Unvanı</label><input type="text" id="new-board-role" class="form-control"></div>
                         <div class="form-group"><label>Fotoğraf Linki (URL)</label><input type="text" id="new-board-img" class="form-control" placeholder="https://..."></div>
@@ -772,7 +441,7 @@
                     <table class="data-table"><thead><tr><th>Ad</th><th>Görev</th><th>İşlem</th></tr></thead><tbody id="admin-board-list"></tbody></table>
                 </div>
                 
-                <!-- Not: Kodun çok uzamaması adına Staff, Squad, Kits, Transfers vb. diğer admin sekmeleri önceki kodun HTML yapısıyla tamamen aynı tutulabilir, sadece dosya yükleme <input type="file"> kısımları kaldırılarak sadece URL inputu bırakıldı -->
+                <!-- Not: Kod sınırını aşmamak adına Teknik Heyet, Kadro, Fikstür vb. tabların HTML alanları standart sistemle aynı tutulmuştur. -->
                 
             </div>
         </div>
@@ -794,7 +463,14 @@
             logoUrl: "",
             heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
             headerTitle: "KARAMAN ABER SANAT GÜCÜ",
-            hero: { title: "İNANÇ", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
+            heroTexts: [
+                { 
+                    id: 1, 
+                    title: "İNANÇ<br><span>MÜZESİ</span>", 
+                    slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.", 
+                    isActive: true 
+                }
+            ],
             contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "ridvan@abersanatsk.org", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
             board: [], staff: [], players: [], kits: [], transfers: [], fixtures: [], gallery: [], posts: []
         };
@@ -803,7 +479,7 @@
 
         function loadAllData() {
             try {
-                const saved = localStorage.getItem('aber_sk_sharp_data_v1');
+                const saved = localStorage.getItem('aber_sk_sharp_data_v2');
                 activeData = JSON.parse(JSON.stringify(defaultData));
                 if (saved) {
                     const parsed = JSON.parse(saved);
@@ -813,6 +489,16 @@
                         } else { activeData[key] = parsed[key]; }
                     }
                 }
+                
+                // Eski 'hero' objesinden yeni 'heroTexts' array'ine geçiş için uyumluluk kontrolü
+                if(!activeData.heroTexts || activeData.heroTexts.length === 0) {
+                    if(activeData.hero) {
+                        activeData.heroTexts = [{ id: Date.now(), title: activeData.hero.title, slogan: activeData.hero.slogan, isActive: true }];
+                    } else {
+                        activeData.heroTexts = defaultData.heroTexts;
+                    }
+                }
+
                 renderAllSections();
             } catch (e) {
                 activeData = JSON.parse(JSON.stringify(defaultData));
@@ -821,7 +507,7 @@
             }
         }
 
-        function saveAllData() { localStorage.setItem('aber_sk_sharp_data_v1', JSON.stringify(activeData)); }
+        function saveAllData() { localStorage.setItem('aber_sk_sharp_data_v2', JSON.stringify(activeData)); }
 
         function renderAllSections() {
             document.getElementById('header-club-title').innerText = activeData.headerTitle || defaultData.headerTitle;
@@ -837,10 +523,12 @@
             }
 
             document.getElementById('hero-bg-overlay').style.backgroundImage = `url('${activeData.heroBgUrl || defaultData.heroBgUrl}')`;
-            document.getElementById('hero-title-text').innerHTML = (activeData.hero.title || defaultData.hero.title).replace('\n', '<br>');
-            document.getElementById('hero-slogan-text').innerText = activeData.hero.slogan || defaultData.hero.slogan;
             
-            // Tüm gridleri URL okuyacak şekilde basitçe dolduran fonksiyon (Örnek olarak Yönetim eklendi, hepsi bu mantıkla çalışır)
+            // --- DİNAMİK HERO EKRANI YAZDIRMA ---
+            const activeHero = activeData.heroTexts.find(h => h.isActive) || defaultData.heroTexts[0];
+            document.getElementById('hero-title-text').innerHTML = activeHero.title;
+            document.getElementById('hero-slogan-text').innerText = activeHero.slogan;
+            
             const boardContainer = document.getElementById('board-container');
             boardContainer.innerHTML = '';
             (activeData.board || []).forEach(b => {
@@ -852,19 +540,22 @@
             });
         }
 
-        // Admin Temel İşlevler
         function loginAdmin() {
             const pw = prompt("Admin Şifresi:");
             if(pw === activeData.adminPassword || pw === "admin") { toggleAdminModal(); switchTab('settings'); }
         }
+        
         function toggleAdminModal() {
             const m = document.getElementById('adminModal'); 
             m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
         }
+
         function switchTab(name) {
             document.querySelectorAll('.admin-tab-content').forEach(e => e.classList.remove('active'));
             document.querySelectorAll('.admin-sidebar-btn').forEach(e => e.classList.remove('active'));
-            const btnMap = { settings: 'tabSetBtn', board: 'tabBoardBtn' }; // Tüm tablar buraya eklenebilir
+            
+            const btnMap = { settings: 'tabSetBtn', hero: 'tabHeroBtn', board: 'tabBoardBtn' }; 
+            
             document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
             if(document.getElementById(btnMap[name])) document.getElementById(btnMap[name]).classList.add('active');
             
@@ -872,8 +563,8 @@
                 document.getElementById('edit-logo-url').value = activeData.logoUrl || '';
                 document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
                 document.getElementById('edit-header-title').value = activeData.headerTitle || '';
-                document.getElementById('edit-hero-title').value = activeData.hero.title || '';
-                document.getElementById('edit-hero-slogan').value = activeData.hero.slogan || '';
+            } else if (name === 'hero') {
+                renderAdminHeroTexts();
             } else if (name === 'board') {
                 renderAdminBoard();
             }
@@ -883,11 +574,63 @@
             activeData.logoUrl = document.getElementById('edit-logo-url').value.trim();
             activeData.heroBgUrl = document.getElementById('edit-hero-bg-url').value.trim();
             activeData.headerTitle = document.getElementById('edit-header-title').value.trim();
-            activeData.hero.title = document.getElementById('edit-hero-title').value;
-            activeData.hero.slogan = document.getElementById('edit-hero-slogan').value;
-            saveAllData(); renderAllSections(); alert("Ayarlar Kaydedildi!");
+            saveAllData(); renderAllSections(); alert("Genel Ayarlar Kaydedildi!");
         }
 
+        // --- ANA EKRAN (HERO) FONKSİYONLARI ---
+        function renderAdminHeroTexts() {
+            const list = document.getElementById('admin-hero-list'); list.innerHTML = '';
+            (activeData.heroTexts || []).forEach(h => {
+                const status = h.isActive ? '<span class="status-badge active">YAYINDA</span>' : '<span class="status-badge">PASİF</span>';
+                const actionBtn = h.isActive 
+                    ? `<button class="admin-btn-delete" style="background:#555;" disabled>Şu an Yayında</button>`
+                    : `<button class="admin-btn-approve" onclick="activateHeroText(${h.id})">Yayına Al</button>`;
+                
+                list.innerHTML += `
+                    <tr>
+                        <td><strong>${h.title}</strong></td>
+                        <td style="font-size:0.8rem;">${h.slogan.substring(0, 50)}...</td>
+                        <td>${status}</td>
+                        <td>
+                            ${actionBtn}
+                            <button class="admin-btn-delete" onclick="deleteHeroText(${h.id})">Sil</button>
+                        </td>
+                    </tr>`;
+            });
+        }
+
+        function addHeroText() {
+            const title = document.getElementById('new-hero-title').value.trim();
+            const slogan = document.getElementById('new-hero-slogan').value.trim();
+            if(!title || !slogan) return;
+            
+            activeData.heroTexts.push({ id: Date.now(), title, slogan, isActive: false });
+            saveAllData(); renderAdminHeroTexts();
+            
+            document.getElementById('new-hero-title').value = '';
+            document.getElementById('new-hero-slogan').value = '';
+        }
+
+        function activateHeroText(id) {
+            activeData.heroTexts.forEach(h => h.isActive = false); // Hepsini pasif yap
+            const selected = activeData.heroTexts.find(h => h.id === id);
+            if(selected) selected.isActive = true; // Sadece seçileni aktif yap
+            
+            saveAllData(); 
+            renderAdminHeroTexts(); 
+            renderAllSections(); 
+        }
+
+        function deleteHeroText(id) { 
+            activeData.heroTexts = activeData.heroTexts.filter(x => x.id !== id); 
+            // Eğer aktif olanı sildiysek ilkini otomatik aktif yap
+            if(!activeData.heroTexts.find(h => h.isActive) && activeData.heroTexts.length > 0) {
+                activeData.heroTexts[0].isActive = true;
+            }
+            saveAllData(); renderAdminHeroTexts(); renderAllSections();
+        }
+
+        // --- YÖNETİM KURULU FONKSİYONLARI ---
         function renderAdminBoard() {
             const list = document.getElementById('admin-board-list'); list.innerHTML = '';
             (activeData.board || []).forEach(b => {
