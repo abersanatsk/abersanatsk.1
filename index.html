@@ -10,23 +10,25 @@
     
     <style id="theme-styles">
         :root {
-            --bg-white: #04060a; /* Uzay Karanlığı */
+            --bg-white: #04060a; 
             --bg-dark: #ffffff;
             --text-light: #04060a;
             --text-dark: #ffffff;
             --text-muted: #8892b0;
-            --accent-color: #ff2a4b; /* Saf Enerji Kırmızısı */
+            --accent-color: #ff2a4b; 
             --premium-gray: rgba(255, 255, 255, 0.02);
             --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             
-            /* Özelleştirilebilir Font ve Boyut Parametreleri */
+            /* Font ve Boyut Parametreleri */
             --font-main: 'Syne', sans-serif;
             --font-sport: 'Space Grotesk', sans-serif;
             --hero-title-size: 8.5rem;
             --section-title-size: 3rem;
             --logo-size: 65px;
+            --hero-slogan-size: 1.3rem;
+            --header-title-size: 1.4rem;
 
-            /* Şablon Tarzı Değişkenleri */
+            /* Şablon Değişkenleri */
             --card-radius: 24px;
             --border-style: 1px solid rgba(255, 255, 255, 0.05);
             --card-align: left;
@@ -34,7 +36,6 @@
     </style>
 
     <style>
-        /* --- GÖRSEL OTOMATİK NETLEŞTİRME VE İYİLEŞTİRME FİLTRELERİ (ULTRA SHARP) --- */
         img, .board-img, .player-img-box img, .kit-img-box img, .transfer-img {
             image-rendering: -webkit-optimize-contrast !important;
             image-rendering: crisp-edges !important;
@@ -69,12 +70,11 @@
         }
 
         .container {
-            max-width: 1400px;
+            max-width: 1450px; /* Header'a biraz daha geniş alan tanındı */
             margin: 0 auto;
-            padding: 0 3rem;
+            padding: 0 2rem;
         }
 
-        /* --- AKIŞKAN ARKA PLAN IŞIKLARI --- */
         body::before {
             content: '';
             position: fixed;
@@ -101,16 +101,16 @@
             filter: blur(120px);
         }
 
-        /* --- SIRA DIŞI HEADER --- */
+        /* --- YENİ DÜZENLİ HEADER (FLEXBOX MİMARİSİ) --- */
         header {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 100;
-            background: rgba(4, 6, 10, 0.7);
-            backdrop-filter: blur(30px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+            background: rgba(4, 6, 10, 0.85); /* Daha net okuma için blur oranı güçlendirildi */
+            backdrop-filter: blur(40px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
             transition: all 0.3s ease;
         }
 
@@ -119,6 +119,7 @@
             justify-content: space-between;
             align-items: center;
             min-height: 110px;
+            gap: 2rem; /* Menü ile logo arasındaki mesafe */
         }
 
         .logo-container {
@@ -126,21 +127,16 @@
             color: #ffffff;
             display: flex;
             align-items: center;
-            position: relative; /* Logoyu bağımsız yapmak için ayarlandı */
-            min-height: 65px;
+            gap: 15px; /* Logo görseli ile yazıların arasındaki boşluk */
+            flex-shrink: 0; /* Logo alanının daralmasını önler */
         }
 
-        /* YENİ: Dinamik ve Bozulmayan (Bağımsız) Logo Görsel Alanı */
         .logo-img-wrapper {
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
             width: var(--logo-size, 65px);
             height: var(--logo-size, 65px);
-            display: none; /* Logo URL eklenene kadar gizli kalır */
-            transition: width 0.3s, height 0.3s;
-            z-index: 105; /* Menünün üzerine taşmasını sağlar ve menüyü bozmaz */
+            display: none;
+            flex-shrink: 0; /* Görselin ezilmesini önler */
+            transition: width 0.3s ease, height 0.3s ease;
         }
 
         .logo-img-wrapper img {
@@ -150,21 +146,21 @@
             filter: drop-shadow(0 4px 15px rgba(0,0,0,0.6));
         }
 
-        /* YENİ: Logo yazısını logonun genişliğine göre kaydıran alan */
         .logo-text-group {
             display: flex;
             flex-direction: column;
             justify-content: center;
-            transition: margin-left 0.3s ease;
         }
 
         .logo-text-top {
             font-family: var(--font-sport);
             font-weight: 700;
-            font-size: 1.4rem;
+            font-size: var(--header-title-size, 1.4rem);
             text-transform: uppercase;
             letter-spacing: -1px;
-            line-height: 1;
+            line-height: 1.1;
+            max-width: 320px; /* İsmin sonsuza uzamasını engeller */
+            transition: font-size 0.3s;
         }
 
         .logo-text-sub {
@@ -172,28 +168,31 @@
             color: var(--accent-color);
             letter-spacing: 5px;
             text-transform: uppercase;
-            margin-top: 5px;
+            margin-top: 4px;
             font-weight: 700;
         }
 
         .nav-links {
             display: flex;
             list-style: none;
-            gap: 1.8rem;
-            flex-wrap: wrap;
+            gap: 1.2rem; /* Linkler arası boşluk biraz optimize edildi */
+            flex-wrap: wrap; 
+            justify-content: flex-end; /* Sağ tarafa yaslandı */
+            align-items: center;
+            flex-grow: 1; /* Kalan tüm boşluğu doldurarak logonun üzerine binmesini engeller */
         }
 
         .nav-links a {
             text-decoration: none;
             color: #ffffff;
             font-weight: 500;
-            font-size: 0.75rem;
+            font-size: 0.7rem; /* Daha nizamlı bir görünüm için küçültüldü */
             text-transform: uppercase;
-            letter-spacing: 3px;
+            letter-spacing: 2px;
             transition: all 0.3s ease;
             position: relative;
             padding: 5px 0;
-            opacity: 0.5;
+            opacity: 0.6;
             cursor: pointer;
         }
 
@@ -218,18 +217,18 @@
             width: 100%;
         }
 
-        /* --- SAYFA GEÇİŞ MANTIĞI (YENİ) --- */
+        /* --- SAYFA GEÇİŞ MANTIĞI --- */
         section {
-            display: none; /* Varsayılan olarak tüm sayfaları gizle */
+            display: none; 
             padding: 10rem 0;
             border-top: 1px solid rgba(255, 255, 255, 0.03);
             position: relative;
             animation: fadeIn 0.6s ease-out;
-            min-height: calc(100vh - 300px); /* Boş sayfalarda altlığın düzgün durması için */
+            min-height: calc(100vh - 300px); 
         }
 
         section.active-page {
-            display: block; /* Sadece seçilen sayfayı göster */
+            display: block; 
         }
 
         section.hero {
@@ -292,6 +291,7 @@
             margin-bottom: 3rem;
             position: relative;
             animation: floatText 4s ease-in-out infinite alternate;
+            transition: font-size 0.3s;
         }
 
         .hero-title-sculpture span {
@@ -330,13 +330,15 @@
         }
 
         .monument-text {
-            font-size: 1.3rem;
+            font-family: var(--font-main);
+            font-size: var(--hero-slogan-size, 1.3rem);
             font-weight: 500;
             color: #e2e8f0;
             line-height: 1.6;
+            transition: font-size 0.3s;
         }
 
-        /* --- SECTIONS BÖLÜM BAŞLIKLARI --- */
+        /* --- SECTIONS --- */
         .section-title {
             font-family: var(--font-sport);
             font-size: var(--section-title-size);
@@ -1051,6 +1053,7 @@
             .admin-content { flex-direction: column; height: 95vh; }
             .admin-sidebar { width: 100%; height: auto; }
             .logo-container { margin-bottom: 1rem; }
+            .nav-links { justify-content: center; }
         }
     </style>
 </head>
@@ -1266,7 +1269,7 @@
                 <div id="tabStyle" class="admin-tab-content">
                     <div class="admin-section-heading">TİPOGRAFİ & STİL EDİTÖRÜ</div>
                     <div class="form-group">
-                        <label>Başlık Yazı Tipi (Font-Family)</label>
+                        <label>Başlıklar ve Menü Yazı Tipi (Font-Family)</label>
                         <select id="style-font-sport" class="form-control">
                             <option value="'Space Grotesk', sans-serif">Space Grotesk (Fütüristik Geometrik)</option>
                             <option value="'Syne', sans-serif">Syne (Avangart Sıvı Tarz)</option>
@@ -1276,7 +1279,7 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Ana Gövde Yazı Tipi</label>
+                        <label>Ana Gövde ve Slogan Yazı Tipi</label>
                         <select id="style-font-main" class="form-control">
                             <option value="'Syne', sans-serif">Syne (Dinamik Estetik)</option>
                             <option value="'Inter', sans-serif">Inter (Ultra Temiz Okunurluk)</option>
@@ -1284,12 +1287,28 @@
                         </select>
                     </div>
                     <div class="form-group">
-                        <label>Ana Sayfa Dev Başlık Boyutu</label>
+                        <label>Menü Kulüp Adı Boyutu</label>
+                        <select id="style-header-title-size" class="form-control">
+                            <option value="1.2rem">Küçük (1.2rem)</option>
+                            <option value="1.4rem">Standart (1.4rem - Varsayılan)</option>
+                            <option value="1.7rem">Büyük (1.7rem)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ana Sayfa Dev Hero Başlık Boyutu</label>
                         <select id="style-hero-size" class="form-control">
                             <option value="5.5rem">Küçük (5.5rem)</option>
                             <option value="7rem">Orta (7.0rem)</option>
                             <option value="8.5rem">Büyük / Dev (8.5rem - Varsayılan)</option>
                             <option value="10rem">Ultra Devasa (10rem)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Hero Alt Yazı / Slogan Boyutu</label>
+                        <select id="style-hero-slogan-size" class="form-control">
+                            <option value="1rem">Minimalist (1rem)</option>
+                            <option value="1.3rem">Standart (1.3rem - Varsayılan)</option>
+                            <option value="1.6rem">Geniş (1.6rem)</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -1484,16 +1503,13 @@
     <script>
         // --- YENİ SAYFA GEÇİŞ MANTIĞI ---
         function switchPage(pageId) {
-            // Tüm sayfaları gizle
             document.querySelectorAll('section').forEach(sec => {
                 sec.classList.remove('active-page');
             });
             
-            // Hedef sayfayı göster
             const target = document.getElementById(pageId);
             if (target) {
                 target.classList.add('active-page');
-                // En üste kaydır
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             }
         }
@@ -1516,7 +1532,6 @@
                     let width = img.width;
                     let height = img.height;
 
-                    // Orantılı Boyutlandırma Algoritması
                     if (width > height) {
                         if (width > maxWidth) {
                             height = Math.round((height * maxWidth) / width);
@@ -1533,33 +1548,25 @@
                     canvas.height = height;
                     const ctx = canvas.getContext('2d');
                     
-                    // Ultra Keskin Filtre Ayarları
                     ctx.imageSmoothingEnabled = true;
                     ctx.imageSmoothingQuality = 'high';
-                    
                     ctx.drawImage(img, 0, 0, width, height);
 
-                    // Yüksek kaliteli JPEG formatında (0.85 oranında) sıkıştırıp Base64 çıktısı alma
-                    const base64Data = canvas.toDataURL('image/png'); // Logo saydamlığını korumak için PNG'ye çevrildi
+                    const base64Data = canvas.toDataURL('image/png');
                     
                     if (targetField) {
                         activeData[targetField] = base64Data;
-                        
-                        // İlgili yazı kutularını güncelleme
                         const textInputId = targetField === 'logoUrl' ? 'edit-logo-url' : (targetField === 'heroBgUrl' ? 'edit-hero-bg-url' : '');
                         if (textInputId && document.getElementById(textInputId)) {
                             document.getElementById(textInputId).value = "[Cihazdan Yüklendi]";
                         }
                     }
                     
-                    if (callback) {
-                        callback(base64Data);
-                    }
+                    if (callback) { callback(base64Data); }
                     
                     if (inputElement.previousElementSibling && inputElement.previousElementSibling.tagName === "LABEL") {
                         inputElement.previousElementSibling.innerText = originalText;
                     }
-                    
                     alert("Görsel başarıyla optimize edildi ve eklendi!");
                 };
                 img.src = event.target.result;
@@ -1567,7 +1574,6 @@
             reader.readAsDataURL(file);
         }
 
-        // --- BELİRLİ GÖRSELİ TEMİZLEME MOTORU ---
         function clearImage(targetField) {
             if (targetField === 'logoUrl') {
                 activeData.logoUrl = "";
@@ -1583,12 +1589,9 @@
             alert("Görsel başarıyla kaldırıldı veya varsayılana sıfırlandı!");
         }
 
-        // --- GOOGLE DRIVE DIRECT LINK TRANSLATOR (FALLBACK) ---
         function convertDriveUrl(url) {
             if (!url || typeof url !== 'string') return '';
             let rawUrl = url.trim();
-            
-            // Eğer Base64 verisi ise dönüştürücüyü tamamen bypass et
             if (rawUrl.startsWith('data:image')) return rawUrl;
             
             let fileId = '';
@@ -1609,7 +1612,6 @@
             return rawUrl;
         }
 
-        // --- TRAFFIC MONITOR ---
         function updateTrafficStats() {
             try {
                 let totalVisits = parseInt(localStorage.getItem('aber_total_visits') || "0");
@@ -1621,9 +1623,7 @@
                 if (lastVisitDate !== todayStr) {
                     dailyVisits = 1;
                     localStorage.setItem('aber_last_visit_date', todayStr);
-                } else {
-                    dailyVisits++;
-                }
+                } else { dailyVisits++; }
 
                 totalVisits++;
 
@@ -1632,9 +1632,7 @@
 
                 document.getElementById('daily-visits-counter').innerText = dailyVisits;
                 document.getElementById('total-visits-counter').innerText = totalVisits;
-            } catch (e) {
-                console.error(e);
-            }
+            } catch (e) { console.error(e); }
         }
 
         function getEmbedVideoUrl(videoUrl) {
@@ -1660,8 +1658,8 @@
             currentLayout: "asymmetric",
             logoUrl: "",
             logoSize: "65",
-            heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
             headerTitle: "KARAMAN ABER SANAT GÜCÜ",
+            heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
             hero: { title: "İNANÇ", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
             contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "ridvan@abersanatsk.org", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
             styles: {
@@ -1669,6 +1667,8 @@
                 fontMain: "'Syne', sans-serif",
                 heroTitleSize: "8.5rem",
                 sectionTitleSize: "3rem",
+                heroSloganSize: "1.3rem",
+                headerTitleSize: "1.4rem",
                 accentColor: "#ff2a4b"
             },
             posts: [],
@@ -1686,8 +1686,7 @@
 
         function loadAllData() {
             try {
-                // Temiz yeni versiyon depolama kilidi
-                const saved = localStorage.getItem('aber_sk_premium_data_v16');
+                const saved = localStorage.getItem('aber_sk_premium_data_v17');
                 activeData = JSON.parse(JSON.stringify(defaultData));
                 if (saved) {
                     const parsed = JSON.parse(saved);
@@ -1712,7 +1711,7 @@
         }
 
         function saveAllData() {
-            localStorage.setItem('aber_sk_premium_data_v16', JSON.stringify(activeData));
+            localStorage.setItem('aber_sk_premium_data_v17', JSON.stringify(activeData));
         }
 
         function applySavedTheme() {
@@ -1726,6 +1725,8 @@
                     --font-main: ${s.fontMain || "'Syne', sans-serif"};
                     --hero-title-size: ${s.heroTitleSize || "8.5rem"};
                     --section-title-size: ${s.sectionTitleSize || "3rem"};
+                    --hero-slogan-size: ${s.heroSloganSize || "1.3rem"};
+                    --header-title-size: ${s.headerTitleSize || "1.4rem"};
                     --accent-color: ${s.accentColor || "#ff2a4b"};
                     --logo-size: ${activeData.logoSize || "65"}px;
                 }
@@ -1745,22 +1746,17 @@
             document.getElementById('header-club-title').innerText = rawHeaderTitle;
             document.getElementById('footer-logo-text').innerText = rawHeaderTitle;
 
-            // --- YENİ: Logo ve Metin Ayırıcı Düzeni ---
+            // --- YENİ LOGO YERLEŞİMİ ---
             const headerLogoImg = document.getElementById('header-logo-img');
             const headerLogoWrapper = document.getElementById('header-logo-wrapper');
-            const logoTextGroup = document.getElementById('logo-text-group');
             
             if (activeData.logoUrl && activeData.logoUrl.trim() !== "") {
                 headerLogoImg.src = convertDriveUrl(activeData.logoUrl);
                 headerLogoWrapper.style.display = "block";
-                // Logo büyüdüğünde yanındaki yazıları logoya çarpmaması için öteye itekler
-                logoTextGroup.style.marginLeft = `calc(${activeData.logoSize || '65'}px + 15px)`;
             } else {
                 headerLogoWrapper.style.display = "none";
-                logoTextGroup.style.marginLeft = '0px';
             }
 
-            // Hero Arka Planı (Drive ve Base64 Desteğiyle)
             const heroBgOverlay = document.getElementById('hero-bg-overlay');
             const cleanBg = convertDriveUrl(activeData.heroBgUrl);
             heroBgOverlay.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
@@ -1820,7 +1816,7 @@
             document.getElementById('mf-section').style.display = mfContainer.innerHTML ? 'block' : 'none';
             document.getElementById('fw-section').style.display = fwContainer.innerHTML ? 'block' : 'none';
 
-            // Forma Render
+            // Formalar
             const kitsContainer = document.getElementById('kits-container');
             kitsContainer.innerHTML = '';
             (activeData.kits || []).forEach(k => {
@@ -1831,7 +1827,7 @@
                     </div>`;
             });
 
-            // Transfer Gündemi
+            // Transferler
             const transfersGrid = document.getElementById('transfers-container');
             transfersGrid.innerHTML = '';
             (activeData.transfers || []).forEach(t => {
@@ -1867,7 +1863,7 @@
                 galleryGrid.appendChild(box);
             });
 
-            // --- YENİ: Dinamik Sayfa ve Menü Render (switchPage Fonksiyonu ile entegre) ---
+            // Dinamik Sayfa Render & Menü
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             const mainNavLinks = document.getElementById('main-nav-links');
             mainNavLinks.innerHTML = `
@@ -1909,7 +1905,7 @@
             document.getElementById('club-email-2').innerText = contactData.email2 || defaultData.contact.email2;
             document.getElementById('club-address-text').innerHTML = contactData.address || defaultData.contact.address;
 
-            // Eğer şu an aktif bir sayfa yoksa Anasayfaya döndür
+            // Açılışta Anasayfada değilse anasayfayı aktifleştir
             const activeSections = document.querySelectorAll('section.active-page');
             if (activeSections.length === 0) {
                 switchPage('home');
@@ -1975,7 +1971,6 @@
         }
 
         function saveSettings() {
-            // Eğer dosya seçilmediyse manuel girilen url'yi oku, seçildiyse zaten base64 kaydedilmiştir.
             const urlLogo = document.getElementById('edit-logo-url').value.trim();
             if (urlLogo !== "[Cihazdan Yüklendi]" && urlLogo !== "") {
                 activeData.logoUrl = convertDriveUrl(urlLogo);
@@ -2007,6 +2002,8 @@
             document.getElementById('style-font-main').value = s.fontMain || "'Syne', sans-serif";
             document.getElementById('style-hero-size').value = s.heroTitleSize || "8.5rem";
             document.getElementById('style-section-size').value = s.sectionTitleSize || "3rem";
+            document.getElementById('style-header-title-size').value = s.headerTitleSize || "1.4rem";
+            document.getElementById('style-hero-slogan-size').value = s.heroSloganSize || "1.3rem";
             document.getElementById('style-accent-color').value = s.accentColor || "#ff2a4b";
         }
 
@@ -2016,6 +2013,8 @@
             activeData.styles.fontMain = document.getElementById('style-font-main').value;
             activeData.styles.heroTitleSize = document.getElementById('style-hero-size').value;
             activeData.styles.sectionTitleSize = document.getElementById('style-section-size').value;
+            activeData.styles.headerTitleSize = document.getElementById('style-header-title-size').value;
+            activeData.styles.heroSloganSize = document.getElementById('style-hero-slogan-size').value;
             activeData.styles.accentColor = document.getElementById('style-accent-color').value;
             saveAllData();
             applySavedTheme();
@@ -2023,7 +2022,7 @@
             alert("Tipografi ve stil tercihleri başarıyla uygulandı!");
         }
 
-        // BÖLÜM EKLE / SİL MOTORLARI
+        // BÖLÜM EKLE / SİL MOTORLARI (Değiştirilmedi, Korundu)
         function renderAdminBoard() {
             const list = document.getElementById('admin-board-list'); list.innerHTML = '';
             (activeData.board || []).forEach(b => {
@@ -2211,7 +2210,6 @@
             activeData.adminPassword = nw; saveAllData(); alert("Şifre güncellendi!");
         }
 
-        // --- RENK PALETLERİ ---
         const themes = {
             classic: `:root { --bg-white: #04060a; --bg-dark: #ffffff; --text-light: #04060a; --text-dark: #ffffff; --text-muted: #8892b0; --accent-color: #ff2a4b; --premium-gray: rgba(255, 255, 255, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
             karamanAtesi: `:root { --bg-white: #0f0103; --bg-dark: #ffffff; --text-light: #0f0103; --text-dark: #ffffff; --text-muted: #c9a4a7; --accent-color: #c1121f; --premium-gray: rgba(193, 18, 31, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
@@ -2222,7 +2220,6 @@
             cyberpunk: `:root { --bg-white: #05070a; --bg-dark: #ffffff; --text-light: #05070a; --text-dark: #ffffff; --text-muted: #84939c; --accent-color: #f97316; --premium-gray: rgba(249, 115, 22, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`
         };
 
-        // --- YERLEŞİM ŞABLONLARI ---
         const layouts = {
             asymmetric: `
                 :root {
