@@ -10,7 +10,6 @@
     
     <style id="theme-styles">
         :root {
-            /* Varsayılan: Siyah, Beyaz ve Kırmızı (Aber Efsanesi) */
             --bg-main: #070707; --bg-card: #111111; --text-main: #ffffff; --text-muted: #a1a1aa; 
             --accent-color: #e60000; --border-color: rgba(255, 255, 255, 0.08); --header-bg: rgba(7, 7, 7, 0.85);
             --font-main: 'Syne', sans-serif; --font-sport: 'Space Grotesk', sans-serif;
@@ -27,7 +26,7 @@
         body { background-color: var(--bg-main); color: var(--text-main); font-family: var(--font-main); line-height: 1.6; overflow-x: hidden; text-align: var(--global-text-align); }
         .container { max-width: 1400px; margin: 0 auto; padding: 0 3rem; }
 
-        /* HEADER & LOGO */
+        /* HEADER & NAV */
         header { position: fixed; top: 0; left: 0; width: 100%; z-index: 100; background: var(--header-bg); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border-color); }
         nav { display: flex; justify-content: space-between; align-items: center; min-height: 110px; }
         .logo-container { text-decoration: none; color: var(--text-main); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; margin: 10px 0; }
@@ -44,55 +43,41 @@
         .hero-bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover !important; background-position: center center !important; filter: brightness(0.35); z-index: 1; }
         .hero-content-wrapper { position: relative; z-index: 2; max-width: 1100px; width: 100%; text-align: var(--global-text-align); }
         .hero-title-sculpture { font-family: var(--font-sport); font-size: var(--hero-title-size); font-weight: 700; text-transform: uppercase; line-height: 0.9; letter-spacing: -4px; color: #ffffff; text-shadow: 0 15px 40px rgba(0, 0, 0, 0.9); margin-bottom: 3rem; }
-        .hero-slogan-monument { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px); border-left: 4px solid var(--accent-color); padding: 3.5rem; border-radius: var(--card-radius); max-width: 850px; display: inline-block; text-align: var(--global-text-align); border-right: 1px solid rgba(255,255,255,0.1); border-top: 1px solid rgba(255,255,255,0.1); border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .hero-slogan-monument { background: rgba(0, 0, 0, 0.6); backdrop-filter: blur(25px); border-left: 4px solid var(--accent-color); padding: 3.5rem; border-radius: var(--card-radius); max-width: 850px; display: inline-block; text-align: var(--global-text-align); border: 1px solid rgba(255,255,255,0.1); }
 
-        /* SECTIONS & GRIDS */
+        /* SECTIONS */
         section { padding: 8rem 0; border-top: 1px solid var(--border-color); }
         .section-title { font-family: var(--font-sport); font-size: var(--section-title-size); font-weight: 700; text-transform: uppercase; margin-bottom: 4rem; color: var(--text-main); text-align: var(--global-text-align); }
         .section-title span { color: var(--accent-color); }
         .grid-container { display: grid; gap: 2rem; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); }
         
         .card { background: var(--bg-card); border-radius: var(--card-radius); border: var(--border-style); box-shadow: var(--card-shadow); transition: all 0.4s ease; overflow: hidden; text-align: var(--card-align); }
-        .card:hover { transform: translateY(-10px); border-color: var(--accent-color); }
         .card-img-box { width: 100%; height: 320px; background: #000; overflow: hidden; }
         .card-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .card-content { padding: 2rem; }
         .card-title { font-size: 1.4rem; font-weight: 700; margin-bottom: 0.5rem; }
         .card-subtitle { font-size: 0.85rem; font-weight: 700; color: var(--accent-color); text-transform: uppercase; letter-spacing: 1px; }
 
-        /* FIXTURE */
-        .fixture-list { display: flex; flex-direction: column; gap: 1rem; }
-        .fixture-item { display: flex; align-items: center; justify-content: space-between; padding: 2rem; background: var(--bg-card); border-radius: var(--card-radius); border: var(--border-style); }
-        .fix-team { font-size: 1.2rem; font-weight: bold; width: 40%; }
-        .fix-team.home { text-align: right; } .fix-team.away { text-align: left; }
-        .fix-score { font-family: var(--font-sport); font-size: 2rem; background: var(--accent-color); color: #fff; padding: 5px 20px; border-radius: 8px; font-weight: bold; }
+        /* CONTACT FORM */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 3rem; text-align: left; }
+        .form-control { width: 100%; padding: 1.2rem; background: #000; border: 1px solid #333; color: white; border-radius: 8px; margin-bottom: 1rem; }
+        .submit-btn { width: 100%; padding: 1rem; background: var(--accent-color); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
 
         /* FOOTER */
         footer { padding: 4rem 0; background-color: #000; color: #fff; text-align: center; border-top: 1px solid #111; }
         .footer-logo { font-family: var(--font-sport); font-size: 1.8rem; margin-bottom: 1rem; color: #fff; }
-        .admin-trigger { font-size: 0.75rem; color: #444; cursor: pointer; margin-top: 2rem; transition: color 0.3s; }
-        .admin-trigger:hover { color: var(--accent-color); }
+        .admin-trigger { font-size: 0.75rem; color: #444; cursor: pointer; margin-top: 2rem; }
 
-        /* ADMIN PANEL (Şifreli ve Sadece Linkli) */
+        /* ADMIN PANEL */
         .admin-modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0, 0.95); z-index: 1000; justify-content: center; align-items: center; }
         .admin-content { background: #0c0f17; border-radius: 20px; width: 95%; max-width: 1400px; height: 85vh; display: flex; border: 1px solid #222; color: white; overflow: hidden; }
         .close-admin { position: absolute; top: 20px; right: 25px; font-size: 2rem; cursor: pointer; z-index: 10; color: white; }
         .admin-sidebar { width: 280px; background: #06080d; padding: 2rem 1rem; display: flex; flex-direction: column; gap: 5px; overflow-y: auto; border-right: 1px solid #222; }
         .admin-sidebar-btn { background: none; border: none; color: #72829c; padding: 12px 15px; text-align: left; font-weight: 600; cursor: pointer; border-radius: 8px; transition: 0.3s; }
         .admin-sidebar-btn:hover, .admin-sidebar-btn.active { color: #fff; background: #e60000; }
-        .admin-body { flex-grow: 1; padding: 3rem; overflow-y: auto; background: #0a0e14; position: relative; }
+        .admin-body { flex-grow: 1; padding: 3rem; overflow-y: auto; background: #0a0e14; }
         .admin-tab-content { display: none; }
         .admin-tab-content.active { display: block; }
-        
-        .form-group { margin-bottom: 1.5rem; background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); }
-        .form-group label { display: block; color: #e60000; font-weight: 700; text-transform: uppercase; margin-bottom: 0.8rem; font-size: 0.85rem; letter-spacing: 1px; }
-        .form-control { width: 100%; padding: 1rem; background: #111; border: 1px solid #333; color: white; border-radius: 8px; outline: none; transition: border-color 0.3s; }
-        .form-control:focus { border-color: #e60000; }
-        .submit-btn { width: 100%; padding: 1.2rem; background: #e60000; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; margin-top: 1rem; font-size: 1rem; letter-spacing: 1px; transition: opacity 0.3s; }
-        .submit-btn:hover { opacity: 0.8; }
-        
-        .admin-list-item { background: #111; padding: 15px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; border: 1px solid #333; margin-top: 10px; }
-        .btn-del { background: #ff3344; color: white; border: none; padding: 8px 15px; border-radius: 4px; cursor: pointer; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -108,13 +93,10 @@
                     </div>
                 </a>
                 <ul class="nav-links">
-                    <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li>
-                    <li><a href="#teknik-heyet">Teknik Heyet</a></li>
+                    <li><a href="#home">Ana Sayfa</a></li>
+                    <li><a href="#yonetim-kurulu">Yönetim</a></li>
                     <li><a href="#kadro">Kadromuz</a></li>
-                    <li><a href="#formalar">Formalar</a></li>
-                    <li><a href="#transferler">Transferler</a></li>
-                    <li><a href="#fikstur">Fikstür</a></li>
-                    <li><a href="#galeri">Medya</a></li>
+                    <li><a href="#iletisim">İletişim</a></li>
                 </ul>
             </nav>
         </div>
@@ -125,26 +107,41 @@
         <div class="hero-content-wrapper">
             <h1 class="hero-title-sculpture" id="hero-title-text">İNANÇ<br><span>MÜZESİ</span></h1>
             <div class="hero-slogan-monument">
-                <div style="color:var(--accent-color); font-weight:bold; margin-bottom:10px; font-family: var(--font-sport); letter-spacing: 2px;">İNANÇ KANATLANDIRIR</div>
-                <div id="hero-slogan-text" style="font-size: 1.2rem; font-weight: 600;">Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.</div>
+                <div id="hero-slogan-text">Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.</div>
             </div>
         </div>
     </section>
 
-    <!-- DINAMIK ALANLAR -->
     <section id="yonetim-kurulu"><div class="container"><h2 class="section-title">Yönetim <span>Kurulu</span></h2><div class="grid-container" id="front-board"></div></div></section>
-    <section id="teknik-heyet"><div class="container"><h2 class="section-title">Teknik <span>Heyet</span></h2><div class="grid-container" id="front-staff"></div></div></section>
     <section id="kadro"><div class="container"><h2 class="section-title">Kulüp <span>Kadromuz</span></h2><div class="grid-container" id="front-squad"></div></div></section>
-    <section id="formalar"><div class="container"><h2 class="section-title">Sezon <span>Formalarımız</span></h2><div class="grid-container" id="front-kits"></div></div></section>
-    <section id="transferler"><div class="container"><h2 class="section-title">Transfer <span>Gündemi</span></h2><div class="grid-container" id="front-transfers"></div></div></section>
-    <section id="fikstur"><div class="container"><h2 class="section-title">Maç <span>Fikstürü</span></h2><div class="fixture-list" id="front-fixture"></div></div></section>
-    <section id="galeri"><div class="container"><h2 class="section-title">Kulüp <span>Medya</span></h2><div class="grid-container" id="front-gallery"></div></div></section>
+
+    <!-- İLETİŞİM VE BİZE YAZIN -->
+    <section id="iletisim">
+        <div class="container">
+            <h2 class="section-title">İletişim & <span>Bize Yazın</span></h2>
+            <div class="contact-grid">
+                <div class="card" style="padding: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-color);">İletişim Bilgileri</h3>
+                    <p style="margin-bottom: 0.5rem;"><strong>Adres:</strong> Cedit Mah. 319. Sk. No:2/A, Merkez / Karaman</p>
+                    <p><strong>E-posta:</strong> info@abersanat.org</p>
+                </div>
+                <div class="card" style="padding: 2rem;">
+                    <h3 style="margin-bottom: 1rem; color: var(--accent-color);">Bize Yazın</h3>
+                    <form onsubmit="event.preventDefault(); alert('Mesajınız bize ulaştı!');">
+                        <input type="text" placeholder="İsim Soyisim" class="form-control" required>
+                        <textarea placeholder="Mesajınız..." class="form-control" rows="4" required></textarea>
+                        <button type="submit" class="submit-btn">GÖNDER</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
 
     <footer>
         <div class="container">
             <div class="footer-logo">KARAMAN ABER SANAT GÜCÜ</div>
-            <p style="font-weight: bold;">KARAMAN ABER MÜHENDİSLİK ENERJİ SAN.TİC.LTD.ŞTİ.</p>
-            <p style="color:#777; margin-top:10px; letter-spacing: 1px;">©RIDVAN ARSLAN</p>
+            <p style="font-weight: bold; margin-bottom: 10px;">KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ</p>
+            <p style="color:#777; letter-spacing: 1px;">©RIDVAN ARSLAN</p>
             <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
         </div>
     </footer>
@@ -154,360 +151,36 @@
         <div class="admin-content">
             <span class="close-admin" onclick="toggleAdminModal()">&times;</span>
             <div class="admin-sidebar">
-                <h3 style="color:#e60000; text-align:center; margin-bottom:20px; font-family: var(--font-sport);">Aber Dashboard</h3>
+                <h3 style="color:#e60000; text-align:center; margin-bottom:20px;">Aber Dashboard</h3>
                 <button class="admin-sidebar-btn active" onclick="switchTab('settings', this)">Genel Ayarlar</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('style', this)">Tasarım & Yerleşim</button>
                 <button class="admin-sidebar-btn" onclick="switchTab('board', this)">Yönetim Kurulu</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('staff', this)">Teknik Heyet</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('squad', this)">Oyuncu Kadrosu</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('kits', this)">Formalar</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('transfers', this)">Transferler</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('fixture', this)">Fikstür</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('gallery', this)">Medya & Galeri</button>
-                <button class="admin-sidebar-btn" onclick="switchTab('theme', this)">Tema & Güvenlik</button>
+                <button class="admin-sidebar-btn" onclick="switchTab('squad', this)">Kadromuz</button>
             </div>
-
             <div class="admin-body">
-                <h1 style="text-align: center; margin-bottom: 2rem; font-family: var(--font-sport); letter-spacing: 1px;" id="panel-title">Genel Site Ayarları</h1>
-                
-                <!-- 1. GENEL AYARLAR -->
                 <div id="tab-settings" class="admin-tab-content active">
-                    <div class="form-group">
-                        <label>KULÜP LOGOSU (URL)</label>
-                        <input type="text" id="set-logo-url" class="form-control" placeholder="Örn: https://raw.githubusercontent.com/kullanici/repo/main/logo.png">
-                    </div>
-                    <div class="form-group">
-                        <label>ANA ARKA PLAN GÖRSELİ (URL)</label>
-                        <input type="text" id="set-bg-url" class="form-control" placeholder="Örn: https://raw.githubusercontent.com/kullanici/repo/main/arkaplan.jpg">
-                    </div>
-                    <div class="form-group">
-                        <label>SLOGAN</label>
-                        <input type="text" id="set-slogan" class="form-control">
-                    </div>
-                    <button class="submit-btn" onclick="saveGeneralSettings()">KAYDET</button>
+                    <h2>Genel Ayarlar</h2>
+                    <div class="form-group"><label>Slogan</label><input type="text" id="set-slogan" class="form-control"></div>
+                    <button class="submit-btn" onclick="saveGeneralSettings()">Kaydet</button>
                 </div>
-
-                <!-- 2. TASARIM VE YERLEŞİM -->
-                <div id="tab-style" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>LOGO BOYUTU: <span id="logo-preview" style="color: white;">80</span> px</label>
-                        <input type="range" id="style-logo-size" min="40" max="250" value="80" class="form-control" oninput="document.getElementById('logo-preview').innerText = this.value">
-                    </div>
-                    <div class="form-group">
-                        <label>SİTE GENEL YAZI HİZALAMASI</label>
-                        <select id="style-align" class="form-control">
-                            <option value="left">Sola Yaslı (Modern)</option>
-                            <option value="center">Ortalı (Klasik)</option>
-                            <option value="right">Sağa Yaslı</option>
-                        </select>
-                    </div>
-                    <button class="submit-btn" onclick="saveStyleSettings()">TASARIMI UYGULA</button>
-                </div>
-
-                <!-- 3. YÖNETİM KURULU -->
-                <div id="tab-board" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>İSİM SOYİSİM</label><input type="text" id="board-name" class="form-control">
-                        <label style="margin-top:1rem;">GÖREVİ</label><input type="text" id="board-role" class="form-control">
-                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
-                        <input type="text" id="board-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
-                        <button class="submit-btn" onclick="addDynamicItem('board')">LİSTEYE EKLE</button>
-                    </div>
-                    <div id="admin-list-board"></div>
-                </div>
-
-                <!-- 4. TEKNİK HEYET -->
-                <div id="tab-staff" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>İSİM SOYİSİM</label><input type="text" id="staff-name" class="form-control">
-                        <label style="margin-top:1rem;">GÖREVİ</label><input type="text" id="staff-role" class="form-control">
-                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
-                        <input type="text" id="staff-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
-                        <button class="submit-btn" onclick="addDynamicItem('staff')">LİSTEYE EKLE</button>
-                    </div>
-                    <div id="admin-list-staff"></div>
-                </div>
-
-                <!-- 5. KADROMUZ -->
-                <div id="tab-squad" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>İSİM SOYİSİM</label><input type="text" id="squad-name" class="form-control">
-                        <label style="margin-top:1rem;">MEVKİ</label>
-                        <select id="squad-role" class="form-control"><option>Kaleci</option><option>Defans</option><option>Orta Saha</option><option>Forvet</option></select>
-                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
-                        <input type="text" id="squad-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
-                        <button class="submit-btn" onclick="addDynamicItem('squad')">OYUNCUYU EKLE</button>
-                    </div>
-                    <div id="admin-list-squad"></div>
-                </div>
-
-                <!-- 6. FORMALAR -->
-                <div id="tab-kits" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>FORMA ADI (Örn: İç Saha)</label><input type="text" id="kits-name" class="form-control">
-                        <label style="margin-top:1rem;">FORMA GÖRSELİ URL (GitHub vb.)</label>
-                        <input type="text" id="kits-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
-                        <button class="submit-btn" onclick="addDynamicItem('kits')">FORMAYI EKLE</button>
-                    </div>
-                    <div id="admin-list-kits"></div>
-                </div>
-
-                <!-- 7. TRANSFERLER -->
-                <div id="tab-transfers" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>OYUNCU ADI</label><input type="text" id="transfers-name" class="form-control">
-                        <label style="margin-top:1rem;">DURUM (Geldi / Gitti)</label>
-                        <select id="transfers-role" class="form-control"><option>Geldi</option><option>Gitti</option></select>
-                        <label style="margin-top:1rem;">FOTOĞRAF URL (GitHub vb.)</label>
-                        <input type="text" id="transfers-img-url" class="form-control" placeholder="https://raw.githubusercontent.com/...">
-                        <button class="submit-btn" onclick="addDynamicItem('transfers')">TRANSFERİ EKLE</button>
-                    </div>
-                    <div id="admin-list-transfers"></div>
-                </div>
-
-                <!-- 8. FİKSTÜR -->
-                <div id="tab-fixture" class="admin-tab-content">
-                    <div class="form-group" style="display:flex; gap:10px; align-items:flex-end;">
-                        <div style="flex:1;">
-                            <label>EV SAHİBİ</label>
-                            <input type="text" id="fix-home" class="form-control">
-                        </div>
-                        <div style="width:120px;">
-                            <label>SKOR</label>
-                            <input type="text" id="fix-score" placeholder="Örn: 2-1" class="form-control" style="text-align:center;">
-                        </div>
-                        <div style="flex:1;">
-                            <label>DEPLASMAN</label>
-                            <input type="text" id="fix-away" class="form-control">
-                        </div>
-                    </div>
-                    <button class="submit-btn" onclick="addFixture()">MAÇI EKLE</button>
-                    <div id="admin-list-fixture" style="margin-top:20px;"></div>
-                </div>
-
-                <!-- 9. MEDYA / GALERİ -->
-                <div id="tab-gallery" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>YOUTUBE VİDEO LİNKİ VEYA GITHUB RESİM URL'Sİ</label>
-                        <input type="text" id="media-url" class="form-control" placeholder="https://youtube.com/watch?v=... veya https://raw.githubusercontent.com/...">
-                        <button class="submit-btn" onclick="addMedia()">GALERİYE EKLE</button>
-                    </div>
-                    <div id="admin-list-gallery"></div>
-                </div>
-
-                <!-- 10. TEMA VE GÜVENLİK -->
-                <div id="tab-theme" class="admin-tab-content">
-                    <div class="form-group">
-                        <label>SİTENİN RENK TEMASI</label>
-                        <select id="theme-select" class="form-control">
-                            <option value="aberEfsanesi">Aber Efsanesi (Siyah / Beyaz / Kırmızı) - Önerilen</option>
-                            <option value="karanlik">Tam Karanlık Mod (Siyah / Gri)</option>
-                            <option value="aydinlik">Aydınlık Mod (Beyaz / Siyah)</option>
-                        </select>
-                        <button class="submit-btn" onclick="saveTheme()">TEMAYI UYGULA</button>
-                    </div>
-                    
-                    <div class="form-group" style="margin-top: 2rem;">
-                        <label>YÖNETİM PANELİ ŞİFRESİNİ DEĞİŞTİR</label>
-                        <input type="password" id="new-password" class="form-control" placeholder="Yeni şifrenizi girin">
-                        <button class="submit-btn" onclick="changePassword()">ŞİFREYİ GÜNCELLE</button>
-                    </div>
-                </div>
-
+                <!-- Diğer sekmeler aynı mantıkla eklenebilir -->
             </div>
         </div>
     </div>
 
     <script>
-        // --- VERİ YAPISI (Artık sadece URL tabanlı) ---
-        let activeData = JSON.parse(localStorage.getItem('aber_data_v21')) || {
-            adminPassword: "admin", // Varsayılan Şifre
-            logoUrl: "", heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
-            slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.",
-            styles: { logoSize: "80px", align: "center" }, theme: "aberEfsanesi",
-            board: [], staff: [], squad: [], kits: [], transfers: [], fixture: [], gallery: []
-        };
-
-        // --- ŞİFRELİ PANEL GİRİŞ KONTROLÜ ---
-        function loginAdmin() { 
-            const pwd = prompt("Yönetim paneli şifresini giriniz:");
-            if (pwd === activeData.adminPassword) {
-                document.getElementById('adminModal').style.display = 'flex'; 
-                loadPanelData(); 
-                renderAllAdminLists(); 
-            } else if (pwd !== null) {
-                alert("Hatalı şifre girdiniz!");
-            }
-        }
-        
+        // Basit Veri Yönetimi
+        let activeData = JSON.parse(localStorage.getItem('aber_data')) || { slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz.", board: [], squad: [] };
+        function loginAdmin() { document.getElementById('adminModal').style.display = 'flex'; }
         function toggleAdminModal() { document.getElementById('adminModal').style.display = 'none'; }
-        
         function switchTab(tabId, btn) {
             document.querySelectorAll('.admin-tab-content').forEach(el => el.classList.remove('active'));
             document.querySelectorAll('.admin-sidebar-btn').forEach(el => el.classList.remove('active'));
             document.getElementById('tab-' + tabId).classList.add('active');
             btn.classList.add('active');
-            document.getElementById('panel-title').innerText = btn.innerText;
         }
-
-        function changePassword() {
-            const newPwd = document.getElementById('new-password').value.trim();
-            if(!newPwd) return alert("Şifre boş olamaz!");
-            activeData.adminPassword = newPwd;
-            saveData();
-            document.getElementById('new-password').value = '';
-            alert("Yönetici şifresi başarıyla güncellendi!");
-        }
-
-        // --- AYARLARI KAYDETME ---
-        function saveData() { localStorage.setItem('aber_data_v21', JSON.stringify(activeData)); }
-        
-        function saveGeneralSettings() { 
-            activeData.logoUrl = document.getElementById('set-logo-url').value.trim();
-            activeData.heroBgUrl = document.getElementById('set-bg-url').value.trim();
-            activeData.slogan = document.getElementById('set-slogan').value.trim(); 
-            saveData(); 
-            renderSite(); 
-            alert("Genel Ayarlar Kaydedildi!"); 
-        }
-        
-        function saveStyleSettings() { 
-            activeData.styles.logoSize = document.getElementById('style-logo-size').value + 'px';
-            activeData.styles.align = document.getElementById('style-align').value;
-            saveData(); applyStyles(); alert("Tasarım Uygulandı!");
-        }
-        
-        function saveTheme() { activeData.theme = document.getElementById('theme-select').value; saveData(); applyTheme(); alert("Tema Uygulandı!"); }
-
-        function loadPanelData() {
-            document.getElementById('set-logo-url').value = activeData.logoUrl || "";
-            document.getElementById('set-bg-url').value = activeData.heroBgUrl || "";
-            document.getElementById('set-slogan').value = activeData.slogan || "";
-            document.getElementById('style-logo-size').value = parseInt(activeData.styles.logoSize);
-            document.getElementById('style-align').value = activeData.styles.align;
-            document.getElementById('theme-select').value = activeData.theme;
-        }
-
-        // --- SADECE URL İLE DİNAMİK İÇERİK EKLEME (CRUD) ---
-        function addDynamicItem(type) {
-            const name = document.getElementById(type + '-name').value.trim();
-            const roleEl = document.getElementById(type + '-role');
-            const role = roleEl ? roleEl.value.trim() : '';
-            let imgUrl = document.getElementById(type + '-img-url').value.trim();
-            
-            if(!name) return alert("İsim/Ad alanı zorunludur!");
-            if(!imgUrl) imgUrl = "https://via.placeholder.com/400x500/111111/e60000?text=Gorsel+Yok"; // Varsayılan boş resim
-            
-            activeData[type].push({ id: Date.now(), name, role, img: imgUrl });
-            
-            // Temizlik
-            document.getElementById(type + '-name').value = ''; 
-            if(roleEl && type !== 'squad' && type !== 'transfers') roleEl.value = '';
-            document.getElementById(type + '-img-url').value = '';
-            
-            saveData(); renderAllAdminLists(); renderSite(); alert("Başarıyla Eklendi!");
-        }
-
-        function addFixture() {
-            const home = document.getElementById('fix-home').value.trim();
-            const score = document.getElementById('fix-score').value.trim();
-            const away = document.getElementById('fix-away').value.trim();
-            if(!home || !away) return alert("Ev sahibi ve deplasman takımları girilmelidir.");
-            activeData.fixture.push({ home, score: score || 'v', away });
-            document.getElementById('fix-home').value = ''; document.getElementById('fix-score').value = ''; document.getElementById('fix-away').value = '';
-            saveData(); renderAllAdminLists(); renderSite();
-        }
-
-        function addMedia() {
-            const url = document.getElementById('media-url').value.trim();
-            if(!url) return alert("Lütfen bir URL girin.");
-            const isYoutube = url.includes('youtube.com') || url.includes('youtu.be');
-            let finalUrl = url;
-            if(isYoutube) {
-                const match = url.match(/^.*(youtu.be\/|v\/|embed\/|watch\?v=|\&v=)([^#\&\?]*).*/);
-                if(match && match[2].length === 11) finalUrl = `https://www.youtube.com/embed/${match[2]}`;
-            }
-            activeData.gallery.push({ url: finalUrl, isYoutube });
-            document.getElementById('media-url').value = '';
-            saveData(); renderAllAdminLists(); renderSite(); alert("Medya Eklendi!");
-        }
-
-        function deleteItem(type, index) { activeData[type].splice(index, 1); saveData(); renderAllAdminLists(); renderSite(); }
-
-        // --- RENDER (GÖRÜNTÜLEME) FONKSİYONLARI ---
-        function renderAllAdminLists() {
-            ['board', 'staff', 'squad', 'kits', 'transfers'].forEach(type => {
-                const box = document.getElementById('admin-list-' + type); box.innerHTML = '';
-                activeData[type].forEach((item, i) => {
-                    box.innerHTML += `<div class="admin-list-item"><span>${item.name} (${item.role})</span><button class="btn-del" onclick="deleteItem('${type}', ${i})">Sil</button></div>`;
-                });
-            });
-            
-            const fixBox = document.getElementById('admin-list-fixture'); fixBox.innerHTML = '';
-            activeData.fixture.forEach((item, i) => {
-                fixBox.innerHTML += `<div class="admin-list-item"><span>${item.home} ${item.score} ${item.away}</span><button class="btn-del" onclick="deleteItem('fixture', ${i})">Sil</button></div>`;
-            });
-
-            const galBox = document.getElementById('admin-list-gallery'); galBox.innerHTML = '';
-            activeData.gallery.forEach((item, i) => {
-                galBox.innerHTML += `<div class="admin-list-item"><span style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap; max-width:80%;">${item.isYoutube ? 'Video' : 'Resim'}: ${item.url}</span><button class="btn-del" onclick="deleteItem('gallery', ${i})">Sil</button></div>`;
-            });
-        }
-
-        function renderSite() {
-            const headerLogoImg = document.getElementById('header-logo-img');
-            const headerLogoWrapper = document.getElementById('header-logo-wrapper');
-            if(activeData.logoUrl) { 
-                headerLogoImg.src = activeData.logoUrl; 
-                headerLogoWrapper.style.display = 'flex'; 
-            } else {
-                headerLogoWrapper.style.display = 'none';
-            }
-
-            if(activeData.heroBgUrl) {
-                document.getElementById('hero-bg-overlay').style.backgroundImage = `url('${activeData.heroBgUrl}')`;
-            }
-            document.getElementById('hero-slogan-text').innerText = activeData.slogan;
-
-            // Kart Şablonu
-            const buildCard = (i) => `<div class="card"><div class="card-img-box"><img src="${i.img}" loading="lazy"></div><div class="card-content"><div class="card-title">${i.name}</div><div class="card-subtitle">${i.role}</div></div></div>`;
-            
-            document.getElementById('front-board').innerHTML = activeData.board.map(buildCard).join('');
-            document.getElementById('front-staff').innerHTML = activeData.staff.map(buildCard).join('');
-            document.getElementById('front-squad').innerHTML = activeData.squad.map(buildCard).join('');
-            document.getElementById('front-kits').innerHTML = activeData.kits.map(i => `<div class="card"><div class="card-img-box" style="height:500px;"><img src="${i.img}" loading="lazy"></div><div class="card-content"><div class="card-title">${i.name}</div></div></div>`).join('');
-            document.getElementById('front-transfers').innerHTML = activeData.transfers.map(buildCard).join('');
-            
-            document.getElementById('front-fixture').innerHTML = activeData.fixture.map(i => `
-                <div class="fixture-item">
-                    <div class="fix-team home">${i.home}</div>
-                    <div class="fix-score">${i.score}</div>
-                    <div class="fix-team away">${i.away}</div>
-                </div>
-            `).join('');
-
-            document.getElementById('front-gallery').innerHTML = activeData.gallery.map(i => `
-                <div class="card" style="height:250px;">
-                    ${i.isYoutube ? `<iframe width="100%" height="100%" src="${i.url}" frameborder="0" allowfullscreen></iframe>` : `<img src="${i.url}" style="width:100%;height:100%;object-fit:cover;" loading="lazy">`}
-                </div>
-            `).join('');
-        }
-
-        function applyStyles() {
-            document.documentElement.style.setProperty('--logo-size', activeData.styles.logoSize);
-            document.documentElement.style.setProperty('--global-text-align', activeData.styles.align);
-            document.documentElement.style.setProperty('--card-align', activeData.styles.align);
-        }
-
-        function applyTheme() {
-            const t = activeData.theme;
-            if(t === 'aberEfsanesi') { document.documentElement.style.setProperty('--bg-main', '#070707'); document.documentElement.style.setProperty('--bg-card', '#111111'); document.documentElement.style.setProperty('--text-main', '#ffffff'); document.documentElement.style.setProperty('--accent-color', '#e60000'); }
-            if(t === 'karanlik') { document.documentElement.style.setProperty('--bg-main', '#000000'); document.documentElement.style.setProperty('--bg-card', '#0a0a0a'); document.documentElement.style.setProperty('--text-main', '#e0e0e0'); document.documentElement.style.setProperty('--accent-color', '#555555'); }
-            if(t === 'aydinlik') { document.documentElement.style.setProperty('--bg-main', '#f4f4f4'); document.documentElement.style.setProperty('--bg-card', '#ffffff'); document.documentElement.style.setProperty('--text-main', '#111111'); document.documentElement.style.setProperty('--accent-color', '#000000'); }
-        }
-
-        // Başlangıç Yüklemesi
-        applyStyles(); applyTheme(); renderSite();
+        function saveGeneralSettings() { activeData.slogan = document.getElementById('set-slogan').value; localStorage.setItem('aber_data', JSON.stringify(activeData)); renderSite(); alert("Kaydedildi!"); }
+        function renderSite() { document.getElementById('hero-slogan-text').innerText = activeData.slogan; }
+        renderSite();
     </script>
 </body>
 </html>
