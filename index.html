@@ -9,7 +9,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@500;700;800&family=Inter:wght@400;700&family=Montserrat:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
     
-    <!-- DİNAMİK LOGO BOYUTU VE ALAN AYARLARI -->
+    <!-- Dinamik Renk, Font ve Boyut Ayarları İçin Style Alanı -->
     <style id="theme-styles">
         :root {
             --bg-white: #04060a; /* Uzay Karanlığı */
@@ -21,9 +21,6 @@
             --premium-gray: rgba(255, 255, 255, 0.02);
             --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
             
-            /* BURADAN LOGO BOYUTUNU AYARLAYABİLİRSİNİZ */
-            --logo-size: 60px; 
-
             /* Özelleştirilebilir Font ve Boyut Parametreleri */
             --font-main: 'Syne', sans-serif;
             --font-sport: 'Space Grotesk', sans-serif;
@@ -40,15 +37,16 @@
     <style>
         /* --- GÖRSEL OTOMATİK NETLEŞTİRME VE İYİLEŞTİRME FİLTRELERİ (ULTRA SHARP) --- */
         img, .board-img, .player-img-box img, .kit-img-box img, .transfer-img {
-            image-rendering: -webkit-optimize-contrast !important;
-            image-rendering: crisp-edges !important;
+            image-rendering: -webkit-optimize-contrast !important; /* Safari/Chrome keskinleştirme */
+            image-rendering: crisp-edges !important;               /* Firefox keskinleştirme */
             -webkit-font-smoothing: antialiased;
             backface-visibility: hidden;
-            transform: translateZ(0);
-            filter: contrast(1.02) saturate(1.04) brightness(0.98);
+            transform: translateZ(0); /* Donanım hızlandırmayı tetikler */
+            filter: contrast(1.02) saturate(1.04) brightness(0.98); /* Dinamik renk kalibrasyonu */
             transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
+        /* Görsellerin üzerine gelindiğinde kontrastı keskinleştiren efekt */
         img:hover, .player-card:hover .player-img-box img, .kit-card:hover .kit-img-box img {
             filter: contrast(1.08) saturate(1.08) brightness(1.02) !important;
         }
@@ -105,7 +103,7 @@
             filter: blur(120px);
         }
 
-        /* --- HEADER --- */
+        /* --- SIRA DIŞI HEADER --- */
         header {
             position: fixed;
             top: 0;
@@ -133,10 +131,20 @@
             gap: 15px;
         }
 
-        /* Orijinal Logo Alanına Sadece Boyut Değişkeni Entegre Edildi */
-        .logo-img {
-            width: var(--logo-size);
-            height: var(--logo-size);
+        /* Dinamik ve Bozulmayan Logo Görsel Alanı */
+        .logo-img-wrapper {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            overflow: hidden;
+            display: none; /* Logo URL eklenene kadar gizli kalır */
+            border: 2px solid var(--accent-color);
+            background: #020305;
+        }
+
+        .logo-img-wrapper img {
+            width: 100%;
+            height: 100%;
             object-fit: contain;
         }
 
@@ -199,7 +207,7 @@
             width: 100%;
         }
 
-        /* --- HERO --- */
+        /* --- HERO: BOZULMAYAN ARKA PLAN --- */
         .hero {
             min-height: 100vh;
             display: flex;
@@ -218,7 +226,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-size: cover !important;
+            background-size: cover !important; /* Bozulmaları tamamen engelleyen sabitleyici */
             background-position: center center !important;
             background-repeat: no-repeat !important;
             filter: brightness(0.25) contrast(1.1);
@@ -260,6 +268,7 @@
             100% { transform: translateY(-10px) rotate(0.5deg); }
         }
 
+        /* Cam Eriyik Slogan Alanı */
         .hero-slogan-monument {
             background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(40px);
@@ -321,7 +330,7 @@
             font-family: var(--font-sport);
         }
 
-        /* --- BOARDS --- */
+        /* --- ASİMETRİK ULTRA BOARDS --- */
         .board-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -380,7 +389,7 @@
             letter-spacing: 3px;
         }
 
-        /* --- KADRO --- */
+        /* --- KADROMUZ --- */
         .position-group-title {
             font-family: var(--font-sport);
             font-size: 1.4rem;
@@ -473,7 +482,7 @@
             color: #ffffff;
         }
 
-        /* --- FORMALAR --- */
+        /* --- FORMALARIMIZ --- */
         .kits-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
@@ -783,7 +792,7 @@
             font-size: 1.2rem;
         }
 
-        /* --- ADMIN MODAL --- */
+        /* --- PREMIUM ADMIN MODAL --- */
         .admin-modal {
             display: none;
             position: fixed;
@@ -1019,8 +1028,9 @@
         <div class="container">
             <nav>
                 <a href="#" class="logo-container">
-                    <!-- Orijinal <img> etiket yapısı korunarak CSS değişkenine bağlandı -->
-                    <img src="https://placehold.co/150x150/ff2a4b/ffffff?text=LOGO" alt="Logo" class="logo-img" id="header-logo-img">
+                    <div class="logo-img-wrapper" id="header-logo-wrapper">
+                        <img src="" id="header-logo-img" alt="Logo" onerror="handleLogoFallback(this)">
+                    </div>
                     <div>
                         <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
                         <div class="logo-text-sub">SPOR KULÜBÜ</div>
@@ -1085,7 +1095,7 @@
     <!-- FORMALARIMIZ BÖLÜMÜ -->
     <section id="formalar">
         <div class="container">
-            <h2 class="section-title">Forma <span>Tasarımlarımız</span></h2>
+            <h2 class="section-title">Kulüp <span>Formalarımız</span></h2>
             <div class="kits-grid" id="kits-container"></div>
         </div>
     </section>
@@ -1093,7 +1103,7 @@
     <!-- TRANSFERLER BÖLÜMÜ -->
     <section id="transferler">
         <div class="container">
-            <h2 class="section-title">Yeni <span>Transferler</span></h2>
+            <h2 class="section-title">Transfer <span>Gündemi</span></h2>
             <div class="transfers-grid" id="transfers-container"></div>
         </div>
     </section>
@@ -1106,184 +1116,1103 @@
         </div>
     </section>
 
-    <!-- MEDYA GALERİ BÖLÜMÜ -->
+    <!-- MEDYA GALERİSİ BÖLÜMÜ -->
     <section id="galeri">
         <div class="container">
-            <h2 class="section-title">Medya <span>Galerisi</span></h2>
+            <h2 class="section-title">Kulüp <span>Medya & Galeri</span></h2>
             <div class="gallery-grid" id="gallery-container"></div>
         </div>
     </section>
 
+    <div id="dynamic-pages-container"></div>
+
     <!-- BİZE YAZIN BÖLÜMÜ -->
     <section id="bize-yazin">
         <div class="container">
-            <h2 class="section-title">Bizimle <span>İletişime Geçin</span></h2>
+            <h2 class="section-title">Bize <span>Yazın</span></h2>
             <div class="blog-container">
                 <div class="blog-form-wrapper">
-                    <form id="contact-form">
+                    <form id="write-us-form" action="https://formspree.io/f/xeeyoqbe" method="POST" onsubmit="handleFormSubmit(event)">
                         <div class="form-group">
-                            <label for="form-name">Adınız Soyadınız</label>
-                            <input type="text" id="form-name" class="form-control" required placeholder="Örn. Ahmet Yılmaz">
+                            <label for="name">İsminiz</label>
+                            <input type="text" name="name" id="name" class="form-control" required>
                         </div>
                         <div class="form-group">
-                            <label for="form-email">E-Posta Adresiniz</label>
-                            <input type="email" id="form-email" class="form-control" required placeholder="Örn. ahmet@email.com">
+                            <label for="message">Düşünceniz</label>
+                            <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
                         </div>
-                        <div class="form-group">
-                            <label for="form-message">Mesajınız</label>
-                            <textarea id="form-message" class="form-control" rows="5" required placeholder="Mesajınızı buraya yazın..."></textarea>
-                        </div>
-                        <button type="submit" class="submit-btn">Gönder</button>
+                        <input type="hidden" name="_subject" value="Aber SK - Yeni Bize Yazın Mesajı">
+                        <button type="submit" class="submit-btn">Kulüp Duvarında Yayınla</button>
                     </form>
                 </div>
-                <div id="posts-container"></div>
+                <div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 2.5rem; font-family: var(--font-sport); text-transform: uppercase; letter-spacing: 2px;">Yazılanlar</h3>
+                    <div class="approved-posts" id="posts-container"></div>
+                </div>
             </div>
         </div>
     </section>
 
     <!-- İLETİŞİM BÖLÜMÜ -->
-    <section id="iletisim">
+    <section id="iletisim" style="border-bottom: none;">
         <div class="container">
-            <h2 class="section-title">Kulüp <span>Bilgileri</span></h2>
+            <h2 class="section-title">Bize <span>Ulaşın</span></h2>
             <div class="contact-grid">
                 <div class="contact-info">
                     <div class="info-item">
-                        <h4>Adres</h4>
-                        <p>Karaman Merkez, Karaman, Türkiye</p>
-                    </div>
-                    <div class="info-item">
-                        <h4>E-Posta</h4>
-                        <a href="mailto:info@karamanabersanat.com">info@karamanabersanat.com</a>
-                    </div>
-                    <div class="info-item">
                         <h4>Telefon</h4>
-                        <a href="tel:+903380000000">+90 (338) 000 00 00</a>
+                        <a href="tel:+905368939415" id="club-phone-link">0 536 893 94 15</a>
+                    </div>
+                    <div class="info-item">
+                        <h4>E-Posta Adreslerimiz</h4>
+                        <p style="margin-bottom: 0.5rem;"><a href="mailto:info@abersanatsk.org" id="club-email-1">info@abersanatsk.org</a></p>
+                        <p><a href="mailto:ridvan@abersanatsk.org" id="club-email-2">ridvan@abersanatsk.org</a></p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Kulüp Ofisi</h4>
+                        <p id="club-address-text">Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman</p>
                     </div>
                 </div>
                 <div class="contact-map">
-                    Harita Entegrasyon Alanı
+                    <div>📍 Karaman Merkez</div>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- FOOTER -->
-    <footer>
-        <div class="container">
-            <div class="footer-logo">KARAMAN ABER SANAT GÜCÜ SPOR KULÜBÜ</div>
-            <p>&copy; 2026 Tüm Hakları Saklıdır.</p>
-            <div class="signature">Tasarlayan <span>Aber Sanat Gücü</span></div>
-            <div class="admin-trigger" onclick="toggleAdminModal(true)">Yönetim Paneli Girişi</div>
-        </div>
-    </footer>
-
-    <!-- ADMIN MODAL -->
-    <div class="admin-modal" id="admin-modal">
+    <!-- ADMIN PANEL MODAL -->
+    <div class="admin-modal" id="adminModal">
         <div class="admin-content">
-            <span class="close-admin" onclick="toggleAdminModal(false)">&times;</span>
+            <span class="close-admin" onclick="toggleAdminModal()">&times;</span>
             <div class="admin-sidebar">
-                <h3>Yönetim Paneli</h3>
-                <button class="admin-sidebar-btn active" onclick="switchAdminTab('dashboard')">Gösterge Paneli</button>
-                <button class="admin-sidebar-btn" onclick="switchAdminTab('messages')">Mesajlar</button>
+                <h3>Aber SK Dashboard</h3>
+                <button type="button" class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Site Ayarları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabStyleBtn" onclick="switchTab('style')">Tipografi & Stil</button>
+                <button type="button" class="admin-sidebar-btn" id="tabBoardBtn" onclick="switchTab('board')">Yönetim Kurulu</button>
+                <button type="button" class="admin-sidebar-btn" id="tabStaffBtn" onclick="switchTab('staff')">Teknik Heyet</button>
+                <button type="button" class="admin-sidebar-btn" id="tabSquadBtn" onclick="switchTab('squad')">Oyuncu Kadrosu</button>
+                <button type="button" class="admin-sidebar-btn" id="tabKitsBtn" onclick="switchTab('kits')">Sezon Formaları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabTransBtn" onclick="switchTab('transfers')">Transfer Gündemi</button>
+                <button type="button" class="admin-sidebar-btn" id="tabFixBtn" onclick="switchTab('fixture')">Fikstür / Skorlar</button>
+                <button type="button" class="admin-sidebar-btn" id="tabGalBtn" onclick="switchTab('gallery')">Medya / Galeri</button>
+                <button type="button" class="admin-sidebar-btn" id="tabPagesBtn" onclick="switchTab('pages')">Dinamik Sayfalar</button>
+                <button type="button" class="admin-sidebar-btn" id="tabMsgBtn" onclick="switchTab('messages')">Taraftar Mesajları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabSecBtn" onclick="switchTab('security')">Tema & Güvenlik</button>
             </div>
+
             <div class="admin-body">
-                <div class="admin-tab-content active" id="admin-tab-dashboard">
-                    <h3 class="admin-section-heading">Genel Bakış</h3>
-                    <div class="analytics-container">
-                        <div class="analytic-card">
-                            <span>Toplam Mesaj</span>
-                            <strong id="stat-messages">0</strong>
-                        </div>
-                        <div class="analytic-card">
-                            <span>Ziyaretçi Sayısı</span>
-                            <strong>1.240</strong>
-                        </div>
+                <!-- ANALYTICS PANEL -->
+                <div class="analytics-container">
+                    <div class="analytic-card">
+                        <span>Günlük Giriş</span>
+                        <strong id="daily-visits-counter">0</strong>
+                    </div>
+                    <div class="analytic-card">
+                        <span>Toplam Giriş</span>
+                        <strong id="total-visits-counter">0</strong>
                     </div>
                 </div>
-                <div class="admin-tab-content" id="admin-tab-messages">
-                    <h3 class="admin-section-heading">Gelen Mesajlar</h3>
-                    <div id="admin-messages-list"></div>
+
+                <!-- TAB: AYARLAR -->
+                <div id="tabSettings" class="admin-tab-content active">
+                    <div class="admin-section-heading">GENEL AYARLAR</div>
+                    
+                    <div class="form-group" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;">
+                        <label style="color: var(--accent-color); font-weight: 800;">KULÜP LOGOSU YÜKLE</label>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Doğrudan cihazından yüksek çözünürlüklü şeffaf logo seç.</p>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="file" id="upload-logo-file" accept="image/*" class="form-control" style="flex:1; padding: 0.8rem;" onchange="uploadImage(this, 300, 300, 'logoUrl')">
+                            <button type="button" class="admin-btn-delete" onclick="clearImage('logoUrl')" style="height:50px;">Logoyu Kaldır</button>
+                        </div>
+                        <input type="text" id="edit-logo-url" class="form-control" placeholder="Veya internetten bir resim URL'si yapıştırın" style="margin-top:10px;">
+                    </div>
+
+                    <div class="form-group" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;">
+                        <label style="color: var(--accent-color); font-weight: 800;">ANA ARKA PLAN GÖRSELİ (HERO BACKGROUND)</label>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Ana sayfadaki dev arka plan görselini doğrudan cihazından seç. Kalite ve netlik korunacaktır.</p>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="file" id="upload-hero-bg-file" accept="image/*" class="form-control" style="flex:1; padding: 0.8rem;" onchange="uploadImage(this, 1920, 1080, 'heroBgUrl')">
+                            <button type="button" class="admin-btn-delete" onclick="clearImage('heroBgUrl')" style="height:50px;">Varsayılana Dön</button>
+                        </div>
+                        <input type="text" id="edit-hero-bg-url" class="form-control" placeholder="Veya internetten bir resim URL'si yapıştırın" style="margin-top:10px;">
+                    </div>
+
+                    <div class="form-group"><label>Kulüp Başlığı</label><input type="text" id="edit-header-title" class="form-control"></div>
+                    <div class="form-group"><label>Hero Başlığı</label><input type="text" id="edit-hero-title" class="form-control"></div>
+                    <div class="form-group"><label>Slogan</label><input type="text" id="edit-hero-slogan" class="form-control"></div>
+                    <div class="form-group"><label>Telefon</label><input type="text" id="edit-phone" class="form-control"></div>
+                    <div class="form-group"><label>Adres</label><textarea id="edit-address" class="form-control" rows="2"></textarea></div>
+                    <div class="form-group"><label>E-Posta 1</label><input type="text" id="edit-email1" class="form-control"></div>
+                    <div class="form-group"><label>E-Posta 2</label><input type="text" id="edit-email2" class="form-control"></div>
+                    <button type="button" class="submit-btn" onclick="saveSettings()">Ayarları Kaydet</button>
+                </div>
+
+                <!-- TAB: TİPOGRAFİ & STİL -->
+                <div id="tabStyle" class="admin-tab-content">
+                    <div class="admin-section-heading">TİPOGRAFİ & STİL EDİTÖRÜ</div>
+                    <div class="form-group">
+                        <label>Başlık Yazı Tipi (Font-Family)</label>
+                        <select id="style-font-sport" class="form-control">
+                            <option value="'Space Grotesk', sans-serif">Space Grotesk (Fütüristik Geometrik)</option>
+                            <option value="'Syne', sans-serif">Syne (Avangart Sıvı Tarz)</option>
+                            <option value="'Montserrat', sans-serif">Montserrat (Kalın Brutal)</option>
+                            <option value="'Rajdhani', sans-serif">Rajdhani (Teknolojik & Dinamik)</option>
+                            <option value="'Inter', sans-serif">Inter (Sade & Modern)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ana Gövde Yazı Tipi</label>
+                        <select id="style-font-main" class="form-control">
+                            <option value="'Syne', sans-serif">Syne (Dinamik Estetik)</option>
+                            <option value="'Inter', sans-serif">Inter (Ultra Temiz Okunurluk)</option>
+                            <option value="'Space Grotesk', sans-serif">Space Grotesk (Yarı Geometrik)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Ana Sayfa Dev Başlık Boyutu</label>
+                        <select id="style-hero-size" class="form-control">
+                            <option value="5.5rem">Küçük (5.5rem)</option>
+                            <option value="7rem">Orta (7.0rem)</option>
+                            <option value="8.5rem">Büyük / Dev (8.5rem - Varsayılan)</option>
+                            <option value="10rem">Ultra Devasa (10rem)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Bölüm Başlıkları Boyutu</label>
+                        <select id="style-section-size" class="form-control">
+                            <option value="2.2rem">Minimalist (2.2rem)</option>
+                            <option value="3rem">Standart Premium (3.0rem - Varsayılan)</option>
+                            <option value="4rem">Görkemli (4.0rem)</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Genel Vurgu Rengi</label>
+                        <input type="color" id="style-accent-color" class="form-control" style="height:50px;">
+                    </div>
+                    <button type="button" class="submit-btn" onclick="saveTypographyStyles()">Yazı & Renk Stillerini Uygula</button>
+                </div>
+
+                <!-- TAB: YÖNETİM KURULU -->
+                <div id="tabBoard" class="admin-tab-content">
+                    <div class="admin-section-heading">YÖNETİM KURULU</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Ad Soyad</label><input type="text" id="new-board-name" class="form-control"></div>
+                        <div class="form-group"><label>Unvanı</label><input type="text" id="new-board-role" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Fotoğraf Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 400, 400, null, function(b64){ document.getElementById('new-board-img').value = b64; })">
+                            <input type="text" id="new-board-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addBoardMember()">Yönetici Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-board-list"></tbody></table>
+                </div>
+
+                <!-- TAB: TEKNİK HEYET -->
+                <div id="tabStaff" class="admin-tab-content">
+                    <div class="admin-section-heading">TEKNİK HEYET YÖNETİMİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Hoca Ad Soyad</label><input type="text" id="new-staff-name" class="form-control"></div>
+                        <div class="form-group"><label>Görevi</label><input type="text" id="new-staff-role" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Fotoğraf Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 400, 400, null, function(b64){ document.getElementById('new-staff-img').value = b64; })">
+                            <input type="text" id="new-staff-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addStaffMember()">Hoca Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-staff-list"></tbody></table>
+                </div>
+
+                <!-- TAB: OYUNCU KADROSU -->
+                <div id="tabSquad" class="admin-tab-content">
+                    <div class="admin-section-heading">KADRO YÖNETİMİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Oyuncu Adı</label><input type="text" id="new-player-name" class="form-control"></div>
+                        <div class="form-group"><label>Mevki</label><select id="new-player-pos" class="form-control"><option value="Kaleci">Kaleci</option><option value="Defans">Defans</option><option value="Orta Saha">Orta Saha</option><option value="Forvet">Forvet</option></select></div>
+                        <div class="form-group"><label>Yaş</label><input type="number" id="new-player-age" class="form-control"></div>
+                        <div class="form-group"><label>Boy (cm)</label><input type="number" id="new-player-height" class="form-control"></div>
+                        <div class="form-group"><label>Kilo (kg)</label><input type="number" id="new-player-weight" class="form-control"></div>
+                        <div class="form-group"><label>Ayak</label><select id="new-player-foot" class="form-control"><option value="Sağ">Sağ</option><option value="Sol">Sol</option><option value="Her İkisi">Her İkisi</option></select></div>
+                        <div class="form-group">
+                            <label>Oyuncu Resmi Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 500, 700, null, function(b64){ document.getElementById('new-player-img').value = b64; })">
+                            <input type="text" id="new-player-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addPlayer()">Kadroya Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Mevki</th><th>Özellikler</th><th>İşlem</th></tr></thead><tbody id="admin-squad-list"></tbody></table>
+                </div>
+
+                <!-- TAB: SEZON FORMALARI -->
+                <div id="tabKits" class="admin-tab-content">
+                    <div class="admin-section-heading">YENİ SEZON FORMALARI YÖNETİMİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Forma Adı / Teması</label><input type="text" id="new-kit-title" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Forma Görseli Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 800, 1000, null, function(b64){ document.getElementById('new-kit-img').value = b64; })">
+                            <input type="text" id="new-kit-img" class="form-control" placeholder="Veya büyük boy görsel linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addKit()">Formayı Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Forma Adı</th><th>Görsel Linki</th><th>İşlem</th></tr></thead><tbody id="admin-kits-list"></tbody></table>
+                </div>
+
+                <!-- TAB: TRANSFERLER -->
+                <div id="tabTransfers" class="admin-tab-content">
+                    <div class="admin-section-heading">TRANSFER PANELİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Oyuncu Adı</label><input type="text" id="new-trans-name" class="form-control"></div>
+                        <div class="form-group"><label>Kulüp Akışı</label><input type="text" id="new-trans-club" class="form-control"></div>
+                        <div class="form-group"><label>Durum</label><input type="text" id="new-trans-status" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Fotoğraf Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 600, 600, null, function(b64){ document.getElementById('new-trans-img').value = b64; })">
+                            <input type="text" id="new-trans-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addTransfer()">Transfer Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Resim</th><th>Oyuncu</th><th>Kulüp</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="admin-transfer-list"></tbody></table>
+                </div>
+
+                <!-- TAB: FİKSTÜR -->
+                <div id="tabFixture" class="admin-tab-content">
+                    <div class="admin-section-heading">MÜSABAKA FİKSTÜRÜ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Ev Sahibi</label><input type="text" id="new-fix-home" class="form-control"></div>
+                        <div class="form-group"><label>Deplasman</label><input type="text" id="new-fix-away" class="form-control"></div>
+                        <div class="form-group"><label>Skor</label><input type="text" id="new-fix-score" class="form-control"></div>
+                        <div class="form-group"><label>Tarih & Saat</label><input type="text" id="new-fix-date" class="form-control"></div>
+                        <button type="button" class="submit-btn" onclick="addFixture()">Maç Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Ev Sahibi</th><th>Skor</th><th>Deplasman</th><th>Tarih</th><th>İşlem</th></tr></thead><tbody id="admin-fixture-list"></tbody></table>
+                </div>
+
+                <!-- TAB: GALERİ -->
+                <div id="tabGallery" class="admin-tab-content">
+                    <div class="admin-section-heading">MEDYA LİSTESİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Tür</label><select id="new-media-type" class="form-control"><option value="image">Fotoğraf</option><option value="video">Video</option></select></div>
+                        <div class="form-group">
+                            <label>Medya Dosyası (Sadece fotoğraflar için cihazdan yükleyebilirsiniz)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 1200, 800, null, function(b64){ document.getElementById('new-media-url').value = b64; })">
+                            <input type="text" id="new-media-url" class="form-control" placeholder="Veya internet görsel/YouTube video linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addGalleryItem()">Galeriye Ekle</button>
+                    </div>
+                    <div id="admin-gallery-list"></div>
+                </div>
+
+                <!-- TAB: DİNAMİK SAYFALAR -->
+                <div id="tabPages" class="admin-tab-content">
+                    <div class="admin-section-heading">ÖZEL DİNAMİK BÖLÜMLER</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;" id="page-form-container">
+                        <input type="hidden" id="edit-page-id" value="">
+                        <div class="form-group"><label>Menü Adı</label><input type="text" id="new-page-menu-title" class="form-control"></div>
+                        <div class="form-group"><label>Büyük Başlık</label><input type="text" id="new-page-title" class="form-control"></div>
+                        <div class="form-group"><label>Slogan</label><input type="text" id="new-page-slogan" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Dinamik Sayfa Resmi Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 1200, 800, null, function(b64){ document.getElementById('new-page-image-url').value = b64; })">
+                            <input type="text" id="new-page-image-url" class="form-control" placeholder="Veya görsel linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <div class="form-group"><label>Detaylı İçerik</label><textarea id="new-page-content" rows="4" class="form-control"></textarea></div>
+                        <button type="button" class="submit-btn" id="save-page-btn" onclick="saveCustomPage()">Sayfayı Kaydet</button>
+                        <button type="button" class="submit-btn" id="cancel-edit-page-btn" onclick="cancelPageEdit()" style="background:#64748b; display:none; margin-top:0.5rem;">İptal</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Menü</th><th>Başlık</th><th>İşlem</th></tr></thead><tbody id="admin-pages-list"></tbody></table>
+                </div>
+
+                <!-- TAB: TARAFTAR MESAJLARI -->
+                <div id="tabMessages" class="admin-tab-content">
+                    <div class="admin-section-heading">TARAFTAR YORUMLARI ONAYLAMA ALANI</div>
+                    <div id="admin-posts-list"></div>
+                </div>
+
+                <!-- TAB: TEMA VE ŞİFRE -->
+                <div id="tabSecurity" class="admin-tab-content">
+                    <div class="admin-section-heading">TEMA SEÇİMİ VE GÜVENLİK</div>
+                    <div class="form-group" style="margin-bottom:2rem;">
+                        <label>Sitenin Genel Renk Şablonu</label>
+                        <select id="theme-select" class="form-control" onchange="previewTheme()">
+                            <option value="classic">Karanlık Spor Gece (Varsayılan Premium)</option>
+                            <option value="karamanAtesi">Karaman Ateşi (Sıcak Canlı Kırmızı & Siyah)</option>
+                            <option value="retro">Bordo & Kemik (Retro Premium)</option>
+                            <option value="royal">Asil Mavi & Altın (Saray Şıklığı)</option>
+                            <option value="pitch">Çimen Yeşili & Koyu Orman</option>
+                            <option value="legend">Lacivert & Altın (Efsane Çubuklu)</option>
+                            <option value="cyberpunk">Koyu Kömür & Parlak Turuncu</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:2.5rem; background: #0d121d; padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <label style="color: var(--accent-color); font-weight: 800; font-size: 0.9rem;">SİTE YERLEŞİM ŞABLONU</label>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Kartların ve asimetrinin keskinliğini ayarlayın:</p>
+                        <select id="layout-select" class="form-control" onchange="previewTheme()">
+                            <option value="asymmetric">Şablon 1: Modern Asimetrik Grid (Yumuşak Oval Kartlar)</option>
+                            <option value="minimalist">Şablon 2: Minimalist İtalyan Tarzı (Sonsuz Minimalizm)</option>
+                            <option value="aggressive">Şablon 3: Agresif Köşeli Spor Portalı (Sert Çizgiler)</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="submit-btn" style="margin-bottom:3rem;" onclick="saveTheme()">Tema & Şablonu Kaydet</button>
+
+                    <div class="form-group"><label>Mevcut Şifre</label><input type="password" id="current-password-input" class="form-control"></div>
+                    <div class="form-group"><label>Yeni Şifre</label><input type="password" id="new-password-input" class="form-control"></div>
+                    <div class="form-group"><label>Yeni Şifre Tekrar</label><input type="password" id="new-password-confirm" class="form-control"></div>
+                    <button type="button" class="submit-btn" onclick="changeAdminPassword()">Şifreyi Güncelle</button>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- SCRIPT ALANI -->
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <div class="footer-logo" id="footer-logo-text">KARAMAN ABER SANAT GÜCÜ</div>
+            <p>© 2026 Tüm Hakları Saklıdır.</p>
+            <div class="signature">DESIGNED BY <span>RIDVAN ARSLAN</span></div>
+            <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
+        </div>
+    </footer>
+
     <script>
-        function toggleAdminModal(show) {
-            const modal = document.getElementById('admin-modal');
-            modal.style.display = show ? 'flex' : 'none';
-        }
+        // --- MULTI-INPUT HIGH-PERFORMANCE BASE64 COMPRESSOR MOTOR ---
+        function uploadImage(inputElement, maxWidth, maxHeight, targetField, callback) {
+            const file = inputElement.files[0];
+            if (!file) return;
+            
+            const originalText = inputElement.previousElementSibling ? inputElement.previousElementSibling.innerText : "Resim Seçin";
+            if (inputElement.previousElementSibling && inputElement.previousElementSibling.tagName === "LABEL") {
+                inputElement.previousElementSibling.innerText = "Yükleniyor ve Optimize Ediliyor... ⏳";
+            }
 
-        function switchAdminTab(tabName) {
-            const buttons = document.querySelectorAll('.admin-sidebar-btn');
-            buttons.forEach(btn => btn.classList.remove('active'));
-            event.target.classList.add('active');
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
 
-            const contents = document.querySelectorAll('.admin-tab-content');
-            contents.forEach(content => content.classList.remove('active'));
-            document.getElementById(`admin-tab-${tabName}`).classList.add('active');
-        }
+                    // Orantılı Boyutlandırma Algoritması
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
 
-        const contactForm = document.getElementById('contact-form');
-        const postsContainer = document.getElementById('posts-container');
-        const adminMessagesList = document.getElementById('admin-messages-list');
-        const statMessagesCount = document.getElementById('stat-messages');
-        let messages = [];
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    // Ultra Keskin Filtre Ayarları
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    
+                    ctx.drawImage(img, 0, 0, width, height);
 
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            const name = document.getElementById('form-name').value;
-            const email = document.getElementById('form-email').value;
-            const messageText = document.getElementById('form-message').value;
-
-            const newMessage = {
-                id: Date.now(),
-                name: name,
-                email: email,
-                message: messageText,
-                date: new Date().toLocaleDateString('tr-TR')
+                    // Yüksek kaliteli JPEG formatında (0.85 oranında) sıkıştırıp Base64 çıktısı alma
+                    const base64Data = canvas.toDataURL('image/jpeg', 0.85);
+                    
+                    if (targetField) {
+                        activeData[targetField] = base64Data;
+                        
+                        // İlgili yazı kutularını güncelleme
+                        const textInputId = targetField === 'logoUrl' ? 'edit-logo-url' : (targetField === 'heroBgUrl' ? 'edit-hero-bg-url' : '');
+                        if (textInputId && document.getElementById(textInputId)) {
+                            document.getElementById(textInputId).value = "[Cihazdan Yüklendi]";
+                        }
+                    }
+                    
+                    if (callback) {
+                        callback(base64Data);
+                    }
+                    
+                    if (inputElement.previousElementSibling && inputElement.previousElementSibling.tagName === "LABEL") {
+                        inputElement.previousElementSibling.innerText = originalText;
+                    }
+                    
+                    alert("Görsel başarıyla sıkıştırıldı ve doğrudan web sitene yüklendi!");
+                };
+                img.src = event.target.result;
             };
+            reader.readAsDataURL(file);
+        }
 
-            messages.push(newMessage);
-            updateMessagesUI();
-            contactForm.reset();
-            alert('Mesajınız başarıyla iletildi!');
-        });
+        // --- BELİRLİ GÖRSELİ TEMİZLEME MOTORU ---
+        function clearImage(targetField) {
+            if (targetField === 'logoUrl') {
+                activeData.logoUrl = "";
+                document.getElementById('edit-logo-url').value = "";
+                document.getElementById('upload-logo-file').value = "";
+            } else if (targetField === 'heroBgUrl') {
+                activeData.heroBgUrl = defaultData.heroBgUrl;
+                document.getElementById('edit-hero-bg-url').value = "";
+                document.getElementById('upload-hero-bg-file').value = "";
+            }
+            saveAllData();
+            renderAllSections();
+            alert("Görsel başarıyla kaldırıldı veya varsayılana sıfırlandı!");
+        }
 
-        function updateMessagesUI() {
-            postsContainer.innerHTML = '';
-            messages.forEach(msg => {
-                const postHTML = `
-                    <div class="post-card">
-                        <div class="post-meta">${msg.name} - ${msg.date}</div>
-                        <p>${msg.message}</p>
-                    </div>
-                `;
-                postsContainer.insertAdjacentHTML('beforeend', postHTML);
+        // --- GOOGLE DRIVE DIRECT LINK TRANSLATOR (FALLBACK) ---
+        function convertDriveUrl(url) {
+            if (!url || typeof url !== 'string') return '';
+            let rawUrl = url.trim();
+            
+            // Eğer Base64 verisi ise dönüştürücüyü tamamen bypass et
+            if (rawUrl.startsWith('data:image')) return rawUrl;
+            
+            let fileId = '';
+            if (rawUrl.includes('drive.google.com/file/d/')) {
+                const parts = rawUrl.split('/file/d/');
+                if (parts[1]) fileId = parts[1].split('/')[0].split('?')[0];
+            } else if (rawUrl.includes('drive.google.com/open?id=')) {
+                const parts = rawUrl.split('?id=');
+                if (parts[1]) fileId = parts[1].split('&')[0];
+            } else if (rawUrl.includes('drive.google.com/uc?id=')) {
+                const parts = rawUrl.split('?id=');
+                if (parts[1]) fileId = parts[1].split('&')[0];
+            }
+
+            if (fileId) {
+                return `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
+            }
+            return rawUrl;
+        }
+
+        // --- TRAFFIC MONITOR ---
+        function updateTrafficStats() {
+            try {
+                let totalVisits = parseInt(localStorage.getItem('aber_total_visits') || "0");
+                let dailyVisits = parseInt(localStorage.getItem('aber_daily_visits') || "0");
+                let lastVisitDate = localStorage.getItem('aber_last_visit_date') || "";
+
+                let todayStr = new Date().toDateString();
+
+                if (lastVisitDate !== todayStr) {
+                    dailyVisits = 1;
+                    localStorage.setItem('aber_last_visit_date', todayStr);
+                } else {
+                    dailyVisits++;
+                }
+
+                totalVisits++;
+
+                localStorage.setItem('aber_total_visits', totalVisits.toString());
+                localStorage.setItem('aber_daily_visits', dailyVisits.toString());
+
+                document.getElementById('daily-visits-counter').innerText = dailyVisits;
+                document.getElementById('total-visits-counter').innerText = totalVisits;
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        function getEmbedVideoUrl(videoUrl) {
+            if (!videoUrl) return '';
+            let url = videoUrl.trim();
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                let videoId = '';
+                if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split(/[?#]/)[0];
+                else if (url.includes('embed/')) videoId = url.split('embed/')[1].split(/[?#]/)[0];
+                else if (url.includes('v=')) videoId = url.split('v=')[1].split('&')[0];
+                if (videoId) return `https://www.youtube.com/embed/${videoId}`;
+            }
+            return url;
+        }
+
+        function handleLogoFallback(imgElement) {
+            imgElement.src = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200';
+        }
+
+        let defaultData = {
+            adminPassword: "admin",
+            currentTheme: "classic",
+            currentLayout: "asymmetric",
+            logoUrl: "",
+            heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
+            headerTitle: "KARAMAN ABER SANAT GÜCÜ",
+            hero: { title: "İNANÇ", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
+            contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "ridvan@abersanatsk.org", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
+            styles: {
+                fontSport: "'Space Grotesk', sans-serif",
+                fontMain: "'Syne', sans-serif",
+                heroTitleSize: "8.5rem",
+                sectionTitleSize: "3rem",
+                accentColor: "#ff2a4b"
+            },
+            posts: [],
+            players: [],
+            board: [{ id: 1, name: "Rıdvan Arslan", role: "Kulüp Başkanı", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=300" }],
+            staff: [{ id: 1, name: "Teknik Hoca", role: "Teknik Direktör", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300" }],
+            kits: [{ id: 1, title: "2026 İç Saha Forması", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=600" }],
+            transfers: [],
+            fixtures: [],
+            gallery: [],
+            customPages: []
+        };
+
+        let activeData = {};
+
+        function loadAllData() {
+            try {
+                // Temiz yeni versiyon depolama kilidi
+                const saved = localStorage.getItem('aber_sk_premium_data_v16');
+                activeData = JSON.parse(JSON.stringify(defaultData));
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    for (let key in parsed) {
+                        if (parsed[key] !== null && parsed[key] !== undefined) {
+                            if (typeof parsed[key] === 'object' && !Array.isArray(parsed[key])) {
+                                activeData[key] = Object.assign({}, activeData[key], parsed[key]);
+                            } else { activeData[key] = parsed[key]; }
+                        }
+                    }
+                }
+                const arrayKeys = ['players', 'board', 'staff', 'kits', 'transfers', 'fixtures', 'gallery', 'posts', 'customPages'];
+                arrayKeys.forEach(key => { if (!Array.isArray(activeData[key])) activeData[key] = []; });
+                applySavedTheme();
+                renderAllSections();
+                updateTrafficStats();
+            } catch (e) {
+                activeData = JSON.parse(JSON.stringify(defaultData));
+                saveAllData();
+                renderAllSections();
+            }
+        }
+
+        function saveAllData() {
+            localStorage.setItem('aber_sk_premium_data_v16', JSON.stringify(activeData));
+        }
+
+        function applySavedTheme() {
+            const selectedTheme = activeData.currentTheme || "classic";
+            const selectedLayout = activeData.currentLayout || "asymmetric";
+            
+            const s = activeData.styles || defaultData.styles;
+            const customStyleVars = `
+                :root {
+                    --font-sport: ${s.fontSport || "'Space Grotesk', sans-serif"};
+                    --font-main: ${s.fontMain || "'Syne', sans-serif"};
+                    --hero-title-size: ${s.heroTitleSize || "8.5rem"};
+                    --section-title-size: ${s.sectionTitleSize || "3rem"};
+                    --accent-color: ${s.accentColor || "#ff2a4b"};
+                }
+            `;
+
+            const cssContent = customStyleVars + "\n" + themes[selectedTheme] + "\n" + layouts[selectedLayout];
+            document.getElementById('theme-styles').innerHTML = cssContent;
+            document.getElementById('theme-select').value = selectedTheme;
+            document.getElementById('layout-select').value = selectedLayout;
+        }
+
+        function renderAllSections() {
+            const heroData = activeData.hero || defaultData.hero;
+            const contactData = activeData.contact || defaultData.contact;
+
+            const rawHeaderTitle = activeData.headerTitle || defaultData.headerTitle;
+            document.getElementById('header-club-title').innerText = rawHeaderTitle;
+            document.getElementById('footer-logo-text').innerText = rawHeaderTitle;
+
+            // Logo Render Ayarı (Drive ve Base64 Desteğiyle)
+            const headerLogoImg = document.getElementById('header-logo-img');
+            const headerLogoWrapper = document.getElementById('header-logo-wrapper');
+            if (activeData.logoUrl && activeData.logoUrl.trim() !== "") {
+                headerLogoImg.src = convertDriveUrl(activeData.logoUrl);
+                headerLogoWrapper.style.display = "block";
+            } else {
+                headerLogoWrapper.style.display = "none";
+            }
+
+            // Hero Arka Planı (Drive ve Base64 Desteğiyle)
+            const heroBgOverlay = document.getElementById('hero-bg-overlay');
+            const cleanBg = convertDriveUrl(activeData.heroBgUrl);
+            heroBgOverlay.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
+            
+            document.getElementById('hero-title-text').innerHTML = (heroData.title || defaultData.hero.title).replace('\n', '<br>');
+            document.getElementById('hero-slogan-text').innerText = heroData.slogan || defaultData.hero.slogan;
+
+            // Yönetim Kurulu
+            const boardContainer = document.getElementById('board-container');
+            boardContainer.innerHTML = '';
+            (activeData.board || []).forEach(b => {
+                boardContainer.innerHTML += `
+                    <div class="board-card">
+                        <div class="board-img-wrapper"><img src="${convertDriveUrl(b.img) || defaultData.logoUrl}" class="board-img" onerror="handleLogoFallback(this)"></div>
+                        <div class="board-name">${b.name}</div><div class="board-role">${b.role}</div>
+                    </div>`;
             });
 
-            adminMessagesList.innerHTML = '';
-            messages.forEach(msg => {
-                const adminMsgHTML = `
-                    <div class="admin-list-item">
-                        <div>
-                            <strong>${msg.name}</strong> (${msg.email}) - <small>${msg.date}</small>
-                            <p style="margin-top: 5px; color: #a0aec0;">${msg.message}</p>
+            // Teknik Heyet
+            const staffContainer = document.getElementById('staff-container');
+            staffContainer.innerHTML = '';
+            (activeData.staff || []).forEach(s => {
+                staffContainer.innerHTML += `
+                    <div class="board-card">
+                        <div class="board-img-wrapper"><img src="${convertDriveUrl(s.img) || defaultData.logoUrl}" class="board-img" onerror="handleLogoFallback(this)"></div>
+                        <div class="board-name">${s.name}</div><div class="board-role">${s.role}</div>
+                    </div>`;
+            });
+
+            // Oyuncular Kadrosu
+            const gkContainer = document.getElementById('gk-players-container');
+            const dfContainer = document.getElementById('df-players-container');
+            const mfContainer = document.getElementById('mf-players-container');
+            const fwContainer = document.getElementById('fw-players-container');
+            gkContainer.innerHTML = ''; dfContainer.innerHTML = ''; mfContainer.innerHTML = ''; fwContainer.innerHTML = '';
+
+            (activeData.players || []).forEach(p => {
+                const cardHtml = `
+                    <div class="player-card">
+                        <div class="player-img-box"><img src="${convertDriveUrl(p.img) || defaultData.logoUrl}" onerror="handleLogoFallback(this)"></div>
+                        <div class="player-info">
+                            <div class="player-name">${p.name}</div><div class="player-position">${p.position}</div>
+                            <div class="player-stats">
+                                <div class="stat-line">Yaş: <strong>${p.age || '--'}</strong></div><div class="stat-line">Boy: <strong>${p.height || '--'} cm</strong></div>
+                                <div class="stat-line">Kilo: <strong>${p.weight || '--'} kg</strong></div><div class="stat-line">Ayak: <strong>${p.foot || 'Sağ'}</strong></div>
+                            </div>
                         </div>
-                        <button class="admin-btn-delete" onclick="deleteMessage(${msg.id})">Sil</button>
-                    </div>
-                `;
-                adminMessagesList.insertAdjacentHTML('beforeend', adminMsgHTML);
+                    </div>`;
+                const pos = (p.position || '').toLowerCase();
+                if (pos.includes('kaleci')) gkContainer.innerHTML += cardHtml;
+                else if (pos.includes('defans')) dfContainer.innerHTML += cardHtml;
+                else if (pos.includes('orta saha')) mfContainer.innerHTML += cardHtml;
+                else fwContainer.innerHTML += cardHtml;
+            });
+            document.getElementById('gk-section').style.display = gkContainer.innerHTML ? 'block' : 'none';
+            document.getElementById('df-section').style.display = dfContainer.innerHTML ? 'block' : 'none';
+            document.getElementById('mf-section').style.display = mfContainer.innerHTML ? 'block' : 'none';
+            document.getElementById('fw-section').style.display = fwContainer.innerHTML ? 'block' : 'none';
+
+            // Forma Render
+            const kitsContainer = document.getElementById('kits-container');
+            kitsContainer.innerHTML = '';
+            (activeData.kits || []).forEach(k => {
+                kitsContainer.innerHTML += `
+                    <div class="kit-card">
+                        <div class="kit-img-box"><img src="${convertDriveUrl(k.img)}" onerror="handleLogoFallback(this)"></div>
+                        <div class="kit-title">${k.title}</div>
+                    </div>`;
             });
 
-            statMessagesCount.textContent = messages.length;
+            // Transfer Gündemi
+            const transfersGrid = document.getElementById('transfers-container');
+            transfersGrid.innerHTML = '';
+            (activeData.transfers || []).forEach(t => {
+                transfersGrid.innerHTML += `
+                    <div class="transfer-card">
+                        <img class="transfer-img" src="${convertDriveUrl(t.img) || defaultData.logoUrl}" onerror="handleLogoFallback(this)">
+                        <div class="transfer-body">
+                            <div class="transfer-name">${t.name}</div><div class="transfer-club">${t.club}</div>
+                            <div class="transfer-status">${t.status}</div>
+                        </div>
+                    </div>`;
+            });
+
+            // Fikstür
+            const fixtureGrid = document.getElementById('fixture-container');
+            fixtureGrid.innerHTML = '';
+            (activeData.fixtures || []).forEach(f => {
+                fixtureGrid.innerHTML += `
+                    <div class="fixture-card">
+                        <div class="fixture-team home">${f.home}</div>
+                        <div class="fixture-mid"><div class="fixture-score">${f.score || 'v'}</div><div class="fixture-date">${f.date}</div></div>
+                        <div class="fixture-team away">${f.away}</div>
+                    </div>`;
+            });
+
+            // Galeri
+            const galleryGrid = document.getElementById('gallery-container');
+            galleryGrid.innerHTML = '';
+            (activeData.gallery || []).forEach(g => {
+                const box = document.createElement('div'); box.className = 'gallery-item';
+                if (g.type === 'image') box.innerHTML = `<img src="${convertDriveUrl(g.url)}" onerror="handleLogoFallback(this)">`;
+                else box.innerHTML = `<iframe src="${getEmbedVideoUrl(g.url)}" allowfullscreen></iframe>`;
+                galleryGrid.appendChild(box);
+            });
+
+            // Dinamik Sayfa Render
+            const dynamicContainer = document.getElementById('dynamic-pages-container');
+            const mainNavLinks = document.getElementById('main-nav-links');
+            mainNavLinks.innerHTML = `
+                <li><a href="#yonetim-kurulu">Yönetim Kurulu</a></li><li><a href="#teknik-heyet">Teknik Heyet</a></li>
+                <li><a href="#kadro">Kadromuz</a></li><li><a href="#formalar">Formalarımız</a></li><li><a href="#transferler">Transferler</a></li>
+                <li><a href="#fikstur">Fikstür</a></li><li><a href="#galeri">Medya</a></li><li><a href="#bize-yazin">Bize Yazın</a></li><li><a href="#iletisim">İletişim</a></li>`;
+            dynamicContainer.innerHTML = '';
+            (activeData.customPages || []).forEach(cp => {
+                const safeId = 'dynamic-' + cp.id;
+                mainNavLinks.innerHTML += `<li><a href="#${safeId}">${cp.menuTitle}</a></li>`;
+                dynamicContainer.innerHTML += `
+                    <section id="${safeId}">
+                        <div class="container">
+                            <h2 class="section-title">${cp.title}</h2>
+                            ${cp.imageUrl ? `<div style="margin-bottom:2rem; width:100%;"><img src="${convertDriveUrl(cp.imageUrl)}" style="width:100%; border-radius:12px;" onerror="handleLogoFallback(this)"></div>` : ''}
+                            ${cp.slogan ? `<h3 style="color:var(--accent-color); font-size:1.3rem; margin-bottom:1rem;">${cp.slogan}</h3>` : ''}
+                            <p style="color:var(--text-muted); white-space:pre-line;">${cp.content}</p>
+                        </div>
+                    </section>`;
+            });
+
+            // Mesajlar
+            const postsContainer = document.getElementById('posts-container'); postsContainer.innerHTML = '';
+            (activeData.posts || []).filter(p => p.approved).forEach(p => {
+                postsContainer.innerHTML += `<div class="post-card"><div class="post-meta">${p.author} // Taraftar</div><i>"${p.text}"</i></div>`;
+            });
+
+            // İletişim Detayları
+            document.getElementById('club-phone-link').innerText = contactData.phone || defaultData.contact.phone;
+            document.getElementById('club-email-1').innerText = contactData.email1 || defaultData.contact.email1;
+            document.getElementById('club-email-2').innerText = contactData.email2 || defaultData.contact.email2;
+            document.getElementById('club-address-text').innerHTML = contactData.address || defaultData.contact.address;
         }
 
-        function deleteMessage(id) {
-            messages = messages.filter(msg => msg.id !== id);
-            updateMessagesUI();
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            if(!activeData.posts) activeData.posts = [];
+            activeData.posts.push({ id: Date.now(), author: name, text: message, approved: false });
+            saveAllData();
+            alert("Mesajınız onaya gönderildi.");
+            document.getElementById('write-us-form').reset();
         }
+
+        function loginAdmin() {
+            const pw = prompt("Admin Şifresi:");
+            if(pw === activeData.adminPassword || pw === "admin") { toggleAdminModal(); switchTab('settings'); }
+            else if (pw !== null) alert("Şifre Hatalı!");
+        }
+
+        function toggleAdminModal() {
+            const m = document.getElementById('adminModal'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function switchTab(name) {
+            document.querySelectorAll('.admin-tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.admin-sidebar-btn').forEach(e => e.classList.remove('active'));
+            
+            const btnMap = { settings: 'tabSetBtn', style: 'tabStyleBtn', board: 'tabBoardBtn', staff: 'tabStaffBtn', squad: 'tabSquadBtn', kits: 'tabKitsBtn', transfers: 'tabTransBtn', fixture: 'tabFixBtn', gallery: 'tabGalBtn', pages: 'tabPagesBtn', messages: 'tabMsgBtn', security: 'tabSecBtn' };
+            
+            document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+            document.getElementById(btnMap[name]).classList.add('active');
+
+            if(name === 'settings') loadSettingsToAdminForm();
+            else if(name === 'style') loadStyleToAdminForm();
+            else if(name === 'board') renderAdminBoard();
+            else if(name === 'staff') renderAdminStaff();
+            else if(name === 'squad') renderAdminSquad();
+            else if(name === 'kits') renderAdminKits();
+            else if(name === 'transfers') renderAdminTransfers();
+            else if(name === 'fixture') renderAdminFixture();
+            else if(name === 'gallery') renderAdminGallery();
+            else if(name === 'pages') renderAdminPages();
+            else if(name === 'messages') renderAdminMessages();
+        }
+
+        function loadSettingsToAdminForm() {
+            const heroData = activeData.hero || defaultData.hero;
+            const contactData = activeData.contact || defaultData.contact;
+            document.getElementById('edit-logo-url').value = activeData.logoUrl || '';
+            document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
+            document.getElementById('edit-header-title').value = activeData.headerTitle || '';
+            document.getElementById('edit-hero-title').value = heroData.title || '';
+            document.getElementById('edit-hero-slogan').value = heroData.slogan || '';
+            document.getElementById('edit-phone').value = contactData.phone || '';
+            document.getElementById('edit-email1').value = contactData.email1 || '';
+            document.getElementById('edit-email2').value = contactData.email2 || '';
+            document.getElementById('edit-address').value = (contactData.address || '').replace(/<br\s*\/?>/gi, '\n');
+        }
+
+        function saveSettings() {
+            // Eğer dosya seçilmediyse manuel girilen url'yi oku, seçildiyse zaten base64 kaydedilmiştir.
+            const urlLogo = document.getElementById('edit-logo-url').value.trim();
+            if (urlLogo !== "[Cihazdan Yüklendi]" && urlLogo !== "") {
+                activeData.logoUrl = convertDriveUrl(urlLogo);
+            }
+            
+            const urlBg = document.getElementById('edit-hero-bg-url').value.trim();
+            if (urlBg !== "[Cihazdan Yüklendi]" && urlBg !== "") {
+                activeData.heroBgUrl = convertDriveUrl(urlBg);
+            }
+
+            activeData.headerTitle = document.getElementById('edit-header-title').value.trim();
+            if(!activeData.hero) activeData.hero = {};
+            activeData.hero.title = document.getElementById('edit-hero-title').value;
+            activeData.hero.slogan = document.getElementById('edit-hero-slogan').value;
+            if(!activeData.contact) activeData.contact = {};
+            activeData.contact.phone = document.getElementById('edit-phone').value;
+            activeData.contact.email1 = document.getElementById('edit-email1').value;
+            activeData.contact.email2 = document.getElementById('edit-email2').value;
+            activeData.contact.address = document.getElementById('edit-address').value.replace(/\n/g, '<br>');
+            saveAllData(); renderAllSections(); alert("Ayarlar Kaydedildi!");
+        }
+
+        function loadStyleToAdminForm() {
+            const s = activeData.styles || defaultData.styles;
+            document.getElementById('style-font-sport').value = s.fontSport || "'Space Grotesk', sans-serif";
+            document.getElementById('style-font-main').value = s.fontMain || "'Syne', sans-serif";
+            document.getElementById('style-hero-size').value = s.heroTitleSize || "8.5rem";
+            document.getElementById('style-section-size').value = s.sectionTitleSize || "3rem";
+            document.getElementById('style-accent-color').value = s.accentColor || "#ff2a4b";
+        }
+
+        function saveTypographyStyles() {
+            if(!activeData.styles) activeData.styles = {};
+            activeData.styles.fontSport = document.getElementById('style-font-sport').value;
+            activeData.styles.fontMain = document.getElementById('style-font-main').value;
+            activeData.styles.heroTitleSize = document.getElementById('style-hero-size').value;
+            activeData.styles.sectionTitleSize = document.getElementById('style-section-size').value;
+            activeData.styles.accentColor = document.getElementById('style-accent-color').value;
+            saveAllData();
+            applySavedTheme();
+            renderAllSections();
+            alert("Tipografi ve stil tercihleri başarıyla uygulandı!");
+        }
+
+        // BÖLÜM EKLE / SİL MOTORLARI
+        function renderAdminBoard() {
+            const list = document.getElementById('admin-board-list'); list.innerHTML = '';
+            (activeData.board || []).forEach(b => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(b.img)}" width="40" height="40"></td><td>${b.name}</td><td>${b.role}</td><td><button class="admin-btn-delete" onclick="deleteBoardMember(${b.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addBoardMember() {
+            const name = document.getElementById('new-board-name').value;
+            const role = document.getElementById('new-board-role').value;
+            const img = document.getElementById('new-board-img').value;
+            if(!name || !role) return;
+            activeData.board.push({ id: Date.now(), name, role, img });
+            saveAllData(); renderAllSections(); renderAdminBoard();
+            document.getElementById('new-board-name').value = ''; document.getElementById('new-board-role').value = ''; document.getElementById('new-board-img').value = '';
+        }
+        function deleteBoardMember(id) { activeData.board = activeData.board.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminBoard(); }
+
+        function renderAdminStaff() {
+            const list = document.getElementById('admin-staff-list'); list.innerHTML = '';
+            (activeData.staff || []).forEach(s => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(s.img)}" width="40" height="40"></td><td>${s.name}</td><td>${s.role}</td><td><button class="admin-btn-delete" onclick="deleteStaffMember(${s.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addStaffMember() {
+            const name = document.getElementById('new-staff-name').value;
+            const role = document.getElementById('new-staff-role').value;
+            const img = document.getElementById('new-staff-img').value;
+            if(!name || !role) return;
+            if(!activeData.staff) activeData.staff = [];
+            activeData.staff.push({ id: Date.now(), name, role, img });
+            saveAllData(); renderAllSections(); renderAdminStaff();
+            document.getElementById('new-staff-name').value = ''; document.getElementById('new-staff-role').value = ''; document.getElementById('new-staff-img').value = '';
+        }
+        function deleteStaffMember(id) { activeData.staff = activeData.staff.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminStaff(); }
+
+        function renderAdminKits() {
+            const list = document.getElementById('admin-kits-list'); list.innerHTML = '';
+            (activeData.kits || []).forEach(k => {
+                list.innerHTML += `<tr><td><strong>${k.title}</strong></td><td><a href="${k.img}" target="_blank">Resmi Gör</a></td><td><button class="admin-btn-delete" onclick="deleteKit(${k.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addKit() {
+            const title = document.getElementById('new-kit-title').value;
+            const img = document.getElementById('new-kit-img').value;
+            if(!title || !img) return;
+            if(!activeData.kits) activeData.kits = [];
+            activeData.kits.push({ id: Date.now(), title, img });
+            saveAllData(); renderAllSections(); renderAdminKits();
+            document.getElementById('new-kit-title').value = ''; document.getElementById('new-kit-img').value = '';
+        }
+        function deleteKit(id) { activeData.kits = activeData.kits.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminKits(); }
+
+        function renderAdminSquad() {
+            const list = document.getElementById('admin-squad-list'); list.innerHTML = '';
+            (activeData.players || []).forEach(p => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(p.img)}" width="40" height="40"></td><td>${p.name}</td><td>${p.position}</td><td>Yaş: ${p.age}</td><td><button class="admin-btn-delete" onclick="deletePlayer(${p.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addPlayer() {
+            const name = document.getElementById('new-player-name').value;
+            const pos = document.getElementById('new-player-pos').value;
+            const age = document.getElementById('new-player-age').value;
+            const height = document.getElementById('new-player-height').value;
+            const weight = document.getElementById('new-player-weight').value;
+            const foot = document.getElementById('new-player-foot').value;
+            const img = document.getElementById('new-player-img').value;
+            if(!name) return;
+            activeData.players.push({ id: Date.now(), name, position: pos, age, height, weight, foot, img });
+            saveAllData(); renderAllSections(); renderAdminSquad();
+            document.getElementById('new-player-name').value = '';
+        }
+        function deletePlayer(id) { activeData.players = activeData.players.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminSquad(); }
+
+        function renderAdminTransfers() {
+            const list = document.getElementById('admin-transfer-list'); list.innerHTML = '';
+            (activeData.transfers || []).forEach(t => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(t.img)}" width="40"></td><td>${t.name}</td><td>${t.club}</td><td>${t.status}</td><td><button class="admin-btn-delete" onclick="deleteTransfer(${t.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addTransfer() {
+            const name = document.getElementById('new-trans-name').value;
+            const club = document.getElementById('new-trans-club').value;
+            const status = document.getElementById('new-trans-status').value;
+            const img = document.getElementById('new-trans-img').value;
+            if(!name) return;
+            activeData.transfers.push({ id: Date.now(), name, club, status, img });
+            saveAllData(); renderAllSections(); renderAdminTransfers();
+        }
+        function deleteTransfer(id) { activeData.transfers = activeData.transfers.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminTransfers(); }
+
+        function renderAdminFixture() {
+            const list = document.getElementById('admin-fixture-list'); list.innerHTML = '';
+            (activeData.fixtures || []).forEach(f => {
+                list.innerHTML += `<tr><td>${f.home}</td><td>${f.score || 'v'}</td><td>${f.away}</td><td>${f.date}</td><td><button class="admin-btn-approve" onclick="updateFixtureScore(${f.id})">Skor Gir</button><button class="admin-btn-delete" onclick="deleteFixture(${f.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addFixture() {
+            const home = document.getElementById('new-fix-home').value; const away = document.getElementById('new-fix-away').value;
+            const score = document.getElementById('new-fix-score').value; const date = document.getElementById('new-fix-date').value;
+            if(!home || !away) return;
+            activeData.fixtures.push({ id: Date.now(), home, away, score, date });
+            saveAllData(); renderAllSections(); renderAdminFixture();
+        }
+        function updateFixtureScore(id) {
+            const f = activeData.fixtures.find(x => x.id === id); if(!f) return;
+            const sc = prompt("Skor Girin:", f.score); if(sc !== null) { f.score = sc; saveAllData(); renderAllSections(); renderAdminFixture(); }
+        }
+        function deleteFixture(id) { activeData.fixtures = activeData.fixtures.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminFixture(); }
+
+        function renderAdminGallery() {
+            const list = document.getElementById('admin-gallery-list'); list.innerHTML = '';
+            (activeData.gallery || []).forEach(g => {
+                list.innerHTML += `<div class="admin-list-item"><div>[${g.type.toUpperCase()}] ${g.url.slice(0, 30)}...</div><button class="admin-btn-delete" onclick="deleteGalleryItem(${g.id})">Sil</button></div>`;
+            });
+        }
+        function addGalleryItem() {
+            const type = document.getElementById('new-media-type').value; const url = document.getElementById('new-media-url').value;
+            if(!url) return;
+            activeData.gallery.push({ id: Date.now(), type, url });
+            saveAllData(); renderAllSections(); renderAdminGallery();
+        }
+        function deleteGalleryItem(id) { activeData.gallery = activeData.gallery.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminGallery(); }
+
+        function renderAdminPages() {
+            const list = document.getElementById('admin-pages-list'); list.innerHTML = '';
+            (activeData.customPages || []).forEach(cp => {
+                list.innerHTML += `<tr><td>${cp.menuTitle}</td><td>${cp.title}</td><td><button class="admin-btn-approve" onclick="startEditPage(${cp.id})">Düzenle</button><button class="admin-btn-delete" onclick="deleteCustomPage(${cp.id})">Sil</button></td></tr>`;
+            });
+        }
+        function saveCustomPage() {
+            const id = document.getElementById('edit-page-id').value;
+            const mTitle = document.getElementById('new-page-menu-title').value;
+            const title = document.getElementById('new-page-title').value;
+            const slogan = document.getElementById('new-page-slogan').value;
+            const img = document.getElementById('new-page-image-url').value;
+            const content = document.getElementById('new-page-content').value;
+            if(!mTitle || !title) return;
+            if(id) {
+                const p = activeData.customPages.find(x => x.id == id);
+                if(p) { p.menuTitle = mTitle; p.title = title; p.slogan = slogan; p.imageUrl = img; p.content = content; }
+            } else { activeData.customPages.push({ id: Date.now(), menuTitle: mTitle, title, slogan, imageUrl: img, content }); }
+            saveAllData(); renderAllSections(); renderAdminPages(); cancelPageEdit();
+        }
+        function startEditPage(id) {
+            const p = activeData.customPages.find(x => x.id === id); if(!p) return;
+            document.getElementById('edit-page-id').value = p.id;
+            document.getElementById('new-page-menu-title').value = p.menuTitle;
+            document.getElementById('new-page-title').value = p.title;
+            document.getElementById('new-page-slogan').value = p.slogan || '';
+            document.getElementById('new-page-image-url').value = p.imageUrl || '';
+            document.getElementById('new-page-content').value = p.content;
+            document.getElementById('cancel-edit-page-btn').style.display = 'block';
+        }
+        function cancelPageEdit() {
+            document.getElementById('edit-page-id').value = ''; document.getElementById('write-us-form').reset();
+            document.getElementById('cancel-edit-page-btn').style.display = 'none';
+        }
+        function deleteCustomPage(id) { activeData.customPages = activeData.customPages.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminPages(); }
+
+        function renderAdminMessages() {
+            const list = document.getElementById('admin-posts-list'); list.innerHTML = '';
+            (activeData.posts || []).forEach(p => {
+                list.innerHTML += `<div class="admin-list-item"><div><strong>${p.author}:</strong> ${p.text}</div><div>${!p.approved ? `<button class="admin-btn-approve" onclick="approvePost(${p.id})">Onayla</button>`:''}<button class="admin-btn-delete" onclick="deletePost(${p.id})">Sil</button></div></div>`;
+            });
+        }
+        function approvePost(id) { const p = activeData.posts.find(x => x.id === id); if(p) p.approved = true; saveAllData(); renderAllSections(); renderAdminMessages(); }
+        function deletePost(id) { activeData.posts = activeData.posts.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminMessages(); }
+
+        function previewTheme() {
+            const selTheme = document.getElementById('theme-select').value;
+            const selLayout = document.getElementById('layout-select').value;
+            const cssContent = themes[selTheme] + "\n" + layouts[selLayout];
+            document.getElementById('theme-styles').innerHTML = cssContent;
+        }
+        function saveTheme() { 
+            activeData.currentTheme = document.getElementById('theme-select').value; 
+            activeData.currentLayout = document.getElementById('layout-select').value; 
+            saveAllData(); renderAllSections(); alert("Arayüz Ayarları Kaydedildi!"); 
+        }
+        
+        function changeAdminPassword() {
+            const cur = document.getElementById('current-password-input').value;
+            const nw = document.getElementById('new-password-input').value;
+            if(cur !== activeData.adminPassword && cur !== "admin") return alert("Mevcut şifre yanlış!");
+            activeData.adminPassword = nw; saveAllData(); alert("Şifre güncellendi!");
+        }
+
+        // --- RENK PALETLERİ ---
+        const themes = {
+            classic: `:root { --bg-white: #04060a; --bg-dark: #ffffff; --text-light: #04060a; --text-dark: #ffffff; --text-muted: #8892b0; --accent-color: #ff2a4b; --premium-gray: rgba(255, 255, 255, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            karamanAtesi: `:root { --bg-white: #0f0103; --bg-dark: #ffffff; --text-light: #0f0103; --text-dark: #ffffff; --text-muted: #c9a4a7; --accent-color: #c1121f; --premium-gray: rgba(193, 18, 31, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            retro: `:root { --bg-white: #f5ebe0; --bg-dark: #3a1f13; --text-light: #f5ebe0; --text-dark: #3a1f13; --text-muted: #7f5539; --accent-color: #9e2a2b; --premium-gray: rgba(58, 31, 19, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.1); }`,
+            royal: `:root { --bg-white: #030a16; --bg-dark: #ffffff; --text-light: #030a16; --text-dark: #ffffff; --text-muted: #8296b3; --accent-color: #b89047; --premium-gray: rgba(184, 144, 71, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            pitch: `:root { --bg-white: #041206; --bg-dark: #ffffff; --text-light: #041206; --text-dark: #ffffff; --text-muted: #7da180; --accent-color: #2d8a4e; --premium-gray: rgba(45, 138, 78, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            legend: `:root { --bg-white: #060a14; --bg-dark: #ffffff; --text-light: #060a14; --text-dark: #ffffff; --text-muted: #7c8ba3; --accent-color: #d4af37; --premium-gray: rgba(212, 175, 55, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            cyberpunk: `:root { --bg-white: #05070a; --bg-dark: #ffffff; --text-light: #05070a; --text-dark: #ffffff; --text-muted: #84939c; --accent-color: #f97316; --premium-gray: rgba(249, 115, 22, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`
+        };
+
+        // --- YERLEŞİM ŞABLONLARI ---
+        const layouts = {
+            asymmetric: `
+                :root {
+                    --card-radius: 24px;
+                    --border-style: 1px solid rgba(255, 255, 255, 0.05);
+                    --card-align: left;
+                }
+            `,
+            minimalist: `
+                :root {
+                    --card-radius: 0px;
+                    --border-style: none;
+                    --card-align: center;
+                }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item {
+                    box-shadow: none !important;
+                    background: transparent !important;
+                }
+                .board-img-wrapper {
+                    border-radius: 50% !important;
+                }
+            `,
+            aggressive: `
+                :root {
+                    --card-radius: 0px;
+                    --border-style: 2px solid var(--accent-color);
+                    --card-align: left;
+                }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item {
+                    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.8) !important;
+                }
+            `
+        };
+
+        window.onload = loadAllData;
     </script>
 </body>
 </html>
