@@ -2263,51 +2263,6 @@
         };
 
         window.onload = loadAllData;
-    
-        <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-        <script>
-const supabase = window.supabase.createClient(
-  "https://wbwxaqdwlypnpcdlrcfa.supabase.co",
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indid3hhcWR3bHlwbnBjZGxyY2ZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTcxMTEsImV4cCI6MjA5OTY5MzExMX0.PS-UsGe0LuQ8EVL1psnHMbchT4mHdrA8etIGdtEGH84"
-);
-
-// Sayfa açılırken verileri yükle
-window.addEventListener("load", async () => {
-  try {
-    const { data } = await supabase
-      .from("site_ayar")
-      .select("ayarlar")
-      .eq("id", 1)
-      .single();
-
-    if (data && data.ayarlar) {
-      activeData = data.ayarlar;
-      if (typeof renderAllSections === "function") renderAllSections();
-    }
-  } catch (e) {
-    console.log("İlk yükleme boş olabilir");
-  }
-});
-
-// Kaydet fonksiyonunu genişlet
-if (typeof saveAllData === "function") {
-  const eskiKaydet = saveAllData;
-
-  saveAllData = async function () {
-    eskiKaydet();
-
-    try {
-      await supabase.from("site_ayar").upsert({
-        id: 1,
-        ayarlar: activeData
-      });
-
-      console.log("Supabase kaydedildi");
-    } catch (e) {
-      console.error(e);
-    }
-  };
-}
-</script>
+    </script>
 </body>
 </html>
