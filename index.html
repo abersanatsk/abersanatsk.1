@@ -1492,8 +1492,8 @@
 
     <script>
         // --- SUPABASE BAĞLANTI AYARLARI ---
-        const SUPABASE_URL = "BURAYA_SUPABASE_URL_YAZIN"; 
-        const SUPABASE_ANON_KEY = "BURAYA_SUPABASE_ANON_KEY_YAZIN";
+        const SUPABASE_URL = "https://wbwxaqdwlypnpcdlrcfa.supabase.co"; 
+        const SUPABASE_ANON_KEY = "sb_publishable_cwfkyZ0-r01TITNqgrLC8A_SEVSXRT-";
 
         function switchPage(pageId) {
             document.querySelectorAll('section').forEach(sec => {
@@ -2058,7 +2058,6 @@
             alert("Tipografi ve stil tercihleri başarıyla uygulandı!");
         }
 
-        // BÖLÜM EKLE / SİL MOTORLARI
         function renderAdminBoard() {
             const list = document.getElementById('admin-board-list'); list.innerHTML = '';
             (activeData.board || []).forEach(b => {
@@ -2290,11 +2289,7 @@
             `
         };
 
-    <script>
-     window.onload = loadAllData;
-    const SUPABASE_URL = "https://wbwxaqdwlypnpcdlrcfa.supabase.co";
-    const SUPABASE_ANON_KEY = "sb_publishable_cwfkyZ0-r01TITNqgrLC8A_SEVSXRT-";
-
-    // ... kodların geri kalanı burada devam ediyor ...
+        window.onload = loadAllData;
+    </script>
 </body>
 </html>
