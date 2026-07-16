@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="tr">
 <head>
@@ -102,7 +101,7 @@
             filter: blur(120px);
         }
 
-        /* --- YENİ DÜZENLİ HEADER (FLEXBOX MİMARİSİ) --- */
+        /* --- HEADER --- */
         header {
             position: fixed;
             top: 0;
@@ -246,7 +245,7 @@
             to { opacity: 1; transform: translateY(0); }
         }
 
-        /* --- HERO: BOZULMAYAN ARKA PLAN --- */
+        /* --- HERO --- */
         .hero {
             flex-direction: column;
             justify-content: center;
@@ -305,7 +304,6 @@
             100% { transform: translateY(-10px) rotate(0.5deg); }
         }
 
-        /* Cam Eriyik Slogan Alanı */
         .hero-slogan-monument {
             background: rgba(255, 255, 255, 0.01);
             backdrop-filter: blur(40px);
@@ -339,7 +337,7 @@
             transition: font-size 0.3s;
         }
 
-        /* --- SECTIONS (SAYFA VE BÖLÜM BAŞLIKLARI) --- */
+        /* --- SECTIONS --- */
         .section-title {
             font-family: var(--font-sport);
             font-size: var(--section-title-size);
@@ -1506,8 +1504,87 @@
         </div>
     </footer>
 
+    <!-- Firebase SDK Modülü (Veritabanı Bağlantısı) -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        // Firebase Konsolundaki Gerçek Bilgileriniz Entegre Edildi
+        const firebaseConfig = {
+            apiKey: "AIzaSyDRLDSokBxQNUjC4M5aypgasbfT3Gm2WDg",
+            authDomain: "abersanatsk.firebaseapp.com",
+            projectId: "abersanatsk",
+            storageBucket: "abersanatsk.firebasestorage.app",
+            messagingSenderId: "547355513090",
+            appId: "1:547355513090:web:227ecbd40020f84ad6321b",
+            measurementId: "G-MEJ3D7J9XF"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        // BULUTA KAYDETME FONKSİYONU
+        window.saveAllData = async function() {
+            try {
+                await setDoc(doc(db, "site_verileri", "genel_ayar"), window.activeData);
+                console.log("Veri buluta başarıyla kaydedildi!");
+            } catch (e) {
+                console.error("Kaydederken hata oluştu: ", e);
+            }
+        };
+
+        // BULUTTAN YÜKLEME FONKSİYONU (Eski Verilerle Çakışmayı Önleyen Akıllı Birleştirici)
+        window.loadAllData = async function() {
+            try {
+                const docRef = doc(db, "site_verileri", "genel_ayar");
+                const docSnap = await getDoc(docRef);
+
+                window.activeData = JSON.parse(JSON.stringify(window.defaultData));
+
+                if (docSnap.exists()) {
+                    const parsed = docSnap.data();
+                    for (let key in parsed) {
+                        if (parsed[key] !== null && parsed[key] !== undefined) {
+                            if (typeof parsed[key] === 'object' && !Array.isArray(parsed[key])) {
+                                window.activeData[key] = Object.assign({}, window.activeData[key], parsed[key]);
+                            } else { 
+                                window.activeData[key] = parsed[key]; 
+                            }
+                        }
+                    }
+                }
+                const arrayKeys = ['players', 'board', 'staff', 'kits', 'transfers', 'fixtures', 'gallery', 'posts', 'customPages'];
+                arrayKeys.forEach(key => { 
+                    if (!Array.isArray(window.activeData[key])) window.activeData[key] = []; 
+                });
+
+                applySavedTheme();
+                renderAllSections();
+                updateTrafficStats();
+            } catch (e) {
+                console.error("Veri çekerken hata oluştu: ", e);
+                window.activeData = JSON.parse(JSON.stringify(window.defaultData));
+                applySavedTheme();
+                renderAllSections();
+                updateTrafficStats();
+            }
+        };
+
+        // Tarayıcı Yüklendiğinde Firebase'den Verileri Getir
+        if (document.readyState === 'complete') {
+            window.loadAllData();
+        } else {
+            window.addEventListener('load', window.loadAllData);
+        }
+    </script>
+
+    <!-- Ana Fonksiyonlar Scripti -->
     <script>
-        // --- YENİ SAYFA GEÇİŞ MANTIĞI ---
+        // Hata durumunda koruyucu fallbacks
+        window.saveAllData = window.saveAllData || function() { console.log("Firebase henüz yüklenmedi..."); };
+        window.loadAllData = window.loadAllData || function() { console.log("Firebase henüz yüklenmedi..."); };
+
+        // Sayfa geçiş fonksiyonu
         function switchPage(pageId) {
             document.querySelectorAll('section').forEach(sec => {
                 sec.classList.remove('active-page');
@@ -1520,7 +1597,7 @@
             }
         }
 
-        // --- MULTI-INPUT HIGH-PERFORMANCE BASE64 COMPRESSOR MOTOR ---
+        // Resim Sıkıştırma ve Optimizasyon Motoru
         function uploadImage(inputElement, maxWidth, maxHeight, targetField, callback) {
             const file = inputElement.files[0];
             if (!file) return;
@@ -1618,6 +1695,7 @@
             return rawUrl;
         }
 
+        // Yerel Trafik Sayacı Modülü (Zararsız LocalStorage Kullanımı)
         function updateTrafficStats() {
             try {
                 let totalVisits = parseInt(localStorage.getItem('aber_total_visits') || "0");
@@ -1658,7 +1736,8 @@
             imgElement.src = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200';
         }
 
-        let defaultData = {
+        // Global Veriler
+        window.defaultData = {
             adminPassword: "admin",
             currentTheme: "classic",
             currentLayout: "asymmetric",
@@ -1688,37 +1767,7 @@
             customPages: []
         };
 
-        let activeData = {};
-
-        function loadAllData() {
-            try {
-                const saved = localStorage.getItem('aber_sk_premium_data_v17');
-                activeData = JSON.parse(JSON.stringify(defaultData));
-                if (saved) {
-                    const parsed = JSON.parse(saved);
-                    for (let key in parsed) {
-                        if (parsed[key] !== null && parsed[key] !== undefined) {
-                            if (typeof parsed[key] === 'object' && !Array.isArray(parsed[key])) {
-                                activeData[key] = Object.assign({}, activeData[key], parsed[key]);
-                            } else { activeData[key] = parsed[key]; }
-                        }
-                    }
-                }
-                const arrayKeys = ['players', 'board', 'staff', 'kits', 'transfers', 'fixtures', 'gallery', 'posts', 'customPages'];
-                arrayKeys.forEach(key => { if (!Array.isArray(activeData[key])) activeData[key] = []; });
-                applySavedTheme();
-                renderAllSections();
-                updateTrafficStats();
-            } catch (e) {
-                activeData = JSON.parse(JSON.stringify(defaultData));
-                saveAllData();
-                renderAllSections();
-            }
-        }
-
-        function saveAllData() {
-            localStorage.setItem('aber_sk_premium_data_v17', JSON.stringify(activeData));
-        }
+        window.activeData = {};
 
         function applySavedTheme() {
             const selectedTheme = activeData.currentTheme || "classic";
@@ -1750,7 +1799,6 @@
 
             const rawHeaderTitle = activeData.headerTitle || defaultData.headerTitle;
             
-            // --- YENİ: Tarayıcı Sekmesi (Sayfa Başlığı) Dinamik Olarak Güncelleniyor ---
             document.title = rawHeaderTitle || "Karaman Aber Sanat Gücü Spor Kulübü";
             
             document.getElementById('header-club-title').innerText = rawHeaderTitle;
@@ -1872,7 +1920,7 @@
                 galleryGrid.appendChild(box);
             });
 
-            // Dinamik Sayfa Render & Menü
+            // Dinamik Sayfalar
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             const mainNavLinks = document.getElementById('main-nav-links');
             mainNavLinks.innerHTML = `
@@ -1902,7 +1950,7 @@
                     </section>`;
             });
 
-            // Mesajlar
+            // Taraftar Yazıları
             const postsContainer = document.getElementById('posts-container'); postsContainer.innerHTML = '';
             (activeData.posts || []).filter(p => p.approved).forEach(p => {
                 postsContainer.innerHTML += `<div class="post-card"><div class="post-meta">${p.author} // Taraftar</div><i>"${p.text}"</i></div>`;
@@ -1914,7 +1962,6 @@
             document.getElementById('club-email-2').innerText = contactData.email2 || defaultData.contact.email2;
             document.getElementById('club-address-text').innerHTML = contactData.address || defaultData.contact.address;
 
-            // Açılışta Anasayfada değilse anasayfayı aktifleştir
             const activeSections = document.querySelectorAll('section.active-page');
             if (activeSections.length === 0) {
                 switchPage('home');
@@ -2262,8 +2309,6 @@
                 }
             `
         };
-
-        window.onload = loadAllData;
     </script>
 </body>
 </html>
