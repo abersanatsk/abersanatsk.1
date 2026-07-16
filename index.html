@@ -1680,7 +1680,7 @@
                 if(SUPABASE_URL.includes("supabase.co")) {
                     const response = await fetch(`${SUPABASE_URL}/rest/v1/aber_verileri?id=eq.1&select=data&t=${Date.now()}`, {
                         headers: {
-                            'apikey': SUPABASE_ANON_KEY,
+                            'apikey': eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indid3hhcWR3bHlwbnBjZGxyY2ZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTcxMTEsImV4cCI6MjA5OTY5MzExMX0.PS-UsGe0LuQ8EVL1psnHMbchT4mHdrA8etIGdtEGH84,
                             'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
                             'Cache-Control': 'no-cache'
                         },
@@ -2283,7 +2283,11 @@
         };
 
         window.onload = loadAllData;
-    </script>
+// Hata veren fonksiyonu tanımlayalım
+function handleLogoFallback(imgElement) {
+    imgElement.src = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200';
+}    
+</script>
 </body>
 </html>
     
