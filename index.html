@@ -1489,8 +1489,7 @@
             <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
         </div>
     </footer>
-
-    <script>
+<script>
         // --- SUPABASE BAĞLANTI AYARLARI ---
         const SUPABASE_URL = "https://wbwxaqdwlypnpcdlrcfa.supabase.co"; 
         const SUPABASE_ANON_KEY = "sb_publishable_cwfkyZ0-r01TITNqgrLC8A_SEVSXRT-";
@@ -1679,7 +1678,6 @@
         async function loadAllData() {
             try {
                 if(SUPABASE_URL.includes("supabase.co")) {
-                    // Cache kırma parametresi (?t=) eklendi
                     const response = await fetch(`${SUPABASE_URL}/rest/v1/aber_verileri?id=eq.1&select=data&t=${Date.now()}`, {
                         headers: {
                             'apikey': SUPABASE_ANON_KEY,
@@ -1698,7 +1696,6 @@
                         }
                     }
                 } else {
-                    // Supabase bağlayana kadar çalışan lokal kod bloğu
                     const saved = localStorage.getItem('aber_sk_premium_data_v17');
                     activeData = JSON.parse(JSON.stringify(defaultData));
                     if (saved) {
@@ -1727,13 +1724,11 @@
         }
 
         async function saveAllData() {
-            // Önce yedeği lokal'e atıyoruz
             localStorage.setItem('aber_sk_premium_data_v17', JSON.stringify(activeData));
 
-            // Varsa veritabanına gönderiyoruz
             if(SUPABASE_URL.includes("supabase.co")) {
                 try {
-                    await fetch(`${SUPABASE_URL}/rest/v1/aber_verileri?id=eq.1`, {
+                    const response = await fetch(`${SUPABASE_URL}/rest/v1/aber_verileri?id=eq.1`, {
                         method: 'PATCH',
                         headers: {
                             'apikey': SUPABASE_ANON_KEY,
@@ -1743,8 +1738,17 @@
                         },
                         body: JSON.stringify({ data: activeData })
                     });
+
+                    if (!response.ok) {
+                        const err = await response.json();
+                        console.error("Supabase API Hatası:", err);
+                        alert("Veritabanına kaydedilemedi! RLS izni kapalı olabilir veya ID=1 olan satır yok. Hata detayı için F12 Konsola bakabilirsiniz.");
+                    } else {
+                        console.log("Supabase'e başarıyla kaydedildi.");
+                    }
                 } catch (error) {
-                    console.error("Supabase kaydetme hatası:", error);
+                    console.error("Supabase bağlantı hatası:", error);
+                    alert("Bağlantı hatası! Lütfen internetinizi veya Supabase bağlantı ayarlarını kontrol edin.");
                 }
             }
         }
@@ -1800,7 +1804,6 @@
             document.getElementById('hero-title-text').innerHTML = (heroData.title || defaultData.hero.title).replace('\n', '<br>');
             document.getElementById('hero-slogan-text').innerText = heroData.slogan || defaultData.hero.slogan;
 
-            // Yönetim Kurulu
             const boardContainer = document.getElementById('board-container');
             boardContainer.innerHTML = '';
             (activeData.board || []).forEach(b => {
@@ -1811,7 +1814,6 @@
                     </div>`;
             });
 
-            // Teknik Heyet
             const staffContainer = document.getElementById('staff-container');
             staffContainer.innerHTML = '';
             (activeData.staff || []).forEach(s => {
@@ -1822,7 +1824,6 @@
                     </div>`;
             });
 
-            // Oyuncular Kadrosu
             const gkContainer = document.getElementById('gk-players-container');
             const dfContainer = document.getElementById('df-players-container');
             const mfContainer = document.getElementById('mf-players-container');
@@ -1852,7 +1853,6 @@
             document.getElementById('mf-section').style.display = mfContainer.innerHTML ? 'block' : 'none';
             document.getElementById('fw-section').style.display = fwContainer.innerHTML ? 'block' : 'none';
 
-            // Formalar
             const kitsContainer = document.getElementById('kits-container');
             kitsContainer.innerHTML = '';
             (activeData.kits || []).forEach(k => {
@@ -1863,7 +1863,6 @@
                     </div>`;
             });
 
-            // Transferler
             const transfersGrid = document.getElementById('transfers-container');
             transfersGrid.innerHTML = '';
             (activeData.transfers || []).forEach(t => {
@@ -1877,7 +1876,6 @@
                     </div>`;
             });
 
-            // Fikstür
             const fixtureGrid = document.getElementById('fixture-container');
             fixtureGrid.innerHTML = '';
             (activeData.fixtures || []).forEach(f => {
@@ -1889,7 +1887,6 @@
                     </div>`;
             });
 
-            // Galeri
             const galleryGrid = document.getElementById('gallery-container');
             galleryGrid.innerHTML = '';
             (activeData.gallery || []).forEach(g => {
@@ -1899,7 +1896,6 @@
                 galleryGrid.appendChild(box);
             });
 
-            // Dinamik Sayfa Render & Menü
             const dynamicContainer = document.getElementById('dynamic-pages-container');
             const mainNavLinks = document.getElementById('main-nav-links');
             mainNavLinks.innerHTML = `
@@ -1929,19 +1925,16 @@
                     </section>`;
             });
 
-            // Mesajlar
             const postsContainer = document.getElementById('posts-container'); postsContainer.innerHTML = '';
             (activeData.posts || []).filter(p => p.approved).forEach(p => {
                 postsContainer.innerHTML += `<div class="post-card"><div class="post-meta">${p.author} // Taraftar</div><i>"${p.text}"</i></div>`;
             });
 
-            // İletişim Detayları
             document.getElementById('club-phone-link').innerText = contactData.phone || defaultData.contact.phone;
             document.getElementById('club-email-1').innerText = contactData.email1 || defaultData.contact.email1;
             document.getElementById('club-email-2').innerText = contactData.email2 || defaultData.contact.email2;
             document.getElementById('club-address-text').innerHTML = contactData.address || defaultData.contact.address;
 
-            // Açılışta Anasayfada değilse anasayfayı aktifleştir
             const activeSections = document.querySelectorAll('section.active-page');
             if (activeSections.length === 0) {
                 switchPage('home');
@@ -2292,4 +2285,6 @@
         window.onload = loadAllData;
     </script>
 </body>
+</html>
+    
 </html>
