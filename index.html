@@ -2269,36 +2269,44 @@ const supabaseUrl = "https://wbwxaqdwlypnpcdlrcfa.supabase.co";
 const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indid3hhcWR3bHlwbnBjZGxyY2ZhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODQxMTcxMTEsImV4cCI6MjA5OTY5MzExMX0.PS-UsGe0LuQ8EVL1psnHMbchT4mHdrA8etIGdtEGH84";
 const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
 
-async function saveToCloud() {
-  await supabase.from("site_ayar").upsert({
-    id: 1,
-    ayarlar: activeData
-  });
+// Eski saveAllData varsa onu koru
+if (typeof saveAllData === "function") {
+  const originalSave = saveAllData;
+
+  saveAllData = async function() {
+    originalSave();
+
+    try {
+      await supabase.from("site_ayar").upsert({
+        id: 1,
+        ayarlar: activeData
+      });
+      console.log("Supabase kaydedildi");
+    } catch (e) {
+      console.error(e);
+    }
+  };
 }
 
-async function loadFromCloud() {
-  const { data } = await supabase
-    .from("site_ayar")
-    .select("ayarlar")
-    .eq("id", 1)
-    .single();
+// Sayfa açılırken verileri yükle
+window.addEventListener("load", async () => {
+  try {
+    const { data } = await supabase
+      .from("site_ayar")
+      .select("ayarlar")
+      .eq("id", 1)
+      .single();
 
-  if (data && data.ayarlar) {
-    activeData = data.ayarlar;
-    renderAllSections();
+    if (data && data.ayarlar) {
+      activeData = data.ayarlar;
+      if (typeof renderAllSections === "function") {
+        renderAllSections();
+      }
+    }
+  } catch (e) {
+    console.error(e);
   }
-}
-
-const oldSave = saveAllData;
-saveAllData = async function() {
-  oldSave();
-  await saveToCloud();
-};
-
-document.addEventListener("DOMContentLoaded", async () => {
-  await loadFromCloud();
 });
 </script>
-    </script>
-</body>
+   </body>
 </html>
