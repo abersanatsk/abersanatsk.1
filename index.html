@@ -25,6 +25,8 @@
             --hero-title-size: 8.5rem;
             --section-title-size: 3rem;
             --logo-size: 65px;
+            --logo-offset-x: 0px;
+            --logo-offset-y: 0px;
             --hero-slogan-size: 1.3rem;
             --header-title-size: 1.4rem;
             --menu-link-size: 0.75rem;
@@ -120,7 +122,7 @@
 
         nav {
             display: flex;
-            justify-content: space-between; /* Logo solda, menü sağda olacak şekilde ayırır */
+            justify-content: space-between; 
             align-items: center;
             height: 110px; 
             position: relative; 
@@ -133,14 +135,14 @@
             display: flex;
             align-items: center;
             gap: 15px; 
-            position: relative; /* Dengesizliği çözen ana hamle, artık sayfa akışında */
+            position: relative; 
             z-index: 999;
             flex-shrink: 0;
         }
 
         .logo-img-wrapper {
             width: var(--logo-size, 65px);
-            height: 0px; /* Header'ı dikeyde germemesi için 0 yükseklik */
+            height: 0px; 
             display: none;
             position: relative; 
             flex-shrink: 0; 
@@ -149,15 +151,16 @@
         }
 
         .logo-img-wrapper img {
-            position: absolute; /* Görsel bağımsızlaşır, dışa taşabilir */
+            position: absolute; 
             top: 50%;
             left: 50%;
-            transform: translate(-50%, -50%);
+            /* x ve y koordinatlarını admin panelinden çekmesi için güncellendi */
+            transform: translate(calc(-50% + var(--logo-offset-x, 0px)), calc(-50% + var(--logo-offset-y, 0px)));
             width: var(--logo-size, 65px);
             height: var(--logo-size, 65px);
             object-fit: contain;
             filter: drop-shadow(0 4px 15px rgba(0,0,0,0.6));
-            transition: width 0.3s ease, height 0.3s ease;
+            transition: width 0.3s ease, height 0.3s ease, transform 0.3s ease;
         }
 
         .logo-text-group {
@@ -200,7 +203,7 @@
             text-decoration: none;
             color: var(--text-dark);
             font-weight: 500;
-            font-size: var(--menu-link-size, 0.75rem); /* Dinamik menü boyutu */
+            font-size: var(--menu-link-size, 0.75rem); 
             text-transform: uppercase;
             letter-spacing: 2px;
             transition: all 0.3s ease;
@@ -846,7 +849,7 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(4, 6, 10, 0.85);
+            background-color: rgba(4, 6, 10, 0.95);
             backdrop-filter: blur(20px);
             z-index: 1000;
             justify-content: center;
@@ -1018,6 +1021,40 @@
             margin-right: 5px;
         }
 
+        /* --- LIGHTBOX (GALERİ BÜYÜTME) CSS --- */
+        .lightbox-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); 
+            justify-content: center; 
+            align-items: center; 
+            backdrop-filter: blur(10px);
+        }
+        .lightbox-content {
+            max-width: 90%; 
+            max-height: 90%; 
+            border-radius: 12px; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lightbox-close {
+            position: absolute; 
+            top: 30px; 
+            right: 40px; 
+            color: #f1f1f1; 
+            font-size: 50px; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .lightbox-close:hover { color: var(--accent-color); }
+        @keyframes zoomIn { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
+
         /* --- FOOTER --- */
         footer {
             padding: 7rem 0;
@@ -1071,11 +1108,11 @@
                 justify-content: center;
             }
             .logo-img-wrapper {
-                height: var(--logo-size, 65px); /* Mobilde üst üste binmemesi için boyutu geri verir */
+                height: var(--logo-size, 65px); 
             }
             .logo-img-wrapper img {
-                position: relative; /* Mobilde normal akışa döndürür */
-                transform: none;
+                position: relative; 
+                transform: translate(var(--logo-offset-x, 0px), var(--logo-offset-y, 0px)); 
                 top: auto;
                 left: auto;
             }
@@ -1268,7 +1305,13 @@
                         
                         <div style="margin-top:15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
                             <label style="color: #fff; font-size: 0.9rem;">Logo Boyutu (Piksel)</label>
-                            <input type="number" id="edit-logo-size" class="form-control" placeholder="Varsayılan: 65" min="30" max="400" style="margin-top:5px;">
+                            <input type="number" id="edit-logo-size" class="form-control" placeholder="Varsayılan: 65" min="30" max="400" style="margin-top:5px; margin-bottom: 10px;">
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Logo X Pozisyonu (Sağ/Sol Kaydırma - Piksel)</label>
+                            <input type="number" id="edit-logo-x" class="form-control" placeholder="Varsayılan: 0" style="margin-top:5px; margin-bottom: 10px;">
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Logo Y Pozisyonu (Aşağı/Yukarı Kaydırma - Piksel)</label>
+                            <input type="number" id="edit-logo-y" class="form-control" placeholder="Varsayılan: 0" style="margin-top:5px;">
                         </div>
                     </div>
 
@@ -1656,6 +1699,12 @@
         </div>
     </div>
 
+    <!-- Lightbox (Galeri Büyütme) Modal -->
+    <div id="imageLightbox" class="lightbox-modal" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightboxImg">
+    </div>
+
     <footer>
         <div class="container">
             <div class="footer-logo" id="footer-logo-text">KARAMAN ABER SANAT GÜCÜ</div>
@@ -1744,6 +1793,18 @@
     <script>
         window.saveAllData = window.saveAllData || function() { console.log("Firebase henüz yüklenmedi..."); };
         window.loadAllData = window.loadAllData || function() { console.log("Firebase henüz yüklenmedi..."); };
+
+        // Global Lightbox Fonksiyonları
+        window.openLightbox = function(src) {
+            const modal = document.getElementById('imageLightbox');
+            const modalImg = document.getElementById('lightboxImg');
+            modal.style.display = "flex";
+            modalImg.src = src;
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('imageLightbox').style.display = "none";
+        };
 
         function getSafeData(key) {
             if (typeof window.defaultData[key] === 'object' && !Array.isArray(window.defaultData[key])) {
@@ -1907,6 +1968,8 @@
             currentLayout: "asymmetric",
             logoUrl: "",
             logoSize: "65",
+            logoX: "0",
+            logoY: "0",
             headerTitle: "KARAMAN ABER SANAT GÜCÜ",
             heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
             hero: { title: "", slogan: "Sloganımız olan '' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
@@ -1970,6 +2033,8 @@
                     --header-title-size: ${s.headerTitleSize || "1.4rem"};
                     --menu-link-size: ${s.menuLinkSize || "0.75rem"};
                     --logo-size: ${activeData.logoSize || "65"}px;
+                    --logo-offset-x: ${activeData.logoX || "0"}px;
+                    --logo-offset-y: ${activeData.logoY || "0"}px;
                     ${textColorOverride}
                     ${textMutedOverride}
                     ${accentColorOverride}
@@ -2127,8 +2192,12 @@
             galleryGrid.innerHTML = '';
             (activeData.gallery || []).forEach(g => {
                 const box = document.createElement('div'); box.className = 'gallery-item';
-                if (g.type === 'image') box.innerHTML = `<img src="${convertDriveUrl(g.url)}" onerror="handleLogoFallback(this)">`;
-                else box.innerHTML = `<iframe src="${getEmbedVideoUrl(g.url)}" allowfullscreen></iframe>`;
+                if (g.type === 'image') {
+                    // Tıklanma olayı eklendi (Lightbox için)
+                    box.innerHTML = `<img src="${convertDriveUrl(g.url)}" onerror="handleLogoFallback(this)" onclick="openLightbox(this.src)" style="cursor: zoom-in;">`;
+                } else {
+                    box.innerHTML = `<iframe src="${getEmbedVideoUrl(g.url)}" allowfullscreen></iframe>`;
+                }
                 galleryGrid.appendChild(box);
             });
 
@@ -2219,6 +2288,8 @@
             const contactData = getSafeData('contact');
             document.getElementById('edit-logo-url').value = activeData.logoUrl || '';
             document.getElementById('edit-logo-size').value = activeData.logoSize || '65';
+            document.getElementById('edit-logo-x').value = activeData.logoX || '0';
+            document.getElementById('edit-logo-y').value = activeData.logoY || '0';
             document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
             document.getElementById('edit-header-title').value = activeData.headerTitle || defaultData.headerTitle;
             document.getElementById('edit-hero-title').value = heroData.title || '';
@@ -2236,6 +2307,8 @@
             }
             
             activeData.logoSize = document.getElementById('edit-logo-size').value || '65';
+            activeData.logoX = document.getElementById('edit-logo-x').value || '0';
+            activeData.logoY = document.getElementById('edit-logo-y').value || '0';
 
             const urlBg = document.getElementById('edit-hero-bg-url').value.trim();
             if (urlBg !== "[Cihazdan Yüklendi]" && urlBg !== "") {
@@ -2541,6 +2614,8 @@
                     --header-title-size: ${s.headerTitleSize || "1.4rem"};
                     --menu-link-size: ${s.menuLinkSize || "0.75rem"};
                     --logo-size: ${window.activeData.logoSize || "65"}px;
+                    --logo-offset-x: ${window.activeData.logoX || "0"}px;
+                    --logo-offset-y: ${window.activeData.logoY || "0"}px;
                 }
             `;
             
