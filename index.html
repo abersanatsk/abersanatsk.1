@@ -108,34 +108,28 @@
         }
 
         header {
-    position: absolute !important; /* 'fixed' yerine 'absolute' yaptık */
-    top: 0 !important;
-    left: 0 !important;
-    width: 100% !important;
-    z-index: 1000 !important;
-    
-    /* Şeffaflık ayarlarını koruyoruz */
-    background: transparent !important;
-    background-color: transparent !important;
-    backdrop-filter: none !important;
-    -webkit-backdrop-filter: none !important;
-    
-    /* Diğer çizgileri ve gölgeleri kaldırıyoruz */
-    border-bottom: none !important;
-    box-shadow: none !important;
-    
-    /* Transition'ı da kapatalım ki kafa karıştırmasın */
-    transition: none !important;
+            position: absolute !important; 
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            z-index: 1000 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+            transition: none !important;
         }
 
         nav {
-    display: flex;
-    justify-content: space-between; 
-    align-items: center;
-    min-height: 3px !important; /* Barın yüksekliğini 90px'ten 60px'e düşürdük */
-    padding: 5px 2rem !important; /* İç boşluğu kıstık */
-    position: relative; 
-    gap: 2rem;
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            min-height: 3px !important; 
+            padding: 5px 2rem !important; 
+            position: relative; 
+            gap: 2rem;
         }
 
         .logo-container {
@@ -292,7 +286,6 @@
             overflow: hidden;
         }
 
-        /* Hero alt kısmına yumuşak geçiş gölgesi eklenmiştir */
         .hero::after {
             content: '';
             position: absolute;
@@ -358,13 +351,12 @@
             100% { transform: translateY(-10px) rotate(0.5deg); }
         }
 
-        /* SLOGAN TASARIMI: Düzenlenmiş Genişlik ve İmaj Hizalaması */
         .hero-slogan-monument {
             position: fixed;
             left: 0;
             top: 20%;
             z-index: 99;
-            width: 350px; /* Genişlik */
+            width: 350px; 
             height: auto;
             max-height: 70vh;
             background: rgba(4, 6, 10, 0.9);
@@ -375,14 +367,13 @@
             flex-direction: column;
             gap: 1.5rem;
             box-shadow: 20px 0 50px rgba(0,0,0,0.7);
-            align-items: center; /* Ortalamak için */
+            align-items: center; 
         }
         
-        /* Resim: Tam genişlik ve düzgün ortalama */
         .slogan-embedded-img { 
-            width: 250px; /* Burayı ne kadar büyütürsen resim o kadar büyür (px değerini artır) */
-            display: block; /* Resmi bir blok eleman yapar */
-            margin: 20px auto; /* 'auto' değeri resmi tam ortaya sabitler */
+            width: 250px; 
+            display: block; 
+            margin: 20px auto; 
             border-radius: 10px;
             object-fit: contain;
         }
@@ -1096,7 +1087,6 @@
         .lightbox-close:hover { color: var(--accent-color); }
         @keyframes zoomIn { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
 
-        /* YENİ VE DARALTILMIŞ PREMIUM FOOTER STİLİ */
         footer {
             padding: 0.rem 0; 
             background-color: #030406;
@@ -1802,15 +1792,28 @@
 
                     <div class="form-group" style="margin-bottom:2.5rem; background: #0d121d; padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
                         <label style="color: var(--accent-color); font-weight: 800; font-size: 0.9rem;">SİTE YERLEŞİM ŞABLONU</label>
-                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Kartların ve asimetrinin keskinliğini ayarlayın:</p>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Sitenin menülerini, kolonlarını ve kart mimarisini kökten değiştiren yapısal yerleşimleri seçin:</p>
+                        
                         <select id="layout-select" class="form-control" onchange="previewTheme()">
-                            <option value="asymmetric">Şablon 1: Modern Asimetrik Grid (Yumuşak Oval Kartlar)</option>
-                            <option value="minimalist">Şablon 2: Minimalist İtalyan Tarzı (Sonsuv Minimalizm)</option>
-                            <option value="aggressive">Şablon 3: Agresif Köşeli Spor Portalı (Sert Çizgiler)</option>
-                            <option value="glassmorphism">Şablon 4: Glassmorphism (Cam Efekti & Şeffaflık)</option>
-                            <option value="brutalism">Şablon 5: Neo-Brutalizm (Sert Siyah Çizgiler & Retro)</option>
-                            <option value="rounded">Şablon 6: Ultra Soft (Tamamen Yuvarlak Hatlar)</option>
+                            <optgroup label="Klasik & Standart Şablonlar">
+                                <option value="asymmetric">Şablon 1: Modern Asimetrik Grid (Yumuşak Oval Kartlar)</option>
+                                <option value="minimalist">Şablon 2: Minimalist İtalyan Tarzı (Sonsuz Minimalizm)</option>
+                                <option value="aggressive">Şablon 3: Agresif Köşeli Spor Portalı (Sert Çizgiler)</option>
+                                <option value="rounded">Şablon 4: Ultra Soft (Tamamen Yuvarlak Hatlar)</option>
+                            </optgroup>
+                            <optgroup label="YENİ: Gelişmiş Yerleşim Planları (Layouts)">
+                                <option value="leftMenu">Şablon 5: Sol Menü Odaklı (Sabit Yan Bar - Masaüstü)</option>
+                                <option value="bottomNav">Şablon 6: Mobil App Tarzı (Alt Navigasyon Barı)</option>
+                                <option value="centeredFocus">Şablon 7: Merkez Odaklı (Tek Sütun Akış - Odaklanmış)</option>
+                                <option value="masonryMosaic">Şablon 8: Mozaik Duvar Grid (3 Kolonlu Gazete Yapısı)</option>
+                                <option value="cyberGrid">Şablon 9: Teknolojik Grid (Özel Izgara Zemin ve Çizgiler)</option>
+                                <option value="fullscreenBlocks">Şablon 10: Tam Ekran Bloklar (Kenarlıksız Ultra Geniş)</option>
+                                <option value="splitScreen">Şablon 11: İkiye Bölünmüş Ekran (Split Screen)</option>
+                                <option value="glassmorphism">Şablon 12: Glassmorphism (Cam Efekti & Derin Şeffaflık)</option>
+                                <option value="brutalism">Şablon 13: Neo-Brutalizm (Sert Siyah Çizgiler & Retro 90s)</option>
+                            </optgroup>
                         </select>
+
                     </div>
 
                     <button type="button" class="submit-btn" style="margin-bottom:3rem;" onclick="saveTheme()">Tema & Şablonu Kaydet</button>
@@ -1936,7 +1939,6 @@
             return window.activeData[key] !== undefined ? window.activeData[key] : window.defaultData[key];
         }
 
-        /* --- SAYFA DEĞİŞİMİNDE SLOGAN GÖSTERİM KONTROLÜ (SADECE ANASAYFADA GÖZÜKSÜN) --- */
         function switchPage(pageId) {
             document.querySelectorAll('section').forEach(sec => {
                 sec.classList.remove('active-page');
@@ -2215,7 +2217,6 @@
                 headerLogoWrapper.style.display = "none";
             }
 
-            // ANA ARKA PLAN GÖRSELİ VE DİNAMİK KONUMU UYGULAMA
             const heroBgOverlay = document.getElementById('hero-bg-overlay');
             const cleanBg = convertDriveUrl(activeData.heroBgUrl);
             heroBgOverlay.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
@@ -2223,14 +2224,12 @@
             
             document.getElementById('hero-title-text').innerHTML = (heroData.title !== undefined ? heroData.title : defaultData.hero.title).replace(/\n/g, '<br>');
             
-            // SLOGAN DİNAMİK YERLEŞİM, GÖRÜNÜRLÜK VE RESİM AYARLARI
             const sloganContainer = document.getElementById('hero-slogan-container');
             const sloganImg = document.getElementById('slogan-img');
             
             if (activeData.sloganVisibility === 'hide') {
                 sloganContainer.style.setProperty('display', 'none', 'important');
             } else {
-                // Sadece anasayfa aktifse göster
                 const activeSec = document.querySelector('section.hero.active-page');
                 if (activeSec) {
                     sloganContainer.style.setProperty('display', 'flex', 'important');
@@ -2456,7 +2455,6 @@
             document.getElementById('edit-logo-y').value = activeData.logoY || '15';
             document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
             
-            // Yeni eklenen ayarları forma yükleme
             document.getElementById('edit-hero-bg-position').value = activeData.heroBgPosition || 'center center';
             document.getElementById('edit-slogan-visibility').value = activeData.sloganVisibility || 'show';
             document.getElementById('edit-slogan-left').value = activeData.sloganLeft || '2rem';
@@ -2487,7 +2485,6 @@
                 activeData.heroBgUrl = convertDriveUrl(urlBg);
             }
 
-            // Yeni Ayarları Kaydetme
             activeData.heroBgPosition = document.getElementById('edit-hero-bg-position').value;
             activeData.sloganVisibility = document.getElementById('edit-slogan-visibility').value;
             activeData.sloganLeft = document.getElementById('edit-slogan-left').value.trim() || '2rem';
@@ -2887,81 +2884,92 @@
 
         const layouts = {
             asymmetric: `
-                :root {
-                    --card-radius: 24px;
-                    --border-style: 1px solid rgba(255, 255, 255, 0.05);
-                    --card-align: left;
-                }
+                :root { --card-radius: 24px; --border-style: 1px solid rgba(255, 255, 255, 0.05); --card-align: left; }
             `,
             minimalist: `
-                :root {
-                    --card-radius: 0px;
-                    --border-style: none;
-                    --card-align: center;
-                }
-                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item {
-                    box-shadow: none !important;
-                    background: transparent !important;
-                }
-                .board-img-wrapper {
-                    border-radius: 50% !important;
-                }
+                :root { --card-radius: 0px; --border-style: none; --card-align: center; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item { box-shadow: none !important; background: transparent !important; }
+                .board-img-wrapper { border-radius: 50% !important; }
             `,
             aggressive: `
-                :root {
-                    --card-radius: 0px;
-                    --border-style: 2px solid var(--accent-color);
-                    --card-align: left;
-                }
-                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item {
-                    box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.8) !important;
-                }
+                :root { --card-radius: 0px; --border-style: 2px solid var(--accent-color); --card-align: left; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item { box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.8) !important; }
             `,
             glassmorphism: `
-                :root {
-                    --card-radius: 30px;
-                    --border-style: 1px solid rgba(255, 255, 255, 0.15);
-                    --card-align: center;
-                }
+                :root { --card-radius: 30px; --border-style: 1px solid rgba(255, 255, 255, 0.15); --card-align: center; }
                 .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item, .hero-slogan-monument, .blog-form-wrapper {
-                    background: rgba(255, 255, 255, 0.03) !important;
-                    backdrop-filter: blur(16px);
-                    -webkit-backdrop-filter: blur(16px);
-                    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+                    background: rgba(255, 255, 255, 0.03) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
                 }
             `,
             brutalism: `
-                :root {
-                    --card-radius: 0px;
-                    --border-style: 3px solid var(--text-dark);
-                    --card-align: left;
-                }
-                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item, .hero-slogan-monument {
-                    box-shadow: 8px 8px 0px var(--accent-color) !important;
-                    background: transparent !important;
-                    transform: none !important;
-                }
-                .board-card:hover, .player-card:hover, .transfer-card:hover, .fixture-card:hover {
-                    box-shadow: 12px 12px 0px var(--text-dark) !important;
-                    transform: translate(-4px, -4px) !important;
-                }
+                :root { --card-radius: 0px; --border-style: 3px solid var(--text-dark); --card-align: left; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item, .hero-slogan-monument { box-shadow: 8px 8px 0px var(--accent-color) !important; background: transparent !important; transform: none !important; }
+                .board-card:hover, .player-card:hover, .transfer-card:hover, .fixture-card:hover { box-shadow: 12px 12px 0px var(--text-dark) !important; transform: translate(-4px, -4px) !important; }
             `,
             rounded: `
-                :root {
-                    --card-radius: 50px;
-                    --border-style: 2px dashed rgba(255, 255, 255, 0.1);
-                    --card-align: center;
-                }
-                .board-img-wrapper, .player-img-box, .transfer-img {
-                    border-radius: 50% !important;
-                    width: 200px;
-                    height: 200px;
-                    margin: 0 auto;
-                    object-fit: cover;
-                }
+                :root { --card-radius: 50px; --border-style: 2px dashed rgba(255, 255, 255, 0.1); --card-align: center; }
+                .board-img-wrapper, .player-img-box, .transfer-img { border-radius: 50% !important; width: 200px; height: 200px; margin: 0 auto; object-fit: cover; }
                 .player-img-box::after { display: none; }
-                .board-card, .player-card, .transfer-card {
-                    border-radius: 50px;
+                .board-card, .player-card, .transfer-card { border-radius: 50px; }
+            `,
+            leftMenu: `
+                :root { --card-radius: 12px; --border-style: 1px solid rgba(255,255,255,0.1); --card-align: left; }
+                @media (min-width: 993px) {
+                    header { position: fixed !important; top: 0 !important; left: 0 !important; width: 280px !important; height: 100vh !important; background: var(--bg-white) !important; border-right: 1px solid rgba(255,255,255,0.05) !important; border-bottom: none !important; }
+                    nav { flex-direction: column !important; justify-content: center !important; padding: 2rem !important; height: 100%; gap: 3rem; }
+                    .logo-container { flex-direction: column; text-align: center; }
+                    .nav-links { flex-direction: column !important; align-items: center !important; gap: 1rem !important; }
+                    body { padding-left: 280px !important; }
+                    .hero-slogan-monument { left: 300px !important; }
+                    .hero-bg-canvas { left: 280px !important; width: calc(100% - 280px) !important; }
+                }
+            `,
+            centeredFocus: `
+                :root { --card-radius: 8px; --border-style: none; --card-align: center; }
+                .container { max-width: 900px !important; }
+                nav { flex-direction: column; padding: 2rem; }
+                .nav-links { justify-content: center; }
+                .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid, .contact-grid, .blog-container { grid-template-columns: 1fr !important; }
+                .section-title { text-align: center; margin-bottom: 3rem; }
+                .section-title::after { display: none; }
+            `,
+            bottomNav: `
+                :root { --card-radius: 20px; --border-style: 1px solid rgba(255,255,255,0.05); --card-align: left; }
+                @media (min-width: 993px) {
+                    header { position: fixed !important; top: auto !important; bottom: 0 !important; width: 100% !important; background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(10px); z-index: 9999 !important; border-top: 1px solid var(--accent-color) !important; padding: 10px 0 !important; }
+                    nav { min-height: 70px !important; }
+                    section { padding-bottom: 120px !important; }
+                }
+            `,
+            masonryMosaic: `
+                :root { --card-radius: 0; --border-style: none; --card-align: left; }
+                .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid { display: block !important; column-count: 3; column-gap: 2rem; }
+                .board-card, .player-card, .transfer-card, .gallery-item, .kit-card { break-inside: avoid; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1) !important; background: transparent; }
+                @media (max-width: 992px) { .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid { column-count: 1; } }
+            `,
+            cyberGrid: `
+                :root { --card-radius: 0px; --border-style: 1px solid var(--accent-color); --card-align: left; }
+                body { background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important; background-size: 50px 50px !important; }
+                .board-card, .player-card, .transfer-card, .kit-card { background: rgba(0,0,0,0.7) !important; box-shadow: 0 0 15px rgba(0,0,0,0.5) !important; }
+                .section-title { text-shadow: 2px 2px 0px var(--accent-color); }
+            `,
+            fullscreenBlocks: `
+                :root { --card-radius: 0; --border-style: none; --card-align: center; }
+                .container { max-width: 100% !important; padding: 0 !important; }
+                section { padding: 5rem 0 !important; }
+                .board-grid, .players-grid, .transfers-grid { gap: 0 !important; }
+                .board-card, .player-card, .transfer-card { border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
+                .section-title { padding-left: 2rem; text-align: center; }
+            `,
+            splitScreen: `
+                :root { --card-radius: 12px; --border-style: none; --card-align: left; }
+                @media (min-width: 993px) {
+                    section.active-page { display: flex !important; flex-wrap: wrap; }
+                    .container { width: 50% !important; margin: 0 !important; padding: 4rem !important; overflow-y: auto; height: 100vh; position: absolute; right: 0; top: 0; }
+                    .hero-bg-canvas { width: 50% !important; left: 0 !important; position: fixed !important; height: 100vh !important; }
+                    .hero-content-wrapper { width: 50% !important; position: fixed !important; left: 0 !important; top: 50%; transform: translateY(-50%); z-index: 10; padding: 2rem; }
+                    header { width: 50% !important; right: 0 !important; left: auto !important; background: transparent !important; }
+                    .hero-slogan-monument { left: 2rem !important; top: auto !important; bottom: 2rem !important; }
                 }
             `
         };
