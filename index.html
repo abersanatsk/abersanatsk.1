@@ -1,48 +1,1147 @@
-display: flex;
-align-items: center;
-justify-content: center;
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Karaman Aber Sanat Gücü Spor Kulübü</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;700&family=Syne:wght@500;700;800&family=Inter:wght@400;700&family=Montserrat:wght@700;900&family=Rajdhani:wght@600;700&display=swap" rel="stylesheet">
+    
+    <style id="theme-styles">
+        :root {
+            --bg-white: #04060a; 
+            --bg-dark: #ffffff;
+            --text-light: #04060a;
+            --text-dark: #ffffff;
+            --text-muted: #8892b0;
+            --accent-color: #ff2a4b; 
+            --premium-gray: rgba(255, 255, 255, 0.02);
+            --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            
+            /* Font ve Boyut Parametreleri */
+            --font-main: 'Syne', sans-serif;
+            --font-sport: 'Space Grotesk', sans-serif;
+            --hero-title-size: 8.5rem;
+            --section-title-size: 3rem;
+            --logo-size: 85px; 
+            --logo-offset-x: 0px;
+            --logo-offset-y: 15px; 
+            --hero-slogan-size: 1.3rem;
+            --header-title-size: 1.5rem;
+            --menu-link-size: 0.75rem;
+
+            /* Şablon Değişkenleri */
+            --card-radius: 24px;
+            --border-style: 1px solid rgba(255, 255, 255, 0.05);
+            --card-align: left;
+        }
+    </style>
+
+    <style>
+        img, .board-img, .player-img-box img, .kit-img-box img, .transfer-img {
+            image-rendering: -webkit-optimize-contrast !important;
+            image-rendering: crisp-edges !important;
+            -webkit-font-smoothing: antialiased;
+            backface-visibility: hidden;
+            transform: translateZ(0); 
+            filter: contrast(1.02) saturate(1.04) brightness(0.98); 
+            transition: filter 0.5s cubic-bezier(0.25, 1, 0.5, 1), transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        img:hover, .player-card:hover .player-img-box img, .kit-card:hover .kit-img-box img {
+            filter: contrast(1.08) saturate(1.08) brightness(1.02) !important;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            font-size: 16px;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            background-color: var(--bg-white);
+            color: var(--text-dark);
+            font-family: var(--font-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .container {
+            max-width: 1450px; 
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        body::before {
+            content: '';
+            position: fixed;
+            top: -20%;
+            left: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, var(--accent-color) 0%, rgba(0,0,0,0) 70%);
+            opacity: 0.15;
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(120px);
+            transition: background 0.3s ease;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            bottom: -20%;
+            right: -20%;
+            width: 70%;
+            height: 70%;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.05) 0%, rgba(0,0,0,0) 70%);
+            z-index: -1;
+            pointer-events: none;
+            filter: blur(120px);
+        }
+
+        header {
+            position: absolute !important; 
+            top: 0 !important;
+            left: 0 !important;
+            width: 100% !important;
+            z-index: 1000 !important;
+            background: transparent !important;
+            background-color: transparent !important;
+            backdrop-filter: none !important;
+            -webkit-backdrop-filter: none !important;
+            border-bottom: none !important;
+            box-shadow: none !important;
+            transition: none !important;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between; 
+            align-items: center;
+            min-height: 3px !important; 
+            padding: 5px 2rem !important; 
+            position: relative; 
+            gap: 2rem;
+        }
+
+        .logo-container {
+            text-decoration: none;
+            color: var(--text-dark);
+            display: flex;
+            align-items: center;
+            gap: 20px; 
+            position: relative; 
+            z-index: 1001;
+            flex-shrink: 0;
+            transition: transform 0.3s ease;
+        }
+
+        .logo-container:hover {
+            transform: translateY(-2px);
+        }
+
+        .logo-img-wrapper {
+            position: relative; 
+            display: none;
+            align-items: center;
+            justify-content: center;
+            width: var(--logo-size, 65px);
+            height: var(--logo-size, 65px);
+        }
+
+        .logo-img-wrapper img {
+            position: absolute; 
+            transform: translate(calc(0px + var(--logo-offset-x, 0px)), calc(0px + var(--logo-offset-y, 15px)));
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            filter: drop-shadow(0 8px 16px rgba(0,0,0,0.7));
+            transition: width 0.3s ease, height 0.3s ease, transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            z-index: 1002;
+        }
+
+        .logo-text-group {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .logo-text-top {
+            font-family: var(--font-sport);
+            font-weight: 800;
+            font-size: var(--header-title-size, 1.5rem);
+            text-transform: uppercase;
+            letter-spacing: -0.5px;
+            line-height: 1.1;
+            max-width: 400px; 
+            text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+            transition: font-size 0.3s;
+        }
+
+        .logo-text-sub {
+            font-size: 0.8rem;
+            color: var(--accent-color);
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            margin-top: 4px;
+            font-weight: 700;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.4rem; 
+            flex-wrap: wrap; 
+            justify-content: flex-end; 
+            align-items: center;
+            flex-grow: 1; 
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-weight: 600;
+            font-size: var(--menu-link-size, 0.75rem); 
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            padding: 8px 16px;
+            border-radius: 8px;
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+            position: relative;
+            opacity: 0.8;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--accent-color);
+            opacity: 0;
+            z-index: -1;
+            transition: opacity 0.3s ease, transform 0.3s ease;
+            transform: scale(0.9);
+            border-radius: 8px;
+        }
+
+        .nav-links a:hover {
+            opacity: 1;
+            color: #ffffff !important;
+            transform: translateY(-2px);
+        }
+
+        .nav-links a:hover::before {
+            opacity: 1;
+            transform: scale(1);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+
+        section {
+            display: none; 
+            padding: 10rem 0;
+            border-top: 1px solid rgba(255, 255, 255, 0.03);
+            position: relative;
+            animation: fadeIn 0.6s ease-out;
+            min-height: calc(100vh - 300px); 
+        }
+
+        section.active-page {
+            display: block; 
+        }
+
+        section.hero {
+            padding: 0;
+            height: 100vh;
+            min-height: 100vh;
+            width: 100%;
+        }
+
+        section.hero.active-page {
+            display: flex;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero {
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .hero::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 25vh;
+            background: linear-gradient(to top, var(--bg-white) 0%, rgba(0,0,0,0) 100%);
+            z-index: 3;
+            pointer-events: none;
+        }
+
+        .hero-bg-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover !important; 
+            background-repeat: no-repeat !important;
+            filter: brightness(0.25) contrast(1.1);
+            transform: scale(1.02);
+            transition: transform 5s ease, background-position 0.3s ease;
+            z-index: 1;
+        }
+
+        .hero:hover .hero-bg-canvas {
+            transform: scale(1);
+        }
+
+        .hero-content-wrapper {
+            position: relative;
+            z-index: 2;
+            max-width: 1100px;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             padding: 0 1rem;
-}
+        }
 
-.hero-title-sculpture {
-@@ -339,6 +340,7 @@
-animation: floatText 4s ease-in-out infinite alternate;
-transition: font-size 0.3s;
-text-shadow: 0 20px 50px rgba(0,0,0,0.9);
+        .hero-title-sculpture {
+            font-family: var(--font-sport);
+            font-size: var(--hero-title-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            line-height: 0.85;
+            letter-spacing: -6px;
+            color: #ffffff;
+            margin-bottom: 0; 
+            position: relative;
+            animation: floatText 4s ease-in-out infinite alternate;
+            transition: font-size 0.3s;
+            text-shadow: 0 20px 50px rgba(0,0,0,0.9);
             word-wrap: break-word;
-}
+        }
 
-.hero-title-sculpture span {
-@@ -1132,43 +1134,70 @@
+        .hero-title-sculpture span {
+            color: transparent;
+            -webkit-text-stroke: 1.5px rgba(255, 255, 255, 0.3);
+        }
 
-.admin-trigger:hover { color: var(--text-muted); }
+        @keyframes floatText {
+            0% { transform: translateY(0px) rotate(0deg); }
+            100% { transform: translateY(-10px) rotate(0.5deg); }
+        }
+
+        .hero-slogan-monument {
+            position: fixed;
+            left: 0;
+            top: 20%;
+            z-index: 99;
+            width: 350px; 
+            height: auto;
+            max-height: 70vh;
+            background: rgba(4, 6, 10, 0.9);
+            backdrop-filter: blur(15px);
+            border-right: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 2.5rem; 
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            box-shadow: 20px 0 50px rgba(0,0,0,0.7);
+            align-items: center; 
+        }
+        
+        .slogan-embedded-img { 
+            width: 250px; 
+            display: block; 
+            margin: 20px auto; 
+            border-radius: 10px;
+            object-fit: contain;
+        }
+
+        .monument-badge {
+            font-family: var(--font-sport);
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            margin-bottom: 0.5rem;
+        }
+
+        .monument-text {
+            font-family: var(--font-main);
+            font-size: var(--hero-slogan-size, 1.3rem);
+            font-weight: 500;
+            color: #e2e8f0;
+            line-height: 1.4;
+            transition: font-size 0.3s;
+        }
+
+        .section-title {
+            font-family: var(--font-sport);
+            font-size: var(--section-title-size);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+            margin-bottom: 6rem;
+            position: relative;
+            transition: font-size 0.3s ease;
+        }
+
+        .section-title span {
+            color: var(--accent-color);
+        }
+
+        .section-title::after {
+            content: '//';
+            position: absolute;
+            right: -40px;
+            top: 0;
+            color: rgba(255, 255, 255, 0.1);
+            font-family: var(--font-sport);
+        }
+
+        .board-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 3rem;
+        }
+
+        .board-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.03) 100%);
+            border-radius: var(--card-radius);
+            padding: 3.5rem 2.5rem;
+            border: var(--border-style);
+            text-align: var(--card-align);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: var(--card-shadow);
+        }
+
+        .board-card:hover {
+            transform: translateY(-12px) scale(1.02);
+            border-color: var(--accent-color);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.5);
+        }
+
+        .board-img-wrapper {
+            width: 140px;
+            height: 140px;
+            border-radius: 28px;
+            margin: 0 auto 2rem auto;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transform: rotate(-3deg);
+            transition: transform 0.4s ease;
+        }
+
+        .board-card:hover .board-img-wrapper {
+            transform: rotate(0deg);
+        }
+
+        .board-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .board-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.5rem;
+        }
+
+        .board-role {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 3px;
+        }
+
+        .position-group-title {
+            font-family: var(--font-sport);
+            font-size: 1.4rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin: 6rem 0 3rem 0;
+            color: var(--accent-color);
+            letter-spacing: 3px;
+        }
+
+        .players-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 3rem;
+        }
+
+        .player-card {
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.01) 0%, rgba(255, 255, 255, 0.02) 100%);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            border: var(--border-style);
+            box-shadow: var(--card-shadow);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .player-card:hover {
+            transform: translateY(-12px);
+            border-color: var(--accent-color);
+            box-shadow: 0 40px 80px rgba(0, 0, 0, 0.8);
+        }
+
+        .player-img-box {
+            height: 380px;
+            background-color: var(--bg-white);
+            overflow: hidden;
+            position: relative;
+        }
+
+        .player-img-box::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 40%;
+            background: linear-gradient(0deg, var(--bg-white) 0%, rgba(0,0,0,0) 100%);
+        }
+
+        .player-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .player-info {
+            padding: 2.5rem;
+            text-align: var(--card-align);
+        }
+
+        .player-name {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .player-position {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1.5rem;
+        }
+
+        .player-stats {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.8rem;
+            font-size: 0.85rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 1.5rem;
+        }
+
+        .stat-line {
+            color: var(--text-muted);
+        }
+
+        .stat-line strong {
+            color: var(--text-dark);
+        }
+
+        .kits-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 4rem;
+        }
+
+        .kit-card {
+            background: transparent;
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            border: var(--border-style);
+            transition: all 0.4s ease;
+        }
+
+        .kit-card:hover {
+            border-color: var(--accent-color);
+            transform: scale(1.01);
+        }
+
+        .kit-img-box {
+            width: 100%;
+            height: 580px;
+            background: var(--bg-white);
+            overflow: hidden;
+        }
+
+        .kit-img-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .kit-title {
+            padding: 2rem;
+            font-size: 1.3rem;
+            font-weight: 700;
+            text-align: center;
+            color: var(--text-dark);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-family: var(--font-sport);
+            border-top: var(--border-style);
+        }
+
+        .transfers-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 3rem;
+        }
+
+        .transfer-card {
+            background: var(--premium-gray);
+            border-radius: var(--card-radius);
+            overflow: hidden;
+            border: var(--border-style);
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .transfer-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent-color);
+        }
+
+        .transfer-img {
+            height: 280px;
+            width: 100%;
+            object-fit: cover;
+        }
+
+        .transfer-body {
+            padding: 2rem;
+            text-align: var(--card-align);
+        }
+
+        .transfer-name {
+            font-size: 1.4rem;
+            font-weight: 700;
+            color: var(--text-dark);
+        }
+
+        .transfer-club {
+            font-size: 0.85rem;
+            color: var(--text-muted);
+            margin: 0.5rem 0 1.5rem 0;
+        }
+
+        .transfer-status {
+            background-color: var(--accent-color);
+            color: #ffffff;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 8px 18px;
+            border-radius: 6px;
+            display: inline-block;
+            letter-spacing: 1px;
+        }
+
+        .fixture-list {
+            display: flex;
+            flex-direction: column;
+            gap: 2rem;
+        }
+
+        .fixture-card {
+            background: rgba(255, 255, 255, 0.01);
+            border-radius: var(--card-radius);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 2.5rem 4rem;
+            border: var(--border-style);
+            transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+        }
+
+        .fixture-card:hover {
+            background: rgba(255, 255, 255, 0.02);
+            border-color: var(--accent-color);
+            transform: scale(1.01);
+        }
+
+        .fixture-team {
+            font-size: 1.4rem;
+            font-weight: 700;
+            width: 40%;
+            color: var(--text-dark);
+        }
+
+        .fixture-team.home { text-align: right; }
+        .fixture-team.away { text-align: left; }
+
+        .fixture-mid {
+            text-align: center;
+            width: 20%;
+        }
+
+        .fixture-score {
+            font-family: var(--font-sport);
+            font-size: 2rem;
+            font-weight: 700;
+            background: var(--accent-color);
+            color: #fff;
+            padding: 6px 28px;
+            border-radius: 8px;
+            display: inline-block;
+            margin-bottom: 0.5rem;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .fixture-date {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            letter-spacing: 1px;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .gallery-item {
+            width: 100%;
+            aspect-ratio: 16 / 10;
+            overflow: hidden;
+            border-radius: var(--card-radius);
+            border: var(--border-style);
+            background: #000;
+            transition: all 0.4s ease;
+        }
+
+        .gallery-item:hover {
+            border-color: var(--accent-color);
+        }
+
+        .gallery-item img, .gallery-item iframe, .gallery-item video {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border: none;
+        }
+
+        .blog-container {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 5rem;
+        }
+
+        .blog-form-wrapper {
+            background-color: var(--premium-gray);
+            border-radius: var(--card-radius);
+            padding: 4rem;
+            border: var(--border-style);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            margin-bottom: 0.8rem;
+            color: var(--accent-color);
+            letter-spacing: 2px;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 1.2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 8px;
+            font-family: var(--font-main);
+            font-size: 1rem;
+            outline: none;
+            background: rgba(255, 255, 255, 0.02);
+            color: var(--text-dark);
+            transition: all 0.3s ease;
+        }
+
+        .form-control:focus {
+            border-color: var(--accent-color);
+            background: rgba(255, 255, 255, 0.04);
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 1.4rem;
+            background-color: var(--accent-color);
+            color: #ffffff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            cursor: pointer;
+            letter-spacing: 3px;
+            transition: all 0.3s;
+        }
+
+        .submit-btn:hover {
+            opacity: 0.95;
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .post-card {
+            padding: 2.5rem;
+            background-color: var(--premium-gray);
+            border-radius: var(--card-radius);
+            border: var(--border-style);
+            border-left: 4px solid var(--accent-color);
+            margin-bottom: 2rem;
+        }
+
+        .post-meta {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            flex-direction: column;
+            gap: 3rem;
+        }
+
+        .info-item h4 {
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: var(--accent-color);
+            margin-bottom: 0.8rem;
+            letter-spacing: 2px;
+        }
+
+        .info-item p, .info-item a {
+            font-size: 1.6rem;
+            font-weight: 700;
+            color: var(--text-dark);
+            text-decoration: none;
+        }
+
+        .contact-map {
+            width: 100%;
+            height: 400px;
+            border-radius: var(--card-radius);
+            background-color: var(--premium-gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            border: var(--border-style);
+            font-size: 1.2rem;
+        }
+
+        .admin-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(4, 6, 10, 0.95);
+            backdrop-filter: blur(20px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .admin-content {
+            background-color: #0c0f17;
+            border-radius: 30px;
+            width: 95%;
+            max-width: 1400px;
+            height: 85vh;
+            display: flex;
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .close-admin {
+            position: absolute;
+            top: 20px;
+            right: 25px;
+            font-size: 2.5rem;
+            cursor: pointer;
+            z-index: 10;
+            color: white;
+        }
+
+        .admin-sidebar {
+            width: 300px;
+            background-color: #06080d;
+            color: #fff;
+            padding: 3rem 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+            overflow-y: auto;
+            border-right: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .admin-sidebar h3 {
+            font-family: var(--font-sport);
+            font-size: 1.1rem;
+            color: var(--accent-color);
+            margin-bottom: 2.5rem;
+            text-align: center;
+        }
+
+        .admin-sidebar-btn {
+            background: none;
+            border: none;
+            color: #72829c;
+            padding: 14px 20px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s;
+        }
+
+        .admin-sidebar-btn:hover, .admin-sidebar-btn.active {
+            color: #ffffff;
+            background-color: var(--accent-color);
+        }
+
+        .admin-body {
+            flex-grow: 1;
+            padding: 3.5rem;
+            overflow-y: auto;
+            background-color: #0a0e14;
+            color: white;
+            position: relative;
+        }
+
+        .analytics-container {
+            display: flex;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .analytic-card {
+            background: #0d121d;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.5rem;
+            border-radius: 12px;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+        }
+
+        .analytic-card span {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .analytic-card strong {
+            font-size: 2rem;
+            color: #ffffff;
+            font-family: var(--font-sport);
+        }
+
+        .admin-tab-content { display: none; }
+        .admin-tab-content.active { display: block; }
+
+        .admin-section-heading {
+            font-family: var(--font-sport);
+            font-size: 1.4rem;
+            border-bottom: 2px solid var(--accent-color);
+            padding-bottom: 0.8rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 2rem;
+            background: #0d121d;
+            border-radius: 12px;
+            overflow: hidden;
+        }
+
+        .data-table th, .data-table td {
+            padding: 16px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            color: white;
+        }
+
+        .data-table th {
+            background-color: #06080d;
+            font-weight: 700;
+            color: var(--accent-color);
+        }
+
+        .admin-list-item {
+            background: #0d121d;
+            padding: 1.2rem;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .admin-btn-delete {
+            background-color: #ff3344;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .admin-btn-approve {
+            background-color: #22c55e;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-right: 5px;
+        }
+
+        .lightbox-modal {
+            display: none; 
+            position: fixed; 
+            z-index: 9999; 
+            left: 0; 
+            top: 0; 
+            width: 100%; 
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.9); 
+            justify-content: center; 
+            align-items: center; 
+            backdrop-filter: blur(10px);
+        }
+        .lightbox-content {
+            max-width: 90%; 
+            max-height: 90%; 
+            border-radius: 12px; 
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+            animation: zoomIn 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+        .lightbox-close {
+            position: absolute; 
+            top: 30px; 
+            right: 40px; 
+            color: #f1f1f1; 
+            font-size: 50px; 
+            font-weight: bold; 
+            cursor: pointer;
+            transition: color 0.3s ease;
+        }
+        .lightbox-close:hover { color: var(--accent-color); }
+        @keyframes zoomIn { from {transform:scale(0.8); opacity:0;} to {transform:scale(1); opacity:1;} }
+
+        footer {
+            padding: 0.rem 0; 
+            background-color: #030406;
+            color: #ffffff;
+            text-align: center;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            position: relative;
+            z-index: 10;
+        }
+
+        .footer-logo {
+            font-family: var(--font-sport);
+            font-size: 1.1rem; 
+            margin-bottom: 0.5rem;
+            letter-spacing: 2px;
+            color: var(--text-dark);
+        }
+
+        footer p {
+            font-size: 0.75rem;
+            color: var(--text-muted);
+            margin-bottom: 0.5rem;
+        }
+
+        .signature {
+            margin-top: 0.5rem; 
+            font-size: 0.7rem;
+            letter-spacing: 3px;
+            color: #4a5468;
+            text-transform: uppercase;
+        }
+
+        .signature span { color: var(--accent-color); font-weight: 700; }
+
+        .admin-trigger {
+            margin-top: 1rem;
+            font-size: 0.7rem;
+            color: #2b3342;
+            cursor: pointer;
+            text-decoration: underline;
+            transition: color 0.3s ease;
+        }
+        
+        .admin-trigger:hover { color: var(--text-muted); }
 
         /* =========================================
            MOBİL UYUM (RESPONSIVE) KODLARI BAŞLANGICI
            ========================================= */
 
         /* Tabletler ve Küçük Laptoplar İçin */
-@media (max-width: 992px) {
-            .hero-title-sculpture { font-size: 4rem; }
-            .blog-container, .contact-grid, .kits-grid {
-                grid-template-columns: 1fr;
-            }
-            nav {
-                flex-direction: column;
-                padding: 2rem 0;
-                gap: 1.5rem;
-                height: auto; 
-            }
+        @media (max-width: 992px) {
             .blog-container, .contact-grid, .kits-grid { grid-template-columns: 1fr; }
-.admin-content { flex-direction: column; height: 95vh; }
-            .admin-sidebar { width: 100%; height: auto; }
-            .logo-container { 
-                justify-content: center;
-                flex-direction: column;
-                text-align: center;
-            }
-            .logo-img-wrapper {
-                height: var(--logo-size, 85px); 
+            .admin-content { flex-direction: column; height: 95vh; }
             .admin-sidebar { width: 100%; height: auto; max-height: 30vh; flex-direction: row; flex-wrap: wrap; padding: 1.5rem; gap: 5px; overflow-y: auto;}
             .admin-sidebar h3 { width: 100%; margin-bottom: 1rem; }
             .admin-sidebar-btn { flex: 1 1 calc(33% - 10px); text-align: center; padding: 10px; font-size: 0.8rem; }
@@ -56,22 +1155,7 @@ text-shadow: 0 20px 50px rgba(0,0,0,0.9);
                 --hero-title-size: clamp(2.5rem, 10vw, 4rem) !important;
                 --section-title-size: clamp(1.8rem, 8vw, 2.5rem) !important;
                 --header-title-size: 1.2rem !important;
-}
-            .logo-img-wrapper img {
-                position: relative; 
-                transform: translate(var(--logo-offset-x, 0px), var(--logo-offset-y, 0px)); 
-                top: auto;
-                left: auto;
             }
-            .nav-links { justify-content: center; }
-            .hero-slogan-monument {
-                position: relative;
-                left: 0 !important;
-                top: 0 !important;
-                transform: none !important;
-                writing-mode: horizontal-tb;
-                max-width: 100%;
-                margin-top: 2rem;
 
             .container { padding: 0 1.2rem; }
             section { padding: 4rem 0; min-height: auto; }
@@ -95,7 +1179,7 @@ text-shadow: 0 20px 50px rgba(0,0,0,0.9);
                 top: auto !important; 
                 padding: 1.5rem;
                 text-align: center;
-}
+            }
             .slogan-embedded-img { width: 100% !important; max-width: 200px; }
 
             /* Fikstür Kartlarını Alt Alta Diz */
@@ -114,19 +1198,1763 @@ text-shadow: 0 20px 50px rgba(0,0,0,0.9);
             .admin-sidebar-btn { flex: 1 1 calc(50% - 10px); }
             .data-table th, .data-table td { padding: 10px; font-size: 0.8rem; }
             .data-table { display: block; overflow-x: auto; white-space: nowrap; } /* Taşan tabloları yatay kaydırmalı yap */
-}
-</style>
+        }
+    </style>
 </head>
-@@ -2926,12 +2955,14 @@ <h2 class="section-title">${cp.title}</h2>
-           `,
-centeredFocus: `
-               :root { --card-radius: 8px; --border-style: none; --card-align: center; }
-                .container { max-width: 900px !important; }
-                nav { flex-direction: column; padding: 2rem; }
-                .nav-links { justify-content: center; }
-                .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid, .contact-grid, .blog-container { grid-template-columns: 1fr !important; }
-                .section-title { text-align: center; margin-bottom: 3rem; }
-                .section-title::after { display: none; }
+<body>
+
+    <header id="site-header">
+        <div class="container">
+            <nav>
+                <a href="#" class="logo-container" onclick="switchPage('home'); return false;">
+                    <div class="logo-img-wrapper" id="header-logo-wrapper">
+                        <img src="" id="header-logo-img" alt="Logo" onerror="handleLogoFallback(this)">
+                    </div>
+                    <div class="logo-text-group" id="logo-text-group">
+                        <div class="logo-text-top" id="header-club-title">KARAMAN ABER SANAT GÜCÜ</div>
+                        <div class="logo-text-sub">SPOR KULÜBÜ</div>
+                    </div>
+                </a>
+                <ul class="nav-links" id="main-nav-links">
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <div class="hero-slogan-monument" id="hero-slogan-container">
+        <div class="monument-badge" id="hero-slogan-badge"></div>
+        <div class="monument-text" id="hero-slogan-text"></div>
+        <img src="" id="slogan-img" class="slogan-embedded-img" style="display:none;" alt="Slogan Görseli">
+    </div>
+
+    <section class="hero active-page" id="home">
+        <div class="hero-bg-canvas" id="hero-bg-overlay" style="background-image: url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400');"></div>
+        <div class="hero-content-wrapper">
+            <h1 class="hero-title-sculpture" style="font-size: 4rem;" id="hero-title-text">ABER SANAT GÜCÜ<br><span></span></h1>
+        </div>
+    </section>
+
+    <section id="yonetim-kurulu">
+        <div class="container">
+            <h2 class="section-title" id="title-board">Yönetim <span>Kurulu</span></h2>
+            <div class="board-grid" id="board-container"></div>
+        </div>
+    </section>
+
+    <section id="teknik-heyet">
+        <div class="container">
+            <h2 class="section-title" id="title-staff">Teknik <span>Heyet</span></h2>
+            <div class="board-grid" id="staff-container"></div>
+        </div>
+    </section>
+
+    <section id="kadro">
+        <div class="container">
+            <h2 class="section-title" id="title-squad">Kulüp <span>Kadromuz</span></h2>
+            <div id="gk-section"><h3 class="position-group-title">Kaleciler</h3><div class="players-grid" id="gk-players-container"></div></div>
+            <div id="df-section"><h3 class="position-group-title">Defans Oyuncuları</h3><div class="players-grid" id="df-players-container"></div></div>
+            <div id="mf-section"><h3 class="position-group-title">Orta Saha Oyuncuları</h3><div class="players-grid" id="mf-players-container"></div></div>
+            <div id="fw-section"><h3 class="position-group-title">Forvet Oyuncuları</h3><div class="players-grid" id="fw-players-container"></div></div>
+        </div>
+    </section>
+
+    <section id="formalar">
+        <div class="container">
+            <h2 class="section-title" id="title-kits">Kulüp <span>Formalarımız</span></h2>
+            <div class="kits-grid" id="kits-container"></div>
+        </div>
+    </section>
+
+    <section id="transferler">
+        <div class="container">
+            <h2 class="section-title" id="title-transfers">Transfer <span>Gündemi</span></h2>
+            <div class="transfers-grid" id="transfers-container"></div>
+        </div>
+    </section>
+
+    <section id="fikstur">
+        <div class="container">
+            <h2 class="section-title" id="title-fixture">Maç <span>Fikstürü</span></h2>
+            <div class="fixture-list" id="fixture-container"></div>
+        </div>
+    </section>
+
+    <section id="galeri">
+        <div class="container">
+            <h2 class="section-title" id="title-gallery">Kulüp <span>Medya & Galeri</span></h2>
+            <div class="gallery-grid" id="gallery-container"></div>
+        </div>
+    </section>
+
+    <div id="dynamic-pages-container"></div>
+
+    <section id="bize-yazin">
+        <div class="container">
+            <h2 class="section-title" id="title-writeus">Bize <span>Yazın</span></h2>
+            <div class="blog-container">
+                <div class="blog-form-wrapper">
+                    <form id="write-us-form" action="https://formspree.io/f/xeeyoqbe" method="POST" onsubmit="handleFormSubmit(event)">
+                        <div class="form-group">
+                            <label for="name">İsminiz</label>
+                            <input type="text" name="name" id="name" class="form-control" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="message">Düşünceniz</label>
+                            <textarea name="message" id="message" rows="5" class="form-control" required></textarea>
+                        </div>
+                        <input type="hidden" name="_subject" value="Aber SK - Yeni Bize Yazın Mesajı">
+                        <button type="submit" class="submit-btn">Kulüp Duvarında Yayınla</button>
+                    </form>
+                </div>
+                <div>
+                    <h3 style="font-size: 1.2rem; margin-bottom: 2.5rem; font-family: var(--font-sport); text-transform: uppercase; letter-spacing: 2px;">Yazılanlar</h3>
+                    <div class="approved-posts" id="posts-container"></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="iletisim" style="border-bottom: none;">
+        <div class="container">
+            <h2 class="section-title" id="title-contact">Bize <span>Ulaşın</span></h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <div class="info-item">
+                        <h4>Telefon</h4>
+                        <a href="tel:+905368939415" id="club-phone-link">0 536 893 94 15</a>
+                    </div>
+                    <div class="info-item">
+                        <h4>E-Posta Adreslerimiz</h4>
+                        <p style="margin-bottom: 0.5rem;"><a href="mailto:info@abersanatsk.org" id="club-email-1">info@abersanatsk.org</a></p>
+                        <p><a href="mailto:ridvan@abersanatsk.org" id="club-email-2">ridvan@abersanatsk.org</a></p>
+                    </div>
+                    <div class="info-item">
+                        <h4>Kulüp Ofisi</h4>
+                        <p id="club-address-text">Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman</p>
+                    </div>
+                </div>
+                <div class="contact-map">
+                    <div>📍 Karaman Merkez</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="admin-modal" id="adminModal">
+        <div class="admin-content">
+            <span class="close-admin" onclick="toggleAdminModal()">&times;</span>
+            <div class="admin-sidebar">
+                <h3>Aber SK Dashboard</h3>
+                <button type="button" class="admin-sidebar-btn active" id="tabSetBtn" onclick="switchTab('settings')">Site Ayarları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabTextsBtn" onclick="switchTab('texts')">Site Yazıları & Menüler</button>
+                <button type="button" class="admin-sidebar-btn" id="tabStyleBtn" onclick="switchTab('style')">Tipografi & Stil</button>
+                <button type="button" class="admin-sidebar-btn" id="tabBoardBtn" onclick="switchTab('board')">Yönetim Kurulu</button>
+                <button type="button" class="admin-sidebar-btn" id="tabStaffBtn" onclick="switchTab('staff')">Teknik Heyet</button>
+                <button type="button" class="admin-sidebar-btn" id="tabSquadBtn" onclick="switchTab('squad')">Oyuncu Kadrosu</button>
+                <button type="button" class="admin-sidebar-btn" id="tabKitsBtn" onclick="switchTab('kits')">Sezon Formaları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabTransBtn" onclick="switchTab('transfers')">Transfer Gündemi</button>
+                <button type="button" class="admin-sidebar-btn" id="tabFixBtn" onclick="switchTab('fixture')">Fikstür / Skorlar</button>
+                <button type="button" class="admin-sidebar-btn" id="tabGalBtn" onclick="switchTab('gallery')">Medya / Galeri</button>
+                <button type="button" class="admin-sidebar-btn" id="tabPagesBtn" onclick="switchTab('pages')">Dinamik Sayfalar</button>
+                <button type="button" class="admin-sidebar-btn" id="tabMsgBtn" onclick="switchTab('messages')">Taraftar Mesajları</button>
+                <button type="button" class="admin-sidebar-btn" id="tabSecBtn" onclick="switchTab('security')">Tema & Güvenlik</button>
+            </div>
+
+            <div class="admin-body">
+                <div class="analytics-container">
+                    <div class="analytic-card">
+                        <span>Günlük Giriş</span>
+                        <strong id="daily-visits-counter">0</strong>
+                    </div>
+                    <div class="analytic-card">
+                        <span>Toplam Giriş</span>
+                        <strong id="total-visits-counter">0</strong>
+                    </div>
+                </div>
+
+                <div id="tabSettings" class="admin-tab-content active">
+                    <div class="admin-section-heading">GENEL AYARLAR</div>
+                    
+                    <div class="form-group" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;">
+                        <label style="color: var(--accent-color); font-weight: 800;">KULÜP LOGOSU YÜKLE & AYARLA</label>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Doğrudan cihazından yüksek çözünürlüklü şeffaf logo seç. Logonun sitedeki büyüklüğünü piksel cinsinden ayarlayabilirsin.</p>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="file" id="upload-logo-file" accept="image/*" class="form-control" style="flex:1; padding: 0.8rem;" onchange="uploadImage(this, 500, 500, 'logoUrl')">
+                            <button type="button" class="admin-btn-delete" onclick="clearImage('logoUrl')" style="height:50px;">Logoyu Kaldır</button>
+                        </div>
+                        <input type="text" id="edit-logo-url" class="form-control" placeholder="Veya internetten bir resim URL'si yapıştırın" style="margin-top:10px;">
+                        
+                        <div style="margin-top:15px; border-top: 1px solid rgba(255,255,255,0.05); padding-top: 15px;">
+                            <label style="color: #fff; font-size: 0.9rem;">Logo Boyutu (Piksel)</label>
+                            <input type="number" id="edit-logo-size" class="form-control" placeholder="Varsayılan: 85" min="30" max="400" style="margin-top:5px; margin-bottom: 10px;">
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Logo X Pozisyonu (Sağ/Sol Kaydırma - Piksel)</label>
+                            <input type="number" id="edit-logo-x" class="form-control" placeholder="Varsayılan: 0" style="margin-top:5px; margin-bottom: 10px;">
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Logo Y Pozisyonu (Aşağı/Yukarı Kaydırma - Piksel)</label>
+                            <input type="number" id="edit-logo-y" class="form-control" placeholder="Varsayılan: 15" style="margin-top:5px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;">
+                        <label style="color: var(--accent-color); font-weight: 800;">ANA ARKA PLAN GÖRSELİ (HERO BACKGROUND)</label>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Ana sayfadaki dev arka plan görselini doğrudan cihazından seç. Kalite ve netlik korunacaktır.</p>
+                        <div style="display:flex; gap:10px; align-items:center;">
+                            <input type="file" id="upload-hero-bg-file" accept="image/*" class="form-control" style="flex:1; padding: 0.8rem;" onchange="uploadImage(this, 1920, 1080, 'heroBgUrl')">
+                            <button type="button" class="admin-btn-delete" onclick="clearImage('heroBgUrl')" style="height:50px;">Varsayılana Dön</button>
+                        </div>
+                        <input type="text" id="edit-hero-bg-url" class="form-control" placeholder="Veya internetten bir resim URL'si yapıştırın" style="margin-top:10px;">
+                        
+                        <div style="margin-top:15px;">
+                            <label style="color: #fff; font-size: 0.9rem;">Arka Plan Görseli Konumu (Background Position)</label>
+                            <select id="edit-hero-bg-position" class="form-control" style="margin-top:5px;">
+                                <option value="center center">Orta (Varsayılan)</option>
+                                <option value="top center">Üstten Ortala</option>
+                                <option value="bottom center">Alttan Ortala</option>
+                                <option value="center left">Soldan Ortala</option>
+                                <option value="center right">Sağdan Ortala</option>
+                                <option value="top left">Üst Sol</option>
+                                <option value="top right">Üst Sağ</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;">
+                        <label style="color: var(--accent-color); font-weight: 800;">SLOGAN ALANI ÖZELLEŞTİRMELERİ</label>
+                        <div style="margin-top:10px;">
+                            <label style="color: #fff; font-size: 0.9rem;">Slogan Durumu</label>
+                            <select id="edit-slogan-visibility" class="form-control" style="margin-top:5px; margin-bottom:10px;">
+                                <option value="show">Açık / Göster</option>
+                                <option value="hide">Kapalı / Gizle (Tasarım Dahil Tamamen Yok Olur)</option>
+                            </select>
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Sol Kenardan Boşluk (Piksel veya Yüzde - Örn: 2rem veya 20px)</label>
+                            <input type="text" id="edit-slogan-left" class="form-control" placeholder="Varsayılan: 2rem" style="margin-top:5px; margin-bottom:10px;">
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Üst Kenardan Boşluk (Yüzde veya Piksel - Örn: 50% veya 300px)</label>
+                            <input type="text" id="edit-slogan-top" class="form-control" placeholder="Varsayılan: 50%" style="margin-top:5px; margin-bottom:10px;">
+                            
+                            <label style="color: #fff; font-size: 0.9rem;">Slogana Resim Ekle (Cihazdan Yükle)</label>
+                            <div style="display:flex; gap:10px; align-items:center; margin-top:5px;">
+                                <input type="file" id="upload-slogan-img-file" accept="image/*" class="form-control" style="flex:1; padding: 0.8rem;" onchange="uploadImage(this, 300, 300, 'sloganImgUrl')">
+                                <button type="button" class="admin-btn-delete" onclick="clearImage('sloganImgUrl')" style="height:50px;">Resmi Kaldır</button>
+                            </div>
+                            <input type="text" id="edit-slogan-img-url" class="form-control" placeholder="Veya internetten resim linki yapıştırın" style="margin-top:10px;">
+                        </div>
+                    </div>
+
+                    <div class="form-group"><label>Kulüp Başlığı (Menü ve Tarayıcı Sekmesi)</label><input type="text" id="edit-header-title" class="form-control"></div>
+                    <div class="form-group"><label>Hero Başlığı (Ana Sayfa Ortası)</label><input type="text" id="edit-hero-title" class="form-control"></div>
+                    <div class="form-group"><label>Slogan Metni</label><input type="text" id="edit-hero-slogan" class="form-control"></div>
+                    <div class="form-group"><label>Telefon</label><input type="text" id="edit-phone" class="form-control"></div>
+                    <div class="form-group"><label>Adres</label><textarea id="edit-address" class="form-control" rows="2"></textarea></div>
+                    <div class="form-group"><label>E-Posta 1</label><input type="text" id="edit-email1" class="form-control"></div>
+                    <div class="form-group"><label>E-Posta 2</label><input type="text" id="edit-email2" class="form-control"></div>
+                    <button type="button" class="submit-btn" onclick="saveSettings()">Ayarları Kaydet</button>
+                </div>
+
+                <div id="tabTexts" class="admin-tab-content">
+                    <div class="admin-section-heading">SİTE YAZILARI & MENÜLER</div>
+                    <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:2rem;">Sitedeki tüm menü isimlerini ve bölüm başlıklarını buradan değiştirebilirsiniz. Renkli olmasını istediğiniz kelimeyi &lt;span&gt;kelime&lt;/span&gt; içine alabilirsiniz (örnek: Kulüp &lt;span&gt;Kadromuz&lt;/span&gt;).</p>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 2rem;">
+                        <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                            <h4 style="color:var(--accent-color); margin-bottom:1rem;">MENÜ BAĞLANTILARI</h4>
+                            <div class="form-group"><label>Ana Sayfa Linki</label><input type="text" id="t-menu-home" class="form-control"></div>
+                            <div class="form-group"><label>Yönetim Linki</label><input type="text" id="t-menu-board" class="form-control"></div>
+                            <div class="form-group"><label>Teknik Heyet Linki</label><input type="text" id="t-menu-staff" class="form-control"></div>
+                            <div class="form-group"><label>Kadro Linki</label><input type="text" id="t-menu-squad" class="form-control"></div>
+                            <div class="form-group"><label>Formalar Linki</label><input type="text" id="t-menu-kits" class="form-control"></div>
+                            <div class="form-group"><label>Transfer Linki</label><input type="text" id="t-menu-transfers" class="form-control"></div>
+                            <div class="form-group"><label>Fikstür Linki</label><input type="text" id="t-menu-fixture" class="form-control"></div>
+                            <div class="form-group"><label>Medya Linki</label><input type="text" id="t-menu-gallery" class="form-control"></div>
+                            <div class="form-group"><label>Bize Yazın Linki</label><input type="text" id="t-menu-writeus" class="form-control"></div>
+                            <div class="form-group"><label>İletişim Linki</label><input type="text" id="t-menu-contact" class="form-control"></div>
+                        </div>
+                        <div style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05);">
+                            <h4 style="color:var(--accent-color); margin-bottom:1rem;">SAYFA BÖLÜM BAŞLIKLARI</h4>
+                            <div class="form-group"><label>Yönetim Başlığı</label><input type="text" id="t-title-board" class="form-control"></div>
+                            <div class="form-group"><label>Teknik Heyet Başlığı</label><input type="text" id="t-title-staff" class="form-control"></div>
+                            <div class="form-group"><label>Kadro Başlığı</label><input type="text" id="t-title-squad" class="form-control"></div>
+                            <div class="form-group"><label>Formalar Başlığı</label><input type="text" id="t-title-kits" class="form-control"></div>
+                            <div class="form-group"><label>Transfer Başlığı</label><input type="text" id="t-title-transfers" class="form-control"></div>
+                            <div class="form-group"><label>Fikstür Başlığı</label><input type="text" id="t-title-fixture" class="form-control"></div>
+                            <div class="form-group"><label>Medya Başlığı</label><input type="text" id="t-title-gallery" class="form-control"></div>
+                            <div class="form-group"><label>Bize Yazın Başlığı</label><input type="text" id="t-title-writeus" class="form-control"></div>
+                            <div class="form-group"><label>İletişim Başlığı</label><input type="text" id="t-title-contact" class="form-control"></div>
+                        </div>
+                    </div>
+                    <button type="button" class="submit-btn" style="margin-top:2rem;" onclick="saveSiteTexts()">Tüm Yazıları Kaydet</button>
+                </div>
+
+                <div id="tabStyle" class="admin-tab-content">
+                    <div class="admin-section-heading">TİPOGRAFİ & YAZI STİLLERİ EDİTÖRÜ</div>
+                    
+                    <div class="form-group" style="background: rgba(255,255,255,0.02); padding: 1.5rem; border-radius: 12px; border: 1px solid rgba(255,255,255,0.05); margin-bottom: 2rem;">
+                        <label style="color: var(--accent-color); font-weight: 800; margin-bottom: 1rem;">ÖZEL YAZI VE ZEMİN RENKLERİ SEÇİMİ</label>
+                        <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:1rem;">Kutucukları işaretleyerek temanın renklerini ezip kendi renklerinizi zorlayabilirsiniz.</p>
+                        
+                        <div style="margin-bottom: 1.5rem; padding-bottom: 1.5rem; border-bottom: 1px dashed rgba(255,255,255,0.1);">
+                            <label style="color: #fff; font-size: 0.9rem;">Sitenin Zemin (Arka Plan) Rengi</label>
+                            <div style="display:flex; gap:10px; align-items:center; margin-top:5px;">
+                                <input type="checkbox" id="override-bg-color" style="width: 20px; height: 20px; cursor: pointer;"> 
+                                <span style="font-size: 0.8rem;">Özel Zemin Rengi Kullan</span>
+                                <input type="color" id="style-bg-color" class="form-control" style="height:50px; padding: 5px; flex:1;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="color: #fff; font-size: 0.9rem;">Ana Metin Rengi (Başlıklar ve Düz Yazılar)</label>
+                            <div style="display:flex; gap:10px; align-items:center; margin-top:5px;">
+                                <input type="checkbox" id="override-text-color" style="width: 20px; height: 20px; cursor: pointer;"> 
+                                <span style="font-size: 0.8rem;">Özel Renk Kullan</span>
+                                <input type="color" id="style-text-color" class="form-control" style="height:50px; padding: 5px; flex:1;">
+                            </div>
+                        </div>
+
+                        <div style="margin-bottom: 1.5rem;">
+                            <label style="color: #fff; font-size: 0.9rem;">İkincil / Sönük Metin Rengi</label>
+                            <div style="display:flex; gap:10px; align-items:center; margin-top:5px;">
+                                <input type="checkbox" id="override-text-muted" style="width: 20px; height: 20px; cursor: pointer;"> 
+                                <span style="font-size: 0.8rem;">Özel Renk Kullan</span>
+                                <input type="color" id="style-text-muted" class="form-control" style="height:50px; padding: 5px; flex:1;">
+                            </div>
+                        </div>
+
+                        <div>
+                            <label style="color: #fff; font-size: 0.9rem;">Genel Vurgu Rengi (Çizgiler, İkonlar)</label>
+                            <div style="display:flex; gap:10px; align-items:center; margin-top:5px;">
+                                <input type="checkbox" id="override-accent-color" style="width: 20px; height: 20px; cursor: pointer;"> 
+                                <span style="font-size: 0.8rem;">Özel Renk Kullan</span>
+                                <input type="color" id="style-accent-color" class="form-control" style="height:50px; padding: 5px; flex:1;">
+                            </div>
+                        </div>
+
+                        <button type="button" class="admin-btn-delete" style="margin-top: 20px; width: 100%; height: 45px;" onclick="resetAllColors()">Tüm Renk Zorlamalarını Sıfırla (Temaya Dön)</button>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Başlıklar ve Menü Yazı Tipi (Font-Family)</label>
+                        <select id="style-font-sport" class="form-control">
+                            <option value="'Space Grotesk', sans-serif">Space Grotesk (Fütüristik Geometrik)</option>
+                            <option value="'Syne', sans-serif">Syne (Avangart Sıvı Tarz)</option>
+                            <option value="'Montserrat', sans-serif">Montserrat (Kalın Brutal)</option>
+                            <option value="'Rajdhani', sans-serif">Rajdhani (Teknolojik & Dinamik)</option>
+                            <option value="'Inter', sans-serif">Inter (Sade & Modern)</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Ana Gövde ve Slogan Yazı Tipi</label>
+                        <select id="style-font-main" class="form-control">
+                            <option value="'Syne', sans-serif">Syne (Dinamik Estetik)</option>
+                            <option value="'Inter', sans-serif">Inter (Ultra Temiz Okunurluk)</option>
+                            <option value="'Space Grotesk', sans-serif">Space Grotesk (Yarı Geometrik)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sağ Üst Menü Linkleri Boyutu (Varsayılan: 0.75rem)</label>
+                        <select id="style-menu-link-size" class="form-control">
+                            <option value="0.5rem">0.5rem</option><option value="0.55rem">0.55rem</option>
+                            <option value="0.6rem">0.6rem</option><option value="0.65rem">0.65rem</option>
+                            <option value="0.7rem">0.7rem</option><option value="0.75rem">0.75rem (Standart)</option>
+                            <option value="0.8rem">0.8rem</option><option value="0.85rem">0.85rem</option>
+                            <option value="0.9rem">0.9rem</option><option value="0.95rem">0.95rem</option>
+                            <option value="1.0rem">1.0rem</option><option value="1.1rem">1.1rem</option>
+                            <option value="1.2rem">1.2rem</option><option value="1.3rem">1.3rem</option>
+                            <option value="1.4rem">1.4rem</option><option value="1.5rem">1.5rem</option>
+                            <option value="1.7rem">1.7rem</option><option value="2.0rem">2.0rem</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sol Üst Menü Kulüp Adı Boyutu (Varsayılan: 1.5rem)</label>
+                        <select id="style-header-title-size" class="form-control">
+                            <option value="0.8rem">0.8rem</option><option value="0.9rem">0.9rem</option>
+                            <option value="1.0rem">1.0rem</option><option value="1.1rem">1.1rem</option>
+                            <option value="1.2rem">1.2rem</option><option value="1.3rem">1.3rem</option>
+                            <option value="1.4rem">1.4rem</option><option value="1.5rem">1.5rem (Standart)</option>
+                            <option value="1.6rem">1.6rem</option><option value="1.7rem">1.7rem</option>
+                            <option value="1.8rem">1.8rem</option><option value="2.0rem">2.0rem</option>
+                            <option value="2.2rem">2.2rem</option><option value="2.5rem">2.5rem</option>
+                            <option value="3.0rem">3.0rem</option><option value="3.5rem">3.5rem</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Hero Alt Yazı / Slogan Boyutu (Varsayılan: 1.3rem)</label>
+                        <select id="style-hero-slogan-size" class="form-control">
+                            <option value="0.8rem">0.8rem</option><option value="0.9rem">0.9rem</option>
+                            <option value="1.0rem">1.0rem</option><option value="1.1rem">1.1rem</option>
+                            <option value="1.2rem">1.2rem</option><option value="1.3rem">1.3rem (Standart)</option>
+                            <option value="1.4rem">1.4rem</option><option value="1.5rem">1.5rem</option>
+                            <option value="1.6rem">1.6rem</option><option value="1.7rem">1.7rem</option>
+                            <option value="1.8rem">1.8rem</option><option value="2.0rem">2.0rem</option>
+                            <option value="2.5rem">2.5rem</option><option value="3.0rem">3.0rem</option>
+                            <option value="3.5rem">3.5rem</option><option value="4.0rem">4.0rem</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Sayfa ve Bölüm Başlıkları Boyutu (Varsayılan: 3.0rem)</label>
+                        <select id="style-section-size" class="form-control">
+                            <option value="1.5rem">1.5rem</option><option value="1.8rem">1.8rem</option>
+                            <option value="2.0rem">2.0rem</option><option value="2.2rem">2.2rem</option>
+                            <option value="2.5rem">2.5rem</option><option value="2.8rem">2.8rem</option>
+                            <option value="3.0rem">3.0rem (Standart)</option><option value="3.2rem">3.2rem</option>
+                            <option value="3.5rem">3.5rem</option><option value="3.8rem">3.8rem</option>
+                            <option value="4.0rem">4.0rem</option><option value="4.5rem">4.5rem</option>
+                            <option value="5.0rem">5.0rem</option><option value="6.0rem">6.0rem</option>
+                            <option value="7.0rem">7.0rem</option><option value="8.0rem">8.0rem</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Ana Sayfa Dev Hero Başlık Boyutu (Varsayılan: 8.5rem)</label>
+                        <select id="style-hero-size" class="form-control">
+                            <option value="2.0rem">2.0rem</option><option value="3.0rem">3.0rem</option>
+                            <option value="4.0rem">4.0rem</option><option value="4.5rem">4.5rem</option>
+                            <option value="5.0rem">5.0rem</option><option value="5.5rem">5.5rem</option>
+                            <option value="6.0rem">6.0rem</option><option value="6.5rem">6.5rem</option>
+                            <option value="7.0rem">7.0rem</option><option value="7.5rem">7.5rem</option>
+                            <option value="8.0rem">8.0rem</option><option value="8.5rem">8.5rem (Standart)</option>
+                            <option value="9.0rem">9.0rem</option><option value="9.5rem">9.5rem</option>
+                            <option value="10.0rem">10.0rem</option><option value="11.0rem">11.0rem</option>
+                            <option value="12.0rem">12.0rem</option><option value="15.0rem">15.0rem</option>
+                        </select>
+                    </div>
+
+                    <button type="button" class="submit-btn" onclick="saveTypographyStyles()">Yazı & Renk Stillerini Uygula</button>
+                </div>
+
+                <div id="tabBoard" class="admin-tab-content">
+                    <div class="admin-section-heading">YÖNETİM KURULU</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Ad Soyad</label><input type="text" id="new-board-name" class="form-control"></div>
+                        <div class="form-group"><label>Unvanı</label><input type="text" id="new-board-role" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Fotoğraf Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 400, 400, null, function(b64){ document.getElementById('new-board-img').value = b64; })">
+                            <input type="text" id="new-board-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addBoardMember()">Yönetici Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-board-list"></tbody></table>
+                </div>
+
+                <div id="tabStaff" class="admin-tab-content">
+                    <div class="admin-section-heading">TEKNİK HEYET YÖNETİMİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Hoca Ad Soyad</label><input type="text" id="new-staff-name" class="form-control"></div>
+                        <div class="form-group"><label>Görevi</label><input type="text" id="new-staff-role" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Fotoğraf Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 400, 400, null, function(b64){ document.getElementById('new-staff-img').value = b64; })">
+                            <input type="text" id="new-staff-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addStaffMember()">Hoca Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Görevi</th><th>İşlem</th></tr></thead><tbody id="admin-staff-list"></tbody></table>
+                </div>
+
+                <div id="tabSquad" class="admin-tab-content">
+                    <div class="admin-section-heading">KADRO YÖNETİMİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Oyuncu Adı</label><input type="text" id="new-player-name" class="form-control"></div>
+                        <div class="form-group"><label>Mevki</label><select id="new-player-pos" class="form-control"><option value="Kaleci">Kaleci</option><option value="Defans">Defans</option><option value="Orta Saha">Orta Saha</option><option value="Forvet">Forvet</option></select></div>
+                        <div class="form-group"><label>Yaş</label><input type="number" id="new-player-age" class="form-control"></div>
+                        <div class="form-group"><label>Boy (cm)</label><input type="number" id="new-player-height" class="form-control"></div>
+                        <div class="form-group"><label>Kilo (kg)</label><input type="number" id="new-player-weight" class="form-control"></div>
+                        <div class="form-group"><label>Ayak</label><select id="new-player-foot" class="form-control"><option value="Sağ">Sağ</option><option value="Sol">Sol</option><option value="Her İkisi">Her İkisi</option></select></div>
+                        <div class="form-group">
+                            <label>Oyuncu Resmi Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 500, 700, null, function(b64){ document.getElementById('new-player-img').value = b64; })">
+                            <input type="text" id="new-player-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addPlayer()">Kadroya Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Foto</th><th>Ad Soyad</th><th>Mevki</th><th>Özellikler</th><th>İşlem</th></tr></thead><tbody id="admin-squad-list"></tbody></table>
+                </div>
+
+                <div id="tabKits" class="admin-tab-content">
+                    <div class="admin-section-heading">YENİ SEZON FORMALARI YÖNETİMİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Forma Adı / Teması</label><input type="text" id="new-kit-title" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Forma Görseli Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 800, 1000, null, function(b64){ document.getElementById('new-kit-img').value = b64; })">
+                            <input type="text" id="new-kit-img" class="form-control" placeholder="Veya büyük boy görsel linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addKit()">Formayı Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Forma Adı</th><th>Görsel Linki</th><th>İşlem</th></tr></thead><tbody id="admin-kits-list"></tbody></table>
+                </div>
+
+                <div id="tabTransfers" class="admin-tab-content">
+                    <div class="admin-section-heading">TRANSFER PANELİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Oyuncu Adı</label><input type="text" id="new-trans-name" class="form-control"></div>
+                        <div class="form-group"><label>Kulüp Akışı</label><input type="text" id="new-trans-club" class="form-control"></div>
+                        <div class="form-group"><label>Durum</label><input type="text" id="new-trans-status" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Fotoğraf Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 600, 600, null, function(b64){ document.getElementById('new-trans-img').value = b64; })">
+                            <input type="text" id="new-trans-img" class="form-control" placeholder="Veya internet resim linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addTransfer()">Transfer Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Resim</th><th>Oyuncu</th><th>Kulüp</th><th>Durum</th><th>İşlem</th></tr></thead><tbody id="admin-transfer-list"></tbody></table>
+                </div>
+
+                <div id="tabFixture" class="admin-tab-content">
+                    <div class="admin-section-heading">MÜSABAKA FİKSTÜRÜ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Ev Sahibi</label><input type="text" id="new-fix-home" class="form-control"></div>
+                        <div class="form-group"><label>Deplasman</label><input type="text" id="new-fix-away" class="form-control"></div>
+                        <div class="form-group"><label>Skor</label><input type="text" id="new-fix-score" class="form-control"></div>
+                        <div class="form-group"><label>Tarih & Saat</label><input type="text" id="new-fix-date" class="form-control"></div>
+                        <button type="button" class="submit-btn" onclick="addFixture()">Maç Ekle</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Ev Sahibi</th><th>Skor</th><th>Deplasman</th><th>Tarih</th><th>İşlem</th></tr></thead><tbody id="admin-fixture-list"></tbody></table>
+                </div>
+
+                <div id="tabGallery" class="admin-tab-content">
+                    <div class="admin-section-heading">MEDYA LİSTESİ</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;">
+                        <div class="form-group"><label>Tür</label><select id="new-media-type" class="form-control"><option value="image">Fotoğraf</option><option value="video">Video</option></select></div>
+                        <div class="form-group">
+                            <label>Medya Dosyası (Sadece fotoğraflar için cihazdan yükleyebilirsiniz)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 1200, 800, null, function(b64){ document.getElementById('new-media-url').value = b64; })">
+                            <input type="text" id="new-media-url" class="form-control" placeholder="Veya internet görsel/YouTube video linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <button type="button" class="submit-btn" onclick="addGalleryItem()">Galeriye Ekle</button>
+                    </div>
+                    <div id="admin-gallery-list"></div>
+                </div>
+
+                <div id="tabPages" class="admin-tab-content">
+                    <div class="admin-section-heading">ÖZEL DİNAMİK BÖLÜMLER</div>
+                    <div class="blog-form-wrapper" style="box-shadow:none; margin-bottom:2rem;" id="page-form-container">
+                        <input type="hidden" id="edit-page-id" value="">
+                        <div class="form-group"><label>Menü Adı</label><input type="text" id="new-page-menu-title" class="form-control"></div>
+                        <div class="form-group"><label>Büyük Başlık</label><input type="text" id="new-page-title" class="form-control"></div>
+                        <div class="form-group"><label>Slogan</label><input type="text" id="new-page-slogan" class="form-control"></div>
+                        <div class="form-group">
+                            <label>Dinamik Sayfa Resmi Seç (Cihazdan Yükle)</label>
+                            <input type="file" accept="image/*" class="form-control" onchange="uploadImage(this, 1200, 800, null, function(b64){ document.getElementById('new-page-image-url').value = b64; })">
+                            <input type="text" id="new-page-image-url" class="form-control" placeholder="Veya görsel linki yapıştırın" style="margin-top:5px;">
+                        </div>
+                        <div class="form-group"><label>Detaylı İçerik</label><textarea id="new-page-content" rows="4" class="form-control"></textarea></div>
+                        <button type="button" class="submit-btn" id="save-page-btn" onclick="saveCustomPage()">Sayfayı Kaydet</button>
+                        <button type="button" class="submit-btn" id="cancel-edit-page-btn" onclick="cancelPageEdit()" style="background:#64748b; display:none; margin-top:0.5rem;">İptal</button>
+                    </div>
+                    <table class="data-table"><thead><tr><th>Menü</th><th>Başlık</th><th>İşlem</th></tr></thead><tbody id="admin-pages-list"></tbody></table>
+                </div>
+
+                <div id="tabMessages" class="admin-tab-content">
+                    <div class="admin-section-heading">TARAFTAR YORUMLARI ONAYLAMA ALANI</div>
+                    <div id="admin-posts-list"></div>
+                </div>
+
+                <div id="tabSecurity" class="admin-tab-content">
+                    <div class="admin-section-heading">TEMA SEÇİMİ VE GÜVENLİK</div>
+                    <div class="form-group" style="margin-bottom:2rem;">
+                        <label>Sitenin Genel Renk Şablonu (Premium 40+ Tema)</label>
+                        <select id="theme-select" class="form-control" onchange="previewTheme()">
+                            <optgroup label="Yeni Eklenen Özel Temalar">
+                                <option value="neonCity">Neon Şehri (Mor & Parlak Camgöbeği)</option>
+                                <option value="vaporwave">Vaporwave (Pembe & Turkuaz Nostalji)</option>
+                                <option value="midnightBlue">Gece Mavisi (Koyu Lacivert & Beyaz)</option>
+                                <option value="glacier">Buzul (Buz Mavisi & Kar Beyazı)</option>
+                                <option value="aurora">Kuzey Işıkları (Koyu Yeşil & Mor/Mavi)</option>
+                                <option value="hacker">Terminal (Simsiyah & Fosforlu Yeşil)</option>
+                                <option value="royalPurple">Kraliyet Moru (Derin Mor & Altın)</option>
+                                <option value="crimsonTide">Kızıl Gelgit (Koyu Kırmızı & Siyah)</option>
+                                <option value="gothic">Gotik (Simsiyah & Soluk Gri)</option>
+                                <option value="minimalLight">Aydınlık Minimal (Saf Beyaz & Siyah)</option>
+                                <option value="steampunk">Steampunk (Pirinç, Bakır & Koyu Kahve)</option>
+                                <option value="sakura">Sakura (Kiraz Çiçeği Pembe & Beyaz)</option>
+                            </optgroup>
+                            <optgroup label="Klasik & Karanlık Spor">
+                                <option value="classic">Karanlık Spor Gece (Varsayılan Premium)</option>
+                                <option value="monochrome">Koyu Gri Monokrom (Sade Şıklık)</option>
+                                <option value="cyberpunk">Cyberpunk (Koyu Kömür & Parlak Turuncu)</option>
+                                <option value="matrix">Matrix Hacker (Siyah & Neon Yeşil)</option>
+                            </optgroup>
+                            <optgroup label="Siyah & Beyaz (Black & White)">
+                                <option value="blackAndWhite">Tam Siyah & Beyaz (Yüksek Kontrast)</option>
+                                <option value="silverBlack">Gümüş & Siyah (Açık Gri Tonlar)</option>
+                                <option value="goldRush">Altına Hücum (Gece Siyahı & Altın)</option>
+                            </optgroup>
+                            <optgroup label="Renkli & Güçlü Tonlar">
+                                <option value="karamanAtesi">Karaman Ateşi (Sıcak Canlı Kırmızı & Siyah)</option>
+                                <option value="retro">Bordo & Kemik (Retro Premium)</option>
+                                <option value="royal">Royal Asil Mavi & Altın (Saray Şıklığı)</option>
+                                <option value="legend">Efsane Lacivert & Altın (Şampiyon Ruhu)</option>
+                                <option value="pitch">Çimen Yeşili & Koyu Orman</option>
+                                <option value="volcano">Volkanik Patlama (Siyah & Ateş Turuncusu)</option>
+                            </optgroup>
+                            <optgroup label="Modern & Yenilikçi">
+                                <option value="neonPurple">Neon Geceler (Derin Mor & Neon Pembe)</option>
+                                <option value="oceanDeep">Derin Okyanus (Gece Mavisi & Turkuaz)</option>
+                                <option value="desertSand">Çöl Fırtınası (Koyu Kahve & Toprak)</option>
+                                <option value="forest">Orman Yolu (Koyu Yeşil & Kiremit)</option>
+                                <option value="sunset">Günbatımı Kızılı (Koyu Kırmızı & Turuncu)</option>
+                                <option value="dracula">Dracula (Koyu Mor & Pembe Vurgular)</option>
+                                <option value="synthwave">Synthwave (Karanlık Mor & Mavi/Pembe Neon)</option>
+                            </optgroup>
+                            <optgroup label="Mücevher Tonları">
+                                <option value="ruby">Yakut Kırmızısı (Koyu Bordo & Yakut)</option>
+                                <option value="emerald">Zümrüt Yeşili (Derin Yeşil & Altın)</option>
+                                <option value="sapphire">Safir Mavisi (Derin Lacivert & Gümüş)</option>
+                                <option value="amethyst">Ametist (Koyu Mor & Lila)</option>
+                            </optgroup>
+                            <optgroup label="Agresif & Enerjik">
+                                <option value="bloodMoon">Kanlı Ay (Simsiyah & Kan Kırmızı)</option>
+                                <option value="electricBlue">Elektrik Mavisi (Simsiyah & Cam Göbeği)</option>
+                                <option value="highContrast">Tehlike Bölgesi (Simsiyah & Uyarı Sarısı)</option>
+                                <option value="toxic">Radyasyon (Koyu Gri & Zehir Yeşili)</option>
+                            </optgroup>
+                        </select>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:2.5rem; background: #0d121d; padding: 1.5rem; border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.08);">
+                        <label style="color: var(--accent-color); font-weight: 800; font-size: 0.9rem;">SİTE YERLEŞİM ŞABLONU</label>
+                        <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1rem;">Sitenin menülerini, kolonlarını ve kart mimarisini kökten değiştiren yapısal yerleşimleri seçin:</p>
+                        
+                        <select id="layout-select" class="form-control" onchange="previewTheme()">
+                            <optgroup label="Klasik & Standart Şablonlar">
+                                <option value="asymmetric">Şablon 1: Modern Asimetrik Grid (Yumuşak Oval Kartlar)</option>
+                                <option value="minimalist">Şablon 2: Minimalist İtalyan Tarzı (Sonsuz Minimalizm)</option>
+                                <option value="aggressive">Şablon 3: Agresif Köşeli Spor Portalı (Sert Çizgiler)</option>
+                                <option value="rounded">Şablon 4: Ultra Soft (Tamamen Yuvarlak Hatlar)</option>
+                            </optgroup>
+                            <optgroup label="YENİ: Gelişmiş Yerleşim Planları (Layouts)">
+                                <option value="leftMenu">Şablon 5: Sol Menü Odaklı (Sabit Yan Bar - Masaüstü)</option>
+                                <option value="bottomNav">Şablon 6: Mobil App Tarzı (Alt Navigasyon Barı)</option>
+                                <option value="centeredFocus">Şablon 7: Merkez Odaklı (Tek Sütun Akış - Odaklanmış)</option>
+                                <option value="masonryMosaic">Şablon 8: Mozaik Duvar Grid (3 Kolonlu Gazete Yapısı)</option>
+                                <option value="cyberGrid">Şablon 9: Teknolojik Grid (Özel Izgara Zemin ve Çizgiler)</option>
+                                <option value="fullscreenBlocks">Şablon 10: Tam Ekran Bloklar (Kenarlıksız Ultra Geniş)</option>
+                                <option value="splitScreen">Şablon 11: İkiye Bölünmüş Ekran (Split Screen)</option>
+                                <option value="glassmorphism">Şablon 12: Glassmorphism (Cam Efekti & Derin Şeffaflık)</option>
+                                <option value="brutalism">Şablon 13: Neo-Brutalizm (Sert Siyah Çizgiler & Retro 90s)</option>
+                            </optgroup>
+                        </select>
+
+                    </div>
+
+                    <button type="button" class="submit-btn" style="margin-bottom:3rem;" onclick="saveTheme()">Tema & Şablonu Kaydet</button>
+
+                    <div class="form-group"><label>Mevcut Şifre</label><input type="password" id="current-password-input" class="form-control"></div>
+                    <div class="form-group"><label>Yeni Şifre</label><input type="password" id="new-password-input" class="form-control"></div>
+                    <div class="form-group"><label>Yeni Şifre Tekrar</label><input type="password" id="new-password-confirm" class="form-control"></div>
+                    <button type="button" class="submit-btn" onclick="changeAdminPassword()">Şifreyi Güncelle</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="imageLightbox" class="lightbox-modal" onclick="closeLightbox()">
+        <span class="lightbox-close" onclick="closeLightbox()">&times;</span>
+        <img class="lightbox-content" id="lightboxImg">
+    </div>
+
+    <footer>
+        <div class="container">
+            <div class="footer-logo" id="footer-logo-text">KARAMAN ABER SANAT GÜCÜ</div>
+            <p>© Tüm Hakları Saklıdır.</p>
+            <div class="signature">DESIGNED BY <span>RIDVAN ARSLAN</span></div>
+            <div class="admin-trigger" onclick="loginAdmin()">Yönetim Paneli Girişi</div>
+        </div>
+    </footer>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+        import { getFirestore, doc, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyDRLDSokBxQNUjC4M5aypgasbfT3Gm2WDg",
+            authDomain: "abersanatsk.firebaseapp.com",
+            projectId: "abersanatsk",
+            storageBucket: "abersanatsk.firebasestorage.app",
+            messagingSenderId: "547355513090",
+            appId: "1:547355513090:web:227ecbd40020f84ad6321b",
+            measurementId: "G-MEJ3D7J9XF"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        window.saveAllData = async function() {
+            try {
+                localStorage.setItem("aber_site_data", JSON.stringify(window.activeData));
+                await setDoc(doc(db, "site_verileri", "genel_ayar"), window.activeData);
+                console.log("Veri buluta başarıyla kaydedildi!");
+            } catch (e) {
+                console.warn("Buluta kaydedilemedi, ancak yerel hafızaya (localStorage) güvenle kaydedildi: ", e);
+            }
+        };
+
+        window.loadAllData = async function() {
+            try {
+                let localData = localStorage.getItem("aber_site_data");
+                if (localData) {
+                    window.activeData = JSON.parse(localData);
+                } else {
+                    window.activeData = JSON.parse(JSON.stringify(window.defaultData));
+                }
+
+                const docRef = doc(db, "site_verileri", "genel_ayar");
+                const docSnap = await getDoc(docRef);
+
+                if (docSnap.exists()) {
+                    const parsed = docSnap.data();
+                    for (let key in parsed) {
+                        if (parsed[key] !== null && parsed[key] !== undefined) {
+                            if (typeof parsed[key] === 'object' && !Array.isArray(parsed[key])) {
+                                window.activeData[key] = Object.assign({}, window.activeData[key], parsed[key]);
+                            } else { 
+                                window.activeData[key] = parsed[key]; 
+                            }
+                        }
+                    }
+                    localStorage.setItem("aber_site_data", JSON.stringify(window.activeData)); 
+                }
+                
+                const arrayKeys = ['players', 'board', 'staff', 'kits', 'transfers', 'fixtures', 'gallery', 'posts', 'customPages'];
+                arrayKeys.forEach(key => { 
+                    if (!Array.isArray(window.activeData[key])) window.activeData[key] = []; 
+                });
+
+                applySavedTheme();
+                renderAllSections();
+                updateTrafficStats();
+            } catch (e) {
+                console.error("Veritabanı bağlantı hatası! Siteniz yerel yedek ile sorunsuz çalışmaya devam ediyor.", e);
+                applySavedTheme();
+                renderAllSections();
+                updateTrafficStats();
+            }
+        };
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', window.loadAllData);
+        } else {
+            window.loadAllData();
+        }
+    </script>
+
+    <script>
+        window.saveAllData = window.saveAllData || function() { console.log("Firebase henüz yüklenmedi..."); };
+        window.loadAllData = window.loadAllData || function() { console.log("Firebase henüz yüklenmedi..."); };
+
+        window.openLightbox = function(src) {
+            const modal = document.getElementById('imageLightbox');
+            const modalImg = document.getElementById('lightboxImg');
+            modal.style.display = "flex";
+            modalImg.src = src;
+        };
+
+        window.closeLightbox = function() {
+            document.getElementById('imageLightbox').style.display = "none";
+        };
+
+        function getSafeData(key) {
+            if (typeof window.defaultData[key] === 'object' && !Array.isArray(window.defaultData[key])) {
+                return Object.assign({}, window.defaultData[key], window.activeData[key] || {});
+            }
+            return window.activeData[key] !== undefined ? window.activeData[key] : window.defaultData[key];
+        }
+
+        function switchPage(pageId) {
+            document.querySelectorAll('section').forEach(sec => {
+                sec.classList.remove('active-page');
+            });
+            
+            const target = document.getElementById(pageId);
+            if (target) {
+                target.classList.add('active-page');
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+
+            const sloganContainer = document.getElementById('hero-slogan-container');
+            if (sloganContainer) {
+                const isSloganVisible = (activeData.sloganVisibility !== 'hide');
+                if (pageId === 'home' && isSloganVisible) {
+                    sloganContainer.style.setProperty('display', 'flex', 'important');
+                } else {
+                    sloganContainer.style.setProperty('display', 'none', 'important');
+                }
+            }
+        }
+
+        function uploadImage(inputElement, maxWidth, maxHeight, targetField, callback) {
+            const file = inputElement.files[0];
+            if (!file) return;
+            
+            const originalText = inputElement.previousElementSibling ? inputElement.previousElementSibling.innerText : "Resim Seçin";
+            if (inputElement.previousElementSibling && inputElement.previousElementSibling.tagName === "LABEL") {
+                inputElement.previousElementSibling.innerText = "Yükleniyor ve Optimize Ediliyor... ⏳";
+            }
+
+            const reader = new FileReader();
+            reader.onload = function(event) {
+                const img = new Image();
+                img.onload = function() {
+                    const canvas = document.createElement('canvas');
+                    let width = img.width;
+                    let height = img.height;
+
+                    if (width > height) {
+                        if (width > maxWidth) {
+                            height = Math.round((height * maxWidth) / width);
+                            width = maxWidth;
+                        }
+                    } else {
+                        if (height > maxHeight) {
+                            width = Math.round((width * maxHeight) / height);
+                            height = maxHeight;
+                        }
+                    }
+
+                    canvas.width = width;
+                    canvas.height = height;
+                    const ctx = canvas.getContext('2d');
+                    
+                    ctx.imageSmoothingEnabled = true;
+                    ctx.imageSmoothingQuality = 'high';
+                    ctx.drawImage(img, 0, 0, width, height);
+
+                    const base64Data = canvas.toDataURL('image/png');
+                    
+                    if (targetField) {
+                        activeData[targetField] = base64Data;
+                        const textInputId = targetField === 'logoUrl' ? 'edit-logo-url' : (targetField === 'heroBgUrl' ? 'edit-hero-bg-url' : (targetField === 'sloganImgUrl' ? 'edit-slogan-img-url' : ''));
+                        if (textInputId && document.getElementById(textInputId)) {
+                            document.getElementById(textInputId).value = "[Cihazdan Yüklendi]";
+                        }
+                    }
+                    
+                    if (callback) { callback(base64Data); }
+                    
+                    if (inputElement.previousElementSibling && inputElement.previousElementSibling.tagName === "LABEL") {
+                        inputElement.previousElementSibling.innerText = originalText;
+                    }
+                    alert("Görsel başarıyla optimize edildi ve eklendi!");
+                };
+                img.src = event.target.result;
+            };
+            reader.readAsDataURL(file);
+        }
+
+        function clearImage(targetField) {
+            if (targetField === 'logoUrl') {
+                activeData.logoUrl = "";
+                document.getElementById('edit-logo-url').value = "";
+                document.getElementById('upload-logo-file').value = "";
+            } else if (targetField === 'heroBgUrl') {
+                activeData.heroBgUrl = defaultData.heroBgUrl;
+                document.getElementById('edit-hero-bg-url').value = "";
+                document.getElementById('upload-hero-bg-file').value = "";
+            } else if (targetField === 'sloganImgUrl') {
+                activeData.sloganImgUrl = "";
+                document.getElementById('edit-slogan-img-url').value = "";
+                document.getElementById('upload-slogan-img-file').value = "";
+            }
+            saveAllData();
+            renderAllSections();
+            alert("Görsel başarıyla kaldırıldı veya varsayılana sıfırlandı!");
+        }
+
+        function convertDriveUrl(url) {
+            if (!url || typeof url !== 'string') return '';
+            let rawUrl = url.trim();
+            if (rawUrl.startsWith('data:image')) return rawUrl;
+            
+            let fileId = '';
+            if (rawUrl.includes('drive.google.com/file/d/')) {
+                const parts = rawUrl.split('/file/d/');
+                if (parts[1]) fileId = parts[1].split('/')[0].split('?')[0];
+            } else if (rawUrl.includes('drive.google.com/open?id=')) {
+                const parts = rawUrl.split('?id=');
+                if (parts[1]) fileId = parts[1].split('&')[0];
+            } else if (rawUrl.includes('drive.google.com/uc?id=')) {
+                const parts = rawUrl.split('?id=');
+                if (parts[1]) fileId = parts[1].split('&')[0];
+            }
+
+            if (fileId) {
+                return `https://drive.google.com/thumbnail?id=${fileId}&sz=w2000`;
+            }
+            return rawUrl;
+        }
+
+        function updateTrafficStats() {
+            try {
+                let totalVisits = parseInt(localStorage.getItem('aber_total_visits') || "0");
+                let dailyVisits = parseInt(localStorage.getItem('aber_daily_visits') || "0");
+                let lastVisitDate = localStorage.getItem('aber_last_visit_date') || "";
+
+                let todayStr = new Date().toDateString();
+
+                if (lastVisitDate !== todayStr) {
+                    dailyVisits = 1;
+                    localStorage.setItem('aber_last_visit_date', todayStr);
+                } else { dailyVisits++; }
+
+                totalVisits++;
+
+                localStorage.setItem('aber_total_visits', totalVisits.toString());
+                localStorage.setItem('aber_daily_visits', dailyVisits.toString());
+
+                document.getElementById('daily-visits-counter').innerText = dailyVisits;
+                document.getElementById('total-visits-counter').innerText = totalVisits;
+            } catch (e) { console.error(e); }
+        }
+
+        function getEmbedVideoUrl(videoUrl) {
+            if (!videoUrl) return '';
+            let url = videoUrl.trim();
+            if (url.includes('youtube.com') || url.includes('youtu.be')) {
+                let videoId = '';
+                if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1].split(/[?#]/)[0];
+                else if (url.includes('embed/')) videoId = url.split('embed/')[1].split(/[?#]/)[0];
+                else if (url.includes('v=')) videoId = url.split('v=')[1].split('&')[0];
+                if (videoId) return `https://www.youtube.com/embed/${videoId}`;
+            }
+            return url;
+        }
+
+        function handleLogoFallback(imgElement) {
+            imgElement.src = 'https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=200';
+        }
+
+        window.defaultData = {
+            adminPassword: "admin",
+            currentTheme: "classic",
+            currentLayout: "asymmetric",
+            logoUrl: "",
+            logoSize: "85",
+            logoX: "0",
+            logoY: "15",
+            headerTitle: "KARAMAN ABER SANAT GÜCÜ",
+            heroBgUrl: "https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?q=80&w=1400", 
+            heroBgPosition: "center center",
+            sloganVisibility: "show",
+            sloganLeft: "2rem",
+            sloganTop: "50%",
+            sloganImgUrl: "",
+            hero: { title: "", slogan: "Sloganımız olan 'İNANÇ KANATLANDIRIR' ilkesinden aldığımız güçle Karaman futboluna yeni bir soluk getiriyoruz." },
+            contact: { phone: "0 536 893 94 15", email1: "info@abersanatsk.org", email2: "abersanat@gmail.com", address: "Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman" },
+            styles: {
+                fontSport: "'Space Grotesk', sans-serif",
+                fontMain: "'Syne', sans-serif",
+                heroTitleSize: "8.5rem",
+                sectionTitleSize: "3rem",
+                heroSloganSize: "1.3rem",
+                headerTitleSize: "1.5rem",
+                menuLinkSize: "0.75rem",
+                accentColor: "",
+                textColor: "", 
+                textMuted: "",
+                bgColor: ""
+            },
+            siteTexts: {
+                menuHome: "Anasayfa", menuBoard: "Yönetim Kurulu", menuStaff: "Teknik Heyet",
+                menuSquad: "Kadromuz", menuKits: "Formalarımız", menuTransfers: "Transferler",
+                menuFixture: "Fikstür", menuGallery: "Medya", menuWriteUs: "Bize Yazın", menuContact: "İletişim",
+                titleBoard: "Yönetim <span>Kurulu</span>", titleStaff: "Teknik <span>Heyet</span>",
+                titleSquad: "Kulüp <span>Kadromuz</span>", titleKits: "Kulüp <span>Formalarımız</span>",
+                titleTransfers: "Transfer <span>Gündemi</span>", titleFixture: "Maç <span>Fikstürü</span>",
+                titleGallery: "Kulüp <span>Medya & Galeri</span>", titleWriteUs: "Bize <span>Yazın</span>",
+                titleContact: "Bize <span>Ulaşın</span>"
+            },
+            posts: [],
+            players: [],
+            board: [{ id: 1, name: "Rıdvan Arslan", role: "Kulüp Başkanı", img: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=300" }],
+            staff: [{ id: 1, name: "Teknik Hoca", role: "Teknik Direktör", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=300" }],
+            kits: [{ id: 1, title: "2026 İç Saha Forması", img: "https://images.unsplash.com/photo-1508098682722-e99c43a406b2?q=80&w=600" }],
+            transfers: [],
+            fixtures: [],
+            gallery: [],
+            customPages: []
+        };
+
+        window.activeData = {};
+
+        function applySavedTheme() {
+            const selectedTheme = activeData.currentTheme || "classic";
+            const selectedLayout = activeData.currentLayout || "asymmetric";
+            
+            const s = getSafeData('styles');
+            
+            let textColorOverride = "";
+            let textMutedOverride = "";
+            let accentColorOverride = "";
+            let bgColorOverride = "";
+            
+            if (s.textColor && s.textColor.trim() !== "") textColorOverride = `--text-dark: ${s.textColor} !important;`;
+            if (s.textMuted && s.textMuted.trim() !== "") textMutedOverride = `--text-muted: ${s.textMuted} !important;`;
+            if (s.accentColor && s.accentColor.trim() !== "") accentColorOverride = `--accent-color: ${s.accentColor} !important;`;
+            if (s.bgColor && s.bgColor.trim() !== "") bgColorOverride = `--bg-white: ${s.bgColor} !important; --bg-dark: ${s.bgColor} !important; background-color: ${s.bgColor} !important;`;
+
+            const customStyleVars = `
+                :root {
+                    --font-sport: ${s.fontSport || "'Space Grotesk', sans-serif"};
+                    --font-main: ${s.fontMain || "'Syne', sans-serif"};
+                    --hero-title-size: ${s.heroTitleSize || "8.5rem"};
+                    --section-title-size: ${s.sectionTitleSize || "3rem"};
+                    --hero-slogan-size: ${s.heroSloganSize || "1.3rem"};
+                    --header-title-size: ${s.headerTitleSize || "1.5rem"};
+                    --menu-link-size: ${s.menuLinkSize || "0.75rem"};
+                    --logo-size: ${activeData.logoSize || "85"}px;
+                    --logo-offset-x: ${activeData.logoX || "0"}px;
+                    --logo-offset-y: ${activeData.logoY || "15"}px;
+                    ${textColorOverride}
+                    ${textMutedOverride}
+                    ${accentColorOverride}
+                    ${bgColorOverride}
+                }
+            `;
+
+            const cssContent = themes[selectedTheme] + "\n" + customStyleVars + "\n" + layouts[selectedLayout];
+            document.getElementById('theme-styles').innerHTML = cssContent;
+            document.getElementById('theme-select').value = selectedTheme;
+            document.getElementById('layout-select').value = selectedLayout;
+        }
+
+        function renderAllSections() {
+            const heroData = getSafeData('hero');
+            const contactData = getSafeData('contact');
+            const t = getSafeData('siteTexts');
+
+            const rawHeaderTitle = activeData.headerTitle || defaultData.headerTitle;
+            
+            document.title = rawHeaderTitle || "Karaman Aber Sanat Gücü Spor Kulübü";
+            document.getElementById('header-club-title').innerText = rawHeaderTitle;
+            document.getElementById('footer-logo-text').innerText = rawHeaderTitle;
+
+            const headerLogoImg = document.getElementById('header-logo-img');
+            const headerLogoWrapper = document.getElementById('header-logo-wrapper');
+            
+            if (activeData.logoUrl && activeData.logoUrl.trim() !== "") {
+                headerLogoImg.src = convertDriveUrl(activeData.logoUrl);
+                headerLogoWrapper.style.display = "flex";
+            } else {
+                headerLogoWrapper.style.display = "none";
+            }
+
+            const heroBgOverlay = document.getElementById('hero-bg-overlay');
+            const cleanBg = convertDriveUrl(activeData.heroBgUrl);
+            heroBgOverlay.style.backgroundImage = `url('${cleanBg || defaultData.heroBgUrl}')`;
+            heroBgOverlay.style.setProperty('background-position', activeData.heroBgPosition || 'center center', 'important');
+            
+            document.getElementById('hero-title-text').innerHTML = (heroData.title !== undefined ? heroData.title : defaultData.hero.title).replace(/\n/g, '<br>');
+            
+            const sloganContainer = document.getElementById('hero-slogan-container');
+            const sloganImg = document.getElementById('slogan-img');
+            
+            if (activeData.sloganVisibility === 'hide') {
+                sloganContainer.style.setProperty('display', 'none', 'important');
+            } else {
+                const activeSec = document.querySelector('section.hero.active-page');
+                if (activeSec) {
+                    sloganContainer.style.setProperty('display', 'flex', 'important');
+                } else {
+                    sloganContainer.style.setProperty('display', 'none', 'important');
+                }
+                
+                sloganContainer.style.left = activeData.sloganLeft || "2rem";
+                sloganContainer.style.top = activeData.sloganTop || "50%";
+                document.getElementById('hero-slogan-text').innerText = heroData.slogan !== undefined ? heroData.slogan : defaultData.hero.slogan;
+                
+                if (activeData.sloganImgUrl && activeData.sloganImgUrl.trim() !== "") {
+                    sloganImg.src = convertDriveUrl(activeData.sloganImgUrl);
+                    sloganImg.style.display = "block";
+                } else {
+                    sloganImg.style.display = "none";
+                }
+            }
+
+            const mainNavLinks = document.getElementById('main-nav-links');
+            mainNavLinks.innerHTML = `
+                <li><a href="#" onclick="switchPage('home'); return false;">${t.menuHome}</a></li>
+                <li><a href="#" onclick="switchPage('yonetim-kurulu'); return false;">${t.menuBoard}</a></li>
+                <li><a href="#" onclick="switchPage('teknik-heyet'); return false;">${t.menuStaff}</a></li>
+                <li><a href="#" onclick="switchPage('kadro'); return false;">${t.menuSquad}</a></li>
+                <li><a href="#" onclick="switchPage('formalar'); return false;">${t.menuKits}</a></li>
+                <li><a href="#" onclick="switchPage('transferler'); return false;">${t.menuTransfers}</a></li>
+                <li><a href="#" onclick="switchPage('fikstur'); return false;">${t.menuFixture}</a></li>
+                <li><a href="#" onclick="switchPage('galeri'); return false;">${t.menuGallery}</a></li>
+                <li><a href="#" onclick="switchPage('bize-yazin'); return false;">${t.menuWriteUs}</a></li>
+                <li><a href="#" onclick="switchPage('iletisim'); return false;">${t.menuContact}</a></li>`;
+
+            document.getElementById('title-board').innerHTML = t.titleBoard;
+            document.getElementById('title-staff').innerHTML = t.titleStaff;
+            document.getElementById('title-squad').innerHTML = t.titleSquad;
+            document.getElementById('title-kits').innerHTML = t.titleKits;
+            document.getElementById('title-transfers').innerHTML = t.titleTransfers;
+            document.getElementById('title-fixture').innerHTML = t.titleFixture;
+            document.getElementById('title-gallery').innerHTML = t.titleGallery;
+            document.getElementById('title-writeus').innerHTML = t.titleWriteUs;
+            document.getElementById('title-contact').innerHTML = t.titleContact;
+
+            const boardContainer = document.getElementById('board-container');
+            boardContainer.innerHTML = '';
+            (activeData.board || []).forEach(b => {
+                boardContainer.innerHTML += `
+                    <div class="board-card">
+                        <div class="board-img-wrapper"><img src="${convertDriveUrl(b.img) || defaultData.logoUrl}" class="board-img" onerror="handleLogoFallback(this)"></div>
+                        <div class="board-name">${b.name}</div><div class="board-role">${b.role}</div>
+                    </div>`;
+            });
+
+            const staffContainer = document.getElementById('staff-container');
+            staffContainer.innerHTML = '';
+            (activeData.staff || []).forEach(s => {
+                staffContainer.innerHTML += `
+                    <div class="board-card">
+                        <div class="board-img-wrapper"><img src="${convertDriveUrl(s.img) || defaultData.logoUrl}" class="board-img" onerror="handleLogoFallback(this)"></div>
+                        <div class="board-name">${s.name}</div><div class="board-role">${s.role}</div>
+                    </div>`;
+            });
+
+            const gkContainer = document.getElementById('gk-players-container');
+            const dfContainer = document.getElementById('df-players-container');
+            const mfContainer = document.getElementById('mf-players-container');
+            const fwContainer = document.getElementById('fw-players-container');
+            gkContainer.innerHTML = ''; dfContainer.innerHTML = ''; mfContainer.innerHTML = ''; fwContainer.innerHTML = '';
+
+            (activeData.players || []).forEach(p => {
+                const cardHtml = `
+                    <div class="player-card">
+                        <div class="player-img-box"><img src="${convertDriveUrl(p.img) || defaultData.logoUrl}" onerror="handleLogoFallback(this)"></div>
+                        <div class="player-info">
+                            <div class="player-name">${p.name}</div><div class="player-position">${p.position}</div>
+                            <div class="player-stats">
+                                <div class="stat-line">Yaş: <strong>${p.age || '--'}</strong></div><div class="stat-line">Boy: <strong>${p.height || '--'} cm</strong></div>
+                                <div class="stat-line">Kilo: <strong>${p.weight || '--'} kg</strong></div><div class="stat-line">Ayak: <strong>${p.foot || 'Sağ'}</strong></div>
+                            </div>
+                        </div>
+                    </div>`;
+                const pos = (p.position || '').toLowerCase();
+                if (pos.includes('kaleci')) gkContainer.innerHTML += cardHtml;
+                else if (pos.includes('defans')) dfContainer.innerHTML += cardHtml;
+                else if (pos.includes('orta saha')) mfContainer.innerHTML += cardHtml;
+                else fwContainer.innerHTML += cardHtml;
+            });
+            document.getElementById('gk-section').style.display = gkContainer.innerHTML ? 'block' : 'none';
+            document.getElementById('df-section').style.display = dfContainer.innerHTML ? 'block' : 'none';
+            document.getElementById('mf-section').style.display = mfContainer.innerHTML ? 'block' : 'none';
+            document.getElementById('fw-section').style.display = fwContainer.innerHTML ? 'block' : 'none';
+
+            const kitsContainer = document.getElementById('kits-container');
+            kitsContainer.innerHTML = '';
+            (activeData.kits || []).forEach(k => {
+                kitsContainer.innerHTML += `
+                    <div class="kit-card">
+                        <div class="kit-img-box"><img src="${convertDriveUrl(k.img)}" onerror="handleLogoFallback(this)"></div>
+                        <div class="kit-title">${k.title}</div>
+                    </div>`;
+            });
+
+            const transfersGrid = document.getElementById('transfers-container');
+            transfersGrid.innerHTML = '';
+            (activeData.transfers || []).forEach(t => {
+                transfersGrid.innerHTML += `
+                    <div class="transfer-card">
+                        <img class="transfer-img" src="${convertDriveUrl(t.img) || defaultData.logoUrl}" onerror="handleLogoFallback(this)">
+                        <div class="transfer-body">
+                            <div class="transfer-name">${t.name}</div><div class="transfer-club">${t.club}</div>
+                            <div class="transfer-status">${t.status}</div>
+                        </div>
+                    </div>`;
+            });
+
+            const fixtureGrid = document.getElementById('fixture-container');
+            fixtureGrid.innerHTML = '';
+            (activeData.fixtures || []).forEach(f => {
+                fixtureGrid.innerHTML += `
+                    <div class="fixture-card">
+                        <div class="fixture-team home">${f.home}</div>
+                        <div class="fixture-mid"><div class="fixture-score">${f.score || 'v'}</div><div class="fixture-date">${f.date}</div></div>
+                        <div class="fixture-team away">${f.away}</div>
+                    </div>`;
+            });
+
+            const galleryGrid = document.getElementById('gallery-container');
+            galleryGrid.innerHTML = '';
+            (activeData.gallery || []).forEach(g => {
+                const box = document.createElement('div'); box.className = 'gallery-item';
+                if (g.type === 'image') {
+                    box.innerHTML = `<img src="${convertDriveUrl(g.url)}" onerror="handleLogoFallback(this)" onclick="openLightbox(this.src)" style="cursor: zoom-in;">`;
+                } else {
+                    box.innerHTML = `<iframe src="${getEmbedVideoUrl(g.url)}" allowfullscreen></iframe>`;
+                }
+                galleryGrid.appendChild(box);
+            });
+
+            const dynamicContainer = document.getElementById('dynamic-pages-container');
+            dynamicContainer.innerHTML = '';
+            (activeData.customPages || []).forEach(cp => {
+                const safeId = 'dynamic-' + cp.id;
+                mainNavLinks.innerHTML += `<li><a href="#" onclick="switchPage('${safeId}'); return false;">${cp.menuTitle}</a></li>`;
+                dynamicContainer.innerHTML += `
+                    <section id="${safeId}">
+                        <div class="container">
+                            <h2 class="section-title">${cp.title}</h2>
+                            ${cp.imageUrl ? `<div style="margin-bottom:2rem; width:100%;"><img src="${convertDriveUrl(cp.imageUrl)}" style="width:100%; border-radius:12px;" onerror="handleLogoFallback(this)"></div>` : ''}
+                            ${cp.slogan ? `<h3 style="color:var(--accent-color); font-size:1.3rem; margin-bottom:1rem;">${cp.slogan}</h3>` : ''}
+                            <p style="color:var(--text-muted); white-space:pre-line;">${cp.content}</p>
+                        </div>
+                    </section>`;
+            });
+
+            const postsContainer = document.getElementById('posts-container'); postsContainer.innerHTML = '';
+            (activeData.posts || []).filter(p => p.approved).forEach(p => {
+                postsContainer.innerHTML += `<div class="post-card"><div class="post-meta">${p.author} // Taraftar</div><i>"${p.text}"</i></div>`;
+            });
+
+            document.getElementById('club-phone-link').innerText = contactData.phone || defaultData.contact.phone;
+            document.getElementById('club-email-1').innerText = contactData.email1 || defaultData.contact.email1;
+            document.getElementById('club-email-2').innerText = contactData.email2 || defaultData.contact.email2;
+            document.getElementById('club-address-text').innerHTML = contactData.address || defaultData.contact.address;
+
+            const activeSections = document.querySelectorAll('section.active-page');
+            if (activeSections.length === 0) {
+                switchPage('home');
+            }
+        }
+
+        function handleFormSubmit(event) {
+            event.preventDefault();
+            const name = document.getElementById('name').value;
+            const message = document.getElementById('message').value;
+            if(!activeData.posts) activeData.posts = [];
+            activeData.posts.push({ id: Date.now(), author: name, text: message, approved: false });
+            saveAllData();
+            alert("Mesajınız onaya gönderildi.");
+            document.getElementById('write-us-form').reset();
+        }
+
+        function loginAdmin() {
+            const pw = prompt("Admin Şifresi:");
+            if(pw === activeData.adminPassword) { 
+                toggleAdminModal(); 
+                switchTab('settings'); 
+            }
+            else if (pw !== null) alert("Şifre Hatalı!");
+        }
+
+        function toggleAdminModal() {
+            const m = document.getElementById('adminModal'); m.style.display = (m.style.display === 'flex') ? 'none' : 'flex';
+        }
+
+        function switchTab(name) {
+            document.querySelectorAll('.admin-tab-content').forEach(e => e.classList.remove('active'));
+            document.querySelectorAll('.admin-sidebar-btn').forEach(e => e.classList.remove('active'));
+            
+            const btnMap = { settings: 'tabSetBtn', texts: 'tabTextsBtn', style: 'tabStyleBtn', board: 'tabBoardBtn', staff: 'tabStaffBtn', squad: 'tabSquadBtn', kits: 'tabKitsBtn', transfers: 'tabTransBtn', fixture: 'tabFixBtn', gallery: 'tabGalBtn', pages: 'tabPagesBtn', messages: 'tabMsgBtn', security: 'tabSecBtn' };
+            
+            document.getElementById('tab' + name.charAt(0).toUpperCase() + name.slice(1)).classList.add('active');
+            document.getElementById(btnMap[name]).classList.add('active');
+
+            if(name === 'settings') loadSettingsToAdminForm();
+            else if(name === 'texts') loadTextsToAdminForm();
+            else if(name === 'style') loadStyleToAdminForm();
+            else if(name === 'board') renderAdminBoard();
+            else if(name === 'staff') renderAdminStaff();
+            else if(name === 'squad') renderAdminSquad();
+            else if(name === 'kits') renderAdminKits();
+            else if(name === 'transfers') renderAdminTransfers();
+            else if(name === 'fixture') renderAdminFixture();
+            else if(name === 'gallery') renderAdminGallery();
+            else if(name === 'pages') renderAdminPages();
+            else if(name === 'messages') renderAdminMessages();
+        }
+
+        function loadSettingsToAdminForm() {
+            const heroData = getSafeData('hero');
+            const contactData = getSafeData('contact');
+            document.getElementById('edit-logo-url').value = activeData.logoUrl || '';
+            document.getElementById('edit-logo-size').value = activeData.logoSize || '85';
+            document.getElementById('edit-logo-x').value = activeData.logoX || '0';
+            document.getElementById('edit-logo-y').value = activeData.logoY || '15';
+            document.getElementById('edit-hero-bg-url').value = activeData.heroBgUrl || '';
+            
+            document.getElementById('edit-hero-bg-position').value = activeData.heroBgPosition || 'center center';
+            document.getElementById('edit-slogan-visibility').value = activeData.sloganVisibility || 'show';
+            document.getElementById('edit-slogan-left').value = activeData.sloganLeft || '2rem';
+            document.getElementById('edit-slogan-top').value = activeData.sloganTop || '50%';
+            document.getElementById('edit-slogan-img-url').value = activeData.sloganImgUrl || '';
+
+            document.getElementById('edit-header-title').value = activeData.headerTitle || defaultData.headerTitle;
+            document.getElementById('edit-hero-title').value = heroData.title || '';
+            document.getElementById('edit-hero-slogan').value = heroData.slogan || '';
+            document.getElementById('edit-phone').value = contactData.phone || '';
+            document.getElementById('edit-email1').value = contactData.email1 || '';
+            document.getElementById('edit-email2').value = contactData.email2 || '';
+            document.getElementById('edit-address').value = (contactData.address || '').replace(/<br\s*\/?>/gi, '\n');
+        }
+
+        function saveSettings() {
+            const urlLogo = document.getElementById('edit-logo-url').value.trim();
+            if (urlLogo !== "[Cihazdan Yüklendi]" && urlLogo !== "") {
+                activeData.logoUrl = convertDriveUrl(urlLogo);
+            }
+            
+            activeData.logoSize = document.getElementById('edit-logo-size').value || '85';
+            activeData.logoX = document.getElementById('edit-logo-x').value || '0';
+            activeData.logoY = document.getElementById('edit-logo-y').value || '15';
+
+            const urlBg = document.getElementById('edit-hero-bg-url').value.trim();
+            if (urlBg !== "[Cihazdan Yüklendi]" && urlBg !== "") {
+                activeData.heroBgUrl = convertDriveUrl(urlBg);
+            }
+
+            activeData.heroBgPosition = document.getElementById('edit-hero-bg-position').value;
+            activeData.sloganVisibility = document.getElementById('edit-slogan-visibility').value;
+            activeData.sloganLeft = document.getElementById('edit-slogan-left').value.trim() || '2rem';
+            activeData.sloganTop = document.getElementById('edit-slogan-top').value.trim() || '50%';
+            
+            const urlSloganImg = document.getElementById('edit-slogan-img-url').value.trim();
+            if (urlSloganImg !== "[Cihazdan Yüklendi]" && urlSloganImg !== "") {
+                activeData.sloganImgUrl = convertDriveUrl(urlSloganImg);
+            }
+
+            activeData.headerTitle = document.getElementById('edit-header-title').value.trim();
+            if(!activeData.hero) activeData.hero = {};
+            activeData.hero.title = document.getElementById('edit-hero-title').value;
+            activeData.hero.slogan = document.getElementById('edit-hero-slogan').value;
+            if(!activeData.contact) activeData.contact = {};
+            activeData.contact.phone = document.getElementById('edit-phone').value;
+            activeData.contact.email1 = document.getElementById('edit-email1').value;
+            activeData.contact.email2 = document.getElementById('edit-email2').value;
+            activeData.contact.address = document.getElementById('edit-address').value.replace(/\n/g, '<br>');
+            
+            saveAllData(); applySavedTheme(); renderAllSections(); alert("Ayarlar Kaydedildi!");
+        }
+
+        function loadTextsToAdminForm() {
+            const t = getSafeData('siteTexts');
+            document.getElementById('t-menu-home').value = t.menuHome || '';
+            document.getElementById('t-menu-board').value = t.menuBoard || '';
+            document.getElementById('t-menu-staff').value = t.menuStaff || '';
+            document.getElementById('t-menu-squad').value = t.menuSquad || '';
+            document.getElementById('t-menu-kits').value = t.menuKits || '';
+            document.getElementById('t-menu-transfers').value = t.menuTransfers || '';
+            document.getElementById('t-menu-fixture').value = t.menuFixture || '';
+            document.getElementById('t-menu-gallery').value = t.menuGallery || '';
+            document.getElementById('t-menu-writeus').value = t.menuWriteUs || '';
+            document.getElementById('t-menu-contact').value = t.menuContact || '';
+
+            document.getElementById('t-title-board').value = t.titleBoard || '';
+            document.getElementById('t-title-staff').value = t.titleStaff || '';
+            document.getElementById('t-title-squad').value = t.titleSquad || '';
+            document.getElementById('t-title-kits').value = t.titleKits || '';
+            document.getElementById('t-title-transfers').value = t.titleTransfers || '';
+            document.getElementById('t-title-fixture').value = t.titleFixture || '';
+            document.getElementById('t-title-gallery').value = t.titleGallery || '';
+            document.getElementById('t-title-writeus').value = t.titleWriteUs || '';
+            document.getElementById('t-title-contact').value = t.titleContact || '';
+        }
+
+        function saveSiteTexts() {
+            if(!activeData.siteTexts) activeData.siteTexts = {};
+            const t = activeData.siteTexts;
+            
+            t.menuHome = document.getElementById('t-menu-home').value;
+            t.menuBoard = document.getElementById('t-menu-board').value;
+            t.menuStaff = document.getElementById('t-menu-staff').value;
+            t.menuSquad = document.getElementById('t-menu-squad').value;
+            t.menuKits = document.getElementById('t-menu-kits').value;
+            t.menuTransfers = document.getElementById('t-menu-transfers').value;
+            t.menuFixture = document.getElementById('t-menu-fixture').value;
+            t.menuGallery = document.getElementById('t-menu-gallery').value;
+            t.menuWriteUs = document.getElementById('t-menu-writeus').value;
+            t.menuContact = document.getElementById('t-menu-contact').value;
+
+            t.titleBoard = document.getElementById('t-title-board').value;
+            t.titleStaff = document.getElementById('t-title-staff').value;
+            t.titleSquad = document.getElementById('t-title-squad').value;
+            t.titleKits = document.getElementById('t-title-kits').value;
+            t.titleTransfers = document.getElementById('t-title-transfers').value;
+            t.titleFixture = document.getElementById('t-title-fixture').value;
+            t.titleGallery = document.getElementById('t-title-gallery').value;
+            t.titleWriteUs = document.getElementById('t-title-writeus').value;
+            t.titleContact = document.getElementById('t-title-contact').value;
+
+            saveAllData(); renderAllSections(); alert("Site Yazıları ve Başlıklar Kaydedildi!");
+        }
+
+        function loadStyleToAdminForm() {
+            const s = getSafeData('styles');
+            document.getElementById('style-font-sport').value = s.fontSport || "'Space Grotesk', sans-serif";
+            document.getElementById('style-font-main').value = s.fontMain || "'Syne', sans-serif";
+            document.getElementById('style-hero-size').value = s.heroTitleSize || "8.5rem";
+            document.getElementById('style-section-size').value = s.sectionTitleSize || "3rem";
+            document.getElementById('style-header-title-size').value = s.headerTitleSize || "1.5rem";
+            document.getElementById('style-hero-slogan-size').value = s.heroSloganSize || "1.3rem";
+            document.getElementById('style-menu-link-size').value = s.menuLinkSize || "0.75rem";
+
+            document.getElementById('override-bg-color').checked = !!(s.bgColor && s.bgColor.trim() !== "");
+            document.getElementById('style-bg-color').value = s.bgColor || "#04060a";
+
+            document.getElementById('override-accent-color').checked = !!(s.accentColor && s.accentColor.trim() !== "");
+            document.getElementById('style-accent-color').value = s.accentColor || "#ff2a4b";
+
+            document.getElementById('override-text-color').checked = !!(s.textColor && s.textColor.trim() !== "");
+            document.getElementById('style-text-color').value = s.textColor || "#ffffff";
+
+            document.getElementById('override-text-muted').checked = !!(s.textMuted && s.textMuted.trim() !== "");
+            document.getElementById('style-text-muted').value = s.textMuted || "#8892b0";
+        }
+
+        function saveTypographyStyles() {
+            if(!activeData.styles) activeData.styles = {};
+            activeData.styles.fontSport = document.getElementById('style-font-sport').value;
+            activeData.styles.fontMain = document.getElementById('style-font-main').value;
+            activeData.styles.heroTitleSize = document.getElementById('style-hero-size').value;
+            activeData.styles.sectionTitleSize = document.getElementById('style-section-size').value;
+            activeData.styles.headerTitleSize = document.getElementById('style-header-title-size').value;
+            activeData.styles.heroSloganSize = document.getElementById('style-hero-slogan-size').value;
+            activeData.styles.menuLinkSize = document.getElementById('style-menu-link-size').value;
+            
+            activeData.styles.bgColor = document.getElementById('override-bg-color').checked ? document.getElementById('style-bg-color').value : "";
+            activeData.styles.accentColor = document.getElementById('override-accent-color').checked ? document.getElementById('style-accent-color').value : "";
+            activeData.styles.textColor = document.getElementById('override-text-color').checked ? document.getElementById('style-text-color').value : "";
+            activeData.styles.textMuted = document.getElementById('override-text-muted').checked ? document.getElementById('style-text-muted').value : "";
+            
+            saveAllData();
+            applySavedTheme();
+            renderAllSections();
+            alert("Tipografi ve stil tercihleri başarıyla uygulandı!");
+        }
+
+        function resetAllColors() {
+            if(!activeData.styles) activeData.styles = {};
+            activeData.styles.bgColor = "";
+            activeData.styles.textColor = "";
+            activeData.styles.textMuted = "";
+            activeData.styles.accentColor = "";
+            saveAllData();
+            applySavedTheme();
+            loadStyleToAdminForm();
+            alert("Tüm özel renkler sıfırlandı. Artık seçili temanın orijinal renkleri kullanılıyor!");
+        }
+
+        function renderAdminBoard() {
+            const list = document.getElementById('admin-board-list'); list.innerHTML = '';
+            (activeData.board || []).forEach(b => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(b.img)}" width="40" height="40"></td><td>${b.name}</td><td>${b.role}</td><td><button class="admin-btn-delete" onclick="deleteBoardMember(${b.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addBoardMember() {
+            const name = document.getElementById('new-board-name').value;
+            const role = document.getElementById('new-board-role').value;
+            const img = document.getElementById('new-board-img').value;
+            if(!name || !role) return;
+            activeData.board.push({ id: Date.now(), name, role, img });
+            saveAllData(); renderAllSections(); renderAdminBoard();
+            document.getElementById('new-board-name').value = ''; document.getElementById('new-board-role').value = ''; document.getElementById('new-board-img').value = '';
+        }
+        function deleteBoardMember(id) { activeData.board = activeData.board.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminBoard(); }
+
+        function renderAdminStaff() {
+            const list = document.getElementById('admin-staff-list'); list.innerHTML = '';
+            (activeData.staff || []).forEach(s => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(s.img)}" width="40" height="40"></td><td>${s.name}</td><td>${s.role}</td><td><button class="admin-btn-delete" onclick="deleteStaffMember(${s.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addStaffMember() {
+            const name = document.getElementById('new-staff-name').value;
+            const role = document.getElementById('new-staff-role').value;
+            const img = document.getElementById('new-staff-img').value;
+            if(!name || !role) return;
+            if(!activeData.staff) activeData.staff = [];
+            activeData.staff.push({ id: Date.now(), name, role, img });
+            saveAllData(); renderAllSections(); renderAdminStaff();
+            document.getElementById('new-staff-name').value = ''; document.getElementById('new-staff-role').value = ''; document.getElementById('new-staff-img').value = '';
+        }
+        function deleteStaffMember(id) { activeData.staff = activeData.staff.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminStaff(); }
+
+        function renderAdminKits() {
+            const list = document.getElementById('admin-kits-list'); list.innerHTML = '';
+            (activeData.kits || []).forEach(k => {
+                list.innerHTML += `<tr><td><strong>${k.title}</strong></td><td><a href="${k.img}" target="_blank">Resmi Gör</a></td><td><button class="admin-btn-delete" onclick="deleteKit(${k.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addKit() {
+            const title = document.getElementById('new-kit-title').value;
+            const img = document.getElementById('new-kit-img').value;
+            if(!title || !img) return;
+            if(!activeData.kits) activeData.kits = [];
+            activeData.kits.push({ id: Date.now(), title, img });
+            saveAllData(); renderAllSections(); renderAdminKits();
+            document.getElementById('new-kit-title').value = ''; document.getElementById('new-kit-img').value = '';
+        }
+        function deleteKit(id) { activeData.kits = activeData.kits.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminKits(); }
+
+        function renderAdminSquad() {
+            const list = document.getElementById('admin-squad-list'); list.innerHTML = '';
+            (activeData.players || []).forEach(p => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(p.img)}" width="40" height="40"></td><td>${p.name}</td><td>${p.position}</td><td>Yaş: ${p.age}</td><td><button class="admin-btn-delete" onclick="deletePlayer(${p.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addPlayer() {
+            const name = document.getElementById('new-player-name').value;
+            const pos = document.getElementById('new-player-pos').value;
+            const age = document.getElementById('new-player-age').value;
+            const height = document.getElementById('new-player-height').value;
+            const weight = document.getElementById('new-player-weight').value;
+            const foot = document.getElementById('new-player-foot').value;
+            const img = document.getElementById('new-player-img').value;
+            if(!name) return;
+            activeData.players.push({ id: Date.now(), name, position: pos, age, height, weight, foot, img });
+            saveAllData(); renderAllSections(); renderAdminSquad();
+            document.getElementById('new-player-name').value = '';
+        }
+        function deletePlayer(id) { activeData.players = activeData.players.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminSquad(); }
+
+        function renderAdminTransfers() {
+            const list = document.getElementById('admin-transfer-list'); list.innerHTML = '';
+            (activeData.transfers || []).forEach(t => {
+                list.innerHTML += `<tr><td><img src="${convertDriveUrl(t.img)}" width="40"></td><td>${t.name}</td><td>${t.club}</td><td>${t.status}</td><td><button class="admin-btn-delete" onclick="deleteTransfer(${t.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addTransfer() {
+            const name = document.getElementById('new-trans-name').value;
+            const club = document.getElementById('new-trans-club').value;
+            const status = document.getElementById('new-trans-status').value;
+            const img = document.getElementById('new-trans-img').value;
+            if(!name) return;
+            activeData.transfers.push({ id: Date.now(), name, club, status, img });
+            saveAllData(); renderAllSections(); renderAdminTransfers();
+        }
+        function deleteTransfer(id) { activeData.transfers = activeData.transfers.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminTransfers(); }
+
+        function renderAdminFixture() {
+            const list = document.getElementById('admin-fixture-list'); list.innerHTML = '';
+            (activeData.fixtures || []).forEach(f => {
+                list.innerHTML += `<tr><td>${f.home}</td><td>${f.score || 'v'}</td><td>${f.away}</td><td>${f.date}</td><td><button class="admin-btn-approve" onclick="updateFixtureScore(${f.id})">Skor Gir</button><button class="admin-btn-delete" onclick="deleteFixture(${f.id})">Sil</button></td></tr>`;
+            });
+        }
+        function addFixture() {
+            const home = document.getElementById('new-fix-home').value; const away = document.getElementById('new-fix-away').value;
+            const score = document.getElementById('new-fix-score').value; const date = document.getElementById('new-fix-date').value;
+            if(!home || !away) return;
+            activeData.fixtures.push({ id: Date.now(), home, away, score, date });
+            saveAllData(); renderAllSections(); renderAdminFixture();
+        }
+        function updateFixtureScore(id) {
+            const f = activeData.fixtures.find(x => x.id === id); if(!f) return;
+            const sc = prompt("Skor Girin:", f.score); if(sc !== null) { f.score = sc; saveAllData(); renderAllSections(); renderAdminFixture(); }
+        }
+        function deleteFixture(id) { activeData.fixtures = activeData.fixtures.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminFixture(); }
+
+        function renderAdminGallery() {
+            const list = document.getElementById('admin-gallery-list'); list.innerHTML = '';
+            (activeData.gallery || []).forEach(g => {
+                list.innerHTML += `<div class="admin-list-item"><div>[${g.type.toUpperCase()}] ${g.url.slice(0, 30)}...</div><button class="admin-btn-delete" onclick="deleteGalleryItem(${g.id})">Sil</button></div>`;
+            });
+        }
+        function addGalleryItem() {
+            const type = document.getElementById('new-media-type').value; const url = document.getElementById('new-media-url').value;
+            if(!url) return;
+            activeData.gallery.push({ id: Date.now(), type, url });
+            saveAllData(); renderAllSections(); renderAdminGallery();
+        }
+        function deleteGalleryItem(id) { activeData.gallery = activeData.gallery.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminGallery(); }
+
+        function renderAdminPages() {
+            const list = document.getElementById('admin-pages-list'); list.innerHTML = '';
+            (activeData.customPages || []).forEach(cp => {
+                list.innerHTML += `<tr><td>${cp.menuTitle}</td><td>${cp.title}</td><td><button class="admin-btn-approve" onclick="startEditPage(${cp.id})">Düzenle</button><button class="admin-btn-delete" onclick="deleteCustomPage(${cp.id})">Sil</button></td></tr>`;
+            });
+        }
+        function saveCustomPage() {
+            const id = document.getElementById('edit-page-id').value;
+            const mTitle = document.getElementById('new-page-menu-title').value;
+            const title = document.getElementById('new-page-title').value;
+            const slogan = document.getElementById('new-page-slogan').value;
+            const img = document.getElementById('new-page-image-url').value;
+            const content = document.getElementById('new-page-content').value;
+            if(!mTitle || !title) return;
+            if(id) {
+                const p = activeData.customPages.find(x => x.id == id);
+                if(p) { p.menuTitle = mTitle; p.title = title; p.slogan = slogan; p.imageUrl = img; p.content = content; }
+            } else { activeData.customPages.push({ id: Date.now(), menuTitle: mTitle, title, slogan, imageUrl: img, content }); }
+            saveAllData(); renderAllSections(); renderAdminPages(); cancelPageEdit();
+        }
+        function startEditPage(id) {
+            const p = activeData.customPages.find(x => x.id === id); if(!p) return;
+            document.getElementById('edit-page-id').value = p.id;
+            document.getElementById('new-page-menu-title').value = p.menuTitle;
+            document.getElementById('new-page-title').value = p.title;
+            document.getElementById('new-page-slogan').value = p.slogan || '';
+            document.getElementById('new-page-image-url').value = p.imageUrl || '';
+            document.getElementById('new-page-content').value = p.content;
+            document.getElementById('cancel-edit-page-btn').style.display = 'block';
+        }
+        function cancelPageEdit() {
+            document.getElementById('edit-page-id').value = ''; document.getElementById('write-us-form').reset();
+            document.getElementById('cancel-edit-page-btn').style.display = 'none';
+        }
+        function deleteCustomPage(id) { activeData.customPages = activeData.customPages.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminPages(); }
+
+        function renderAdminMessages() {
+            const list = document.getElementById('admin-posts-list'); list.innerHTML = '';
+            (activeData.posts || []).forEach(p => {
+                list.innerHTML += `<div class="admin-list-item"><div><strong>${p.author}:</strong> ${p.text}</div><div>${!p.approved ? `<button class="admin-btn-approve" onclick="approvePost(${p.id})">Onayla</button>`:''}<button class="admin-btn-delete" onclick="deletePost(${p.id})">Sil</button></div></div>`;
+            });
+        }
+        function approvePost(id) { const p = activeData.posts.find(x => x.id === id); if(p) p.approved = true; saveAllData(); renderAllSections(); renderAdminMessages(); }
+        function deletePost(id) { activeData.posts = activeData.posts.filter(x => x.id !== id); saveAllData(); renderAllSections(); renderAdminMessages(); }
+
+        function previewTheme() {
+            const selTheme = document.getElementById('theme-select').value;
+            const selLayout = document.getElementById('layout-select').value;
+            
+            const s = getSafeData('styles');
+            
+            let bgColorOverride = "";
+            if (s.bgColor && s.bgColor.trim() !== "") {
+                bgColorOverride = `--bg-white: ${s.bgColor} !important; --bg-dark: ${s.bgColor} !important; background-color: ${s.bgColor} !important;`;
+            }
+
+            const customStyleVars = `
+                :root {
+                    --font-sport: ${s.fontSport || "'Space Grotesk', sans-serif"};
+                    --font-main: ${s.fontMain || "'Syne', sans-serif"};
+                    --hero-title-size: ${s.heroTitleSize || "8.5rem"};
+                    --section-title-size: ${s.sectionTitleSize || "3rem"};
+                    --hero-slogan-size: ${s.heroSloganSize || "1.3rem"};
+                    --header-title-size: ${s.headerTitleSize || "1.5rem"};
+                    --menu-link-size: ${s.menuLinkSize || "0.75rem"};
+                    --logo-size: ${window.activeData.logoSize || "85"}px;
+                    --logo-offset-x: ${window.activeData.logoX || "0"}px;
+                    --logo-offset-y: ${window.activeData.logoY || "15"}px;
+                    ${bgColorOverride}
+                }
+            `;
+            
+            const cssContent = themes[selTheme] + "\n" + customStyleVars + "\n" + layouts[selLayout];
+            document.getElementById('theme-styles').innerHTML = cssContent;
+        }
+        
+        function saveTheme() { 
+            activeData.currentTheme = document.getElementById('theme-select').value; 
+            activeData.currentLayout = document.getElementById('layout-select').value; 
+            saveAllData(); renderAllSections(); applySavedTheme(); alert("Arayüz Ayarları Kaydedildi!"); 
+        }
+        
+        function changeAdminPassword() {
+            const cur = document.getElementById('current-password-input').value;
+            const nw = document.getElementById('new-password-input').value;
+            const conf = document.getElementById('new-password-confirm').value;
+
+            if(cur !== activeData.adminPassword) return alert("Mevcut şifre yanlış!");
+            if(nw.trim() === "") return alert("Şifre boş olamaz!");
+            if(nw !== conf) return alert("Yeni şifreler eşleşmiyor!");
+
+            activeData.adminPassword = nw; 
+            saveAllData(); 
+            alert("Şifre başarıyla güncellendi!");
+
+            document.getElementById('current-password-input').value = '';
+            document.getElementById('new-password-input').value = '';
+            document.getElementById('new-password-confirm').value = '';
+        }
+
+        const themes = {
+            neonCity: `:root { --bg-white: #0a001a; --bg-dark: #1a0033; --text-light: #0a001a; --text-dark: #e6ffff; --text-muted: #80ccff; --accent-color: #00ffff; --premium-gray: rgba(0, 255, 255, 0.05); --card-shadow: 0 30px 60px rgba(0, 255, 255, 0.2); }`,
+            vaporwave: `:root { --bg-white: #2b00ff; --bg-dark: #ff00c8; --text-light: #2b00ff; --text-dark: #ffffff; --text-muted: #ffb3ff; --accent-color: #00e5ff; --premium-gray: rgba(255, 0, 200, 0.1); --card-shadow: 0 30px 60px rgba(0, 229, 255, 0.3); }`,
+            midnightBlue: `:root { --bg-white: #000a1f; --bg-dark: #001f3f; --text-light: #000a1f; --text-dark: #ffffff; --text-muted: #80bfff; --accent-color: #0074d9; --premium-gray: rgba(0, 116, 217, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }`,
+            glacier: `:root { --bg-white: #f0f8ff; --bg-dark: #e6f2ff; --text-light: #f0f8ff; --text-dark: #001f3f; --text-muted: #0074d9; --accent-color: #39cccc; --premium-gray: rgba(57, 204, 204, 0.1); --card-shadow: 0 30px 60px rgba(0, 116, 217, 0.1); } body, .hero-slogan-monument, .board-name, .player-name, .fixture-team, .kit-title { color: #001f3f !important; }`,
+            aurora: `:root { --bg-white: #001a1a; --bg-dark: #003333; --text-light: #001a1a; --text-dark: #e6ffff; --text-muted: #66ffcc; --accent-color: #cc00ff; --premium-gray: rgba(204, 0, 255, 0.05); --card-shadow: 0 30px 60px rgba(102, 255, 204, 0.2); }`,
+            hacker: `:root { --bg-white: #050505; --bg-dark: #0a0a0a; --text-light: #050505; --text-dark: #00ff00; --text-muted: #008800; --accent-color: #00ff00; --premium-gray: rgba(0, 255, 0, 0.03); --card-shadow: 0 30px 60px rgba(0, 255, 0, 0.1); }`,
+            royalPurple: `:root { --bg-white: #1a0033; --bg-dark: #2a004d; --text-light: #1a0033; --text-dark: #ffffff; --text-muted: #d9b3ff; --accent-color: #ffd700; --premium-gray: rgba(255, 215, 0, 0.03); --card-shadow: 0 30px 60px rgba(255, 215, 0, 0.1); }`,
+            crimsonTide: `:root { --bg-white: #1a0000; --bg-dark: #330000; --text-light: #1a0000; --text-dark: #ffffff; --text-muted: #ff9999; --accent-color: #ff0000; --premium-gray: rgba(255, 0, 0, 0.05); --card-shadow: 0 30px 60px rgba(255, 0, 0, 0.3); }`,
+            gothic: `:root { --bg-white: #0d0d0d; --bg-dark: #1a1a1a; --text-light: #0d0d0d; --text-dark: #cccccc; --text-muted: #666666; --accent-color: #404040; --premium-gray: rgba(255, 255, 255, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.9); }`,
+            minimalLight: `:root { --bg-white: #ffffff; --bg-dark: #f5f5f5; --text-light: #ffffff; --text-dark: #000000; --text-muted: #666666; --accent-color: #111111; --premium-gray: rgba(0, 0, 0, 0.03); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.05); } body, .hero-slogan-monument, .board-name, .player-name, .fixture-team, .kit-title { color: #000000 !important; }`,
+            steampunk: `:root { --bg-white: #2b1d14; --bg-dark: #3d2b1f; --text-light: #2b1d14; --text-dark: #f4e8d3; --text-muted: #c89d7c; --accent-color: #d4a373; --premium-gray: rgba(212, 163, 115, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.6); }`,
+            sakura: `:root { --bg-white: #fff0f5; --bg-dark: #ffe4e1; --text-light: #fff0f5; --text-dark: #4a0e2e; --text-muted: #b85c8a; --accent-color: #ff69b4; --premium-gray: rgba(255, 105, 180, 0.05); --card-shadow: 0 30px 60px rgba(255, 105, 180, 0.15); } body, .hero-slogan-monument, .board-name, .player-name, .fixture-team, .kit-title { color: #4a0e2e !important; }`,
+            classic: `:root { --bg-white: #04060a; --bg-dark: #ffffff; --text-light: #04060a; --text-dark: #ffffff; --text-muted: #8892b0; --accent-color: #ff2a4b; --premium-gray: rgba(255, 255, 255, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            monochrome: `:root { --bg-white: #111111; --bg-dark: #ffffff; --text-light: #111111; --text-dark: #eeeeee; --text-muted: #666666; --accent-color: #888888; --premium-gray: rgba(255, 255, 255, 0.03); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.4); }`,
+            cyberpunk: `:root { --bg-white: #05070a; --bg-dark: #ffffff; --text-light: #05070a; --text-dark: #ffffff; --text-muted: #84939c; --accent-color: #f97316; --premium-gray: rgba(249, 115, 22, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            matrix: `:root { --bg-white: #000000; --bg-dark: #001100; --text-light: #000000; --text-dark: #00ff00; --text-muted: #008800; --accent-color: #00ff00; --premium-gray: rgba(0, 255, 0, 0.05); --card-shadow: 0 30px 60px rgba(0, 255, 0, 0.2); }`,
+            blackAndWhite: `:root { --bg-white: #000000; --bg-dark: #111111; --text-light: #000000; --text-dark: #ffffff; --text-muted: #888888; --accent-color: #ffffff; --premium-gray: rgba(255, 255, 255, 0.05); --card-shadow: 0 30px 60px rgba(255, 255, 255, 0.02); } .submit-btn, .fixture-score, .transfer-status { color: #000000 !important; font-weight: 900; } .nav-links a:hover { color: #ffffff !important; }`,
+            silverBlack: `:root { --bg-white: #d9d9d9; --bg-dark: #ffffff; --text-light: #d9d9d9; --text-dark: #000000; --text-muted: #444444; --accent-color: #111111; --premium-gray: rgba(0, 0, 0, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.1); } body { color: #000000 !important; } .player-name, .board-name, .kit-title, .transfer-name, .hero-slogan-monument, .fixture-team, .info-item p { color: #000000 !important; }`,
+            goldRush: `:root { --bg-white: #0a0a0a; --bg-dark: #1a1a1a; --text-light: #0a0a0a; --text-dark: #ffffff; --text-muted: #a68a56; --accent-color: #ffd700; --premium-gray: rgba(255, 215, 0, 0.03); --card-shadow: 0 30px 60px rgba(255, 215, 0, 0.1); }`,
+            karamanAtesi: `:root { --bg-white: #0f0103; --bg-dark: #ffffff; --text-light: #0f0103; --text-dark: #ffffff; --text-muted: #c9a4a7; --accent-color: #c1121f; --premium-gray: rgba(193, 18, 31, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            retro: `:root { --bg-white: #f5ebe0; --bg-dark: #3a1f13; --text-light: #f5ebe0; --text-dark: #3a1f13; --text-muted: #7f5539; --accent-color: #9e2a2b; --premium-gray: rgba(58, 31, 19, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.1); } body, .hero-slogan-monument, .board-name, .player-name, .fixture-team, .kit-title { color: #3a1f13 !important; }`,
+            royal: `:root { --bg-white: #030a16; --bg-dark: #ffffff; --text-light: #030a16; --text-dark: #ffffff; --text-muted: #8296b3; --accent-color: #b89047; --premium-gray: rgba(184, 144, 71, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            legend: `:root { --bg-white: #060a14; --bg-dark: #ffffff; --text-light: #060a14; --text-dark: #ffffff; --text-muted: #7c8ba3; --accent-color: #d4af37; --premium-gray: rgba(212, 175, 55, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            pitch: `:root { --bg-white: #041206; --bg-dark: #ffffff; --text-light: #041206; --text-dark: #ffffff; --text-muted: #7da180; --accent-color: #2d8a4e; --premium-gray: rgba(45, 138, 78, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            volcano: `:root { --bg-white: #1a0000; --bg-dark: #330000; --text-light: #1a0000; --text-dark: #ffffff; --text-muted: #ff6600; --accent-color: #ff3300; --premium-gray: rgba(255, 51, 0, 0.05); --card-shadow: 0 30px 60px rgba(255, 51, 0, 0.3); }`,
+            neonPurple: `:root { --bg-white: #120321; --bg-dark: #ffffff; --text-light: #120321; --text-dark: #f0e6ff; --text-muted: #9d7bbc; --accent-color: #e825a0; --premium-gray: rgba(232, 37, 160, 0.03); --card-shadow: 0 30px 60px rgba(232, 37, 160, 0.1); }`,
+            oceanDeep: `:root { --bg-white: #020c17; --bg-dark: #ffffff; --text-light: #020c17; --text-dark: #e0f2fe; --text-muted: #38bdf8; --accent-color: #0ea5e9; --premium-gray: rgba(14, 165, 233, 0.02); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            desertSand: `:root { --bg-white: #1a1412; --bg-dark: #ffffff; --text-light: #1a1412; --text-dark: #fff3e0; --text-muted: #bcaaa4; --accent-color: #d84315; --premium-gray: rgba(216, 67, 21, 0.03); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            forest: `:root { --bg-white: #0a110a; --bg-dark: #ffffff; --text-light: #0a110a; --text-dark: #e8f5e9; --text-muted: #81c784; --accent-color: #bf360c; --premium-gray: rgba(129, 199, 132, 0.03); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            sunset: `:root { --bg-white: #1f050c; --bg-dark: #ffffff; --text-light: #1f050c; --text-dark: #ffebee; --text-muted: #ffab91; --accent-color: #ff5722; --premium-gray: rgba(255, 87, 34, 0.03); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.8); }`,
+            dracula: `:root { --bg-white: #282a36; --bg-dark: #44475a; --text-light: #282a36; --text-dark: #f8f8f2; --text-muted: #6272a4; --accent-color: #ff79c6; --premium-gray: rgba(255, 121, 198, 0.05); --card-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); }`,
+            synthwave: `:root { --bg-white: #120422; --bg-dark: #240a44; --text-light: #120422; --text-dark: #fdfdfd; --text-muted: #ff007f; --accent-color: #00f0ff; --premium-gray: rgba(0, 240, 255, 0.05); --card-shadow: 0 30px 60px rgba(0, 240, 255, 0.2); }`,
+            ruby: `:root { --bg-white: #0a0002; --bg-dark: #1a0005; --text-light: #0a0002; --text-dark: #ffffff; --text-muted: #b3b3b3; --accent-color: #e0115f; --premium-gray: rgba(224, 17, 95, 0.03); --card-shadow: 0 30px 60px rgba(224, 17, 95, 0.3); }`,
+            emerald: `:root { --bg-white: #001a0d; --bg-dark: #00331a; --text-light: #001a0d; --text-dark: #ffffff; --text-muted: #80cca6; --accent-color: #50c878; --premium-gray: rgba(80, 200, 120, 0.03); --card-shadow: 0 30px 60px rgba(80, 200, 120, 0.2); }`,
+            sapphire: `:root { --bg-white: #000b1a; --bg-dark: #001633; --text-light: #000b1a; --text-dark: #ffffff; --text-muted: #80aaff; --accent-color: #0f52ba; --premium-gray: rgba(15, 82, 186, 0.05); --card-shadow: 0 30px 60px rgba(15, 82, 186, 0.3); }`,
+            amethyst: `:root { --bg-white: #1a001a; --bg-dark: #330033; --text-light: #1a001a; --text-dark: #ffffff; --text-muted: #cc99cc; --accent-color: #9966cc; --premium-gray: rgba(153, 102, 204, 0.05); --card-shadow: 0 30px 60px rgba(153, 102, 204, 0.2); }`,
+            bloodMoon: `:root { --bg-white: #000000; --bg-dark: #110000; --text-light: #000000; --text-dark: #ffcccc; --text-muted: #cc0000; --accent-color: #ff0000; --premium-gray: rgba(255, 0, 0, 0.05); --card-shadow: 0 30px 60px rgba(255, 0, 0, 0.4); }`,
+            electricBlue: `:root { --bg-white: #000000; --bg-dark: #000511; --text-light: #000000; --text-dark: #ffffff; --text-muted: #0066ff; --accent-color: #00ffff; --premium-gray: rgba(0, 255, 255, 0.05); --card-shadow: 0 30px 60px rgba(0, 255, 255, 0.3); }`,
+            highContrast: `:root { --bg-white: #000000; --bg-dark: #000000; --text-light: #000000; --text-dark: #ffffff; --text-muted: #ffff00; --accent-color: #ffff00; --premium-gray: rgba(255, 255, 0, 0.05); --card-shadow: 0 30px 60px rgba(255, 255, 0, 0.2); }`,
+            toxic: `:root { --bg-white: #111111; --bg-dark: #222222; --text-light: #111111; --text-dark: #eeeeee; --text-muted: #777777; --accent-color: #39ff14; --premium-gray: rgba(57, 255, 20, 0.03); --card-shadow: 0 30px 60px rgba(57, 255, 20, 0.2); }`
+        };
+
+        const layouts = {
+            asymmetric: `
+                :root { --card-radius: 24px; --border-style: 1px solid rgba(255, 255, 255, 0.05); --card-align: left; }
+            `,
+            minimalist: `
+                :root { --card-radius: 0px; --border-style: none; --card-align: center; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item { box-shadow: none !important; background: transparent !important; }
+                .board-img-wrapper { border-radius: 50% !important; }
+            `,
+            aggressive: `
+                :root { --card-radius: 0px; --border-style: 2px solid var(--accent-color); --card-align: left; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item { box-shadow: 10px 10px 0px rgba(0, 0, 0, 0.8) !important; }
+            `,
+            glassmorphism: `
+                :root { --card-radius: 30px; --border-style: 1px solid rgba(255, 255, 255, 0.15); --card-align: center; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item, .hero-slogan-monument, .blog-form-wrapper {
+                    background: rgba(255, 255, 255, 0.03) !important; backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px); box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1) !important;
+                }
+            `,
+            brutalism: `
+                :root { --card-radius: 0px; --border-style: 3px solid var(--text-dark); --card-align: left; }
+                .board-card, .player-card, .transfer-card, .fixture-card, .gallery-item, .hero-slogan-monument { box-shadow: 8px 8px 0px var(--accent-color) !important; background: transparent !important; transform: none !important; }
+                .board-card:hover, .player-card:hover, .transfer-card:hover, .fixture-card:hover { box-shadow: 12px 12px 0px var(--text-dark) !important; transform: translate(-4px, -4px) !important; }
+            `,
+            rounded: `
+                :root { --card-radius: 50px; --border-style: 2px dashed rgba(255, 255, 255, 0.1); --card-align: center; }
+                .board-img-wrapper, .player-img-box, .transfer-img { border-radius: 50% !important; width: 200px; height: 200px; margin: 0 auto; object-fit: cover; }
+                .player-img-box::after { display: none; }
+                .board-card, .player-card, .transfer-card { border-radius: 50px; }
+            `,
+            leftMenu: `
+                :root { --card-radius: 12px; --border-style: 1px solid rgba(255,255,255,0.1); --card-align: left; }
+                @media (min-width: 993px) {
+                    header { position: fixed !important; top: 0 !important; left: 0 !important; width: 280px !important; height: 100vh !important; background: var(--bg-white) !important; border-right: 1px solid rgba(255,255,255,0.05) !important; border-bottom: none !important; }
+                    nav { flex-direction: column !important; justify-content: center !important; padding: 2rem !important; height: 100%; gap: 3rem; }
+                    .logo-container { flex-direction: column; text-align: center; }
+                    .nav-links { flex-direction: column !important; align-items: center !important; gap: 1rem !important; }
+                    body { padding-left: 280px !important; }
+                    .hero-slogan-monument { left: 300px !important; }
+                    .hero-bg-canvas { left: 280px !important; width: calc(100% - 280px) !important; }
+                }
+            `,
+            centeredFocus: `
+                :root { --card-radius: 8px; --border-style: none; --card-align: center; }
                 @media (min-width: 993px) {
                     .container { max-width: 900px !important; }
                     nav { flex-direction: column; padding: 2rem; }
@@ -135,32 +2963,30 @@ centeredFocus: `
                     .section-title { text-align: center; margin-bottom: 3rem; }
                     .section-title::after { display: none; }
                 }
-           `,
-bottomNav: `
-               :root { --card-radius: 20px; --border-style: 1px solid rgba(255,255,255,0.05); --card-align: left; }
-@@ -2943,9 +2974,10 @@ <h2 class="section-title">${cp.title}</h2>
-           `,
-masonryMosaic: `
-               :root { --card-radius: 0; --border-style: none; --card-align: left; }
-                .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid { display: block !important; column-count: 3; column-gap: 2rem; }
-                .board-card, .player-card, .transfer-card, .gallery-item, .kit-card { break-inside: avoid; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1) !important; background: transparent; }
-                @media (max-width: 992px) { .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid { column-count: 1; } }
+            `,
+            bottomNav: `
+                :root { --card-radius: 20px; --border-style: 1px solid rgba(255,255,255,0.05); --card-align: left; }
+                @media (min-width: 993px) {
+                    header { position: fixed !important; top: auto !important; bottom: 0 !important; width: 100% !important; background: rgba(0,0,0,0.9) !important; backdrop-filter: blur(10px); z-index: 9999 !important; border-top: 1px solid var(--accent-color) !important; padding: 10px 0 !important; }
+                    nav { min-height: 70px !important; }
+                    section { padding-bottom: 120px !important; }
+                }
+            `,
+            masonryMosaic: `
+                :root { --card-radius: 0; --border-style: none; --card-align: left; }
                 @media (min-width: 993px) {
                     .board-grid, .players-grid, .kits-grid, .transfers-grid, .gallery-grid { display: block !important; column-count: 3; column-gap: 2rem; }
                     .board-card, .player-card, .transfer-card, .gallery-item, .kit-card { break-inside: avoid; margin-bottom: 2rem; border: 1px solid rgba(255,255,255,0.1) !important; background: transparent; }
                 }
-           `,
-cyberGrid: `
-               :root { --card-radius: 0px; --border-style: 1px solid var(--accent-color); --card-align: left; }
-@@ -2955,11 +2987,13 @@ <h2 class="section-title">${cp.title}</h2>
-           `,
-fullscreenBlocks: `
-               :root { --card-radius: 0; --border-style: none; --card-align: center; }
-                .container { max-width: 100% !important; padding: 0 !important; }
-                section { padding: 5rem 0 !important; }
-                .board-grid, .players-grid, .transfers-grid { gap: 0 !important; }
-                .board-card, .player-card, .transfer-card { border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
-                .section-title { padding-left: 2rem; text-align: center; }
+            `,
+            cyberGrid: `
+                :root { --card-radius: 0px; --border-style: 1px solid var(--accent-color); --card-align: left; }
+                body { background-image: linear-gradient(rgba(255,255,255,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.03) 1px, transparent 1px) !important; background-size: 50px 50px !important; }
+                .board-card, .player-card, .transfer-card, .kit-card { background: rgba(0,0,0,0.7) !important; box-shadow: 0 0 15px rgba(0,0,0,0.5) !important; }
+                .section-title { text-shadow: 2px 2px 0px var(--accent-color); }
+            `,
+            fullscreenBlocks: `
+                :root { --card-radius: 0; --border-style: none; --card-align: center; }
                 @media (min-width: 993px) {
                     .container { max-width: 100% !important; padding: 0 !important; }
                     section { padding: 5rem 0 !important; }
@@ -168,6 +2994,24 @@ fullscreenBlocks: `
                     .board-card, .player-card, .transfer-card { border-right: 1px solid rgba(255,255,255,0.05); border-bottom: 1px solid rgba(255,255,255,0.05); }
                     .section-title { padding-left: 2rem; text-align: center; }
                 }
-           `,
-splitScreen: `
-               :root { --card-radius: 12px; --border-style: none; --card-align: left; }
+            `,
+            splitScreen: `
+                :root { --card-radius: 12px; --border-style: none; --card-align: left; }
+                @media (min-width: 993px) {
+                    section.active-page { display: flex !important; flex-wrap: wrap; }
+                    .container { width: 50% !important; margin: 0 !important; padding: 4rem !important; overflow-y: auto; height: 100vh; position: absolute; right: 0; top: 0; }
+                    .hero-bg-canvas { width: 50% !important; left: 0 !important; position: fixed !important; height: 100vh !important; }
+                    .hero-content-wrapper { width: 50% !important; position: fixed !important; left: 0 !important; top: 50%; transform: translateY(-50%); z-index: 10; padding: 2rem; }
+                    header { width: 50% !important; right: 0 !important; left: auto !important; background: transparent !important; }
+                    .hero-slogan-monument { left: 2rem !important; top: auto !important; bottom: 2rem !important; }
+                }
+            `
+        };
+
+        window.activeData = JSON.parse(JSON.stringify(window.defaultData));
+        applySavedTheme();
+        renderAllSections();
+
+    </script>
+</body>
+</html>
