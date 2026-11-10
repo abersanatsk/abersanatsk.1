@@ -292,6 +292,39 @@
         /* ---------- TOAST ---------- */
         #toast-host { position: fixed; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20000; display: flex; flex-direction: column; gap: 8px; align-items: center; pointer-events: none; width: min(92vw, 520px); }
         #peek-bar.show ~ #toast-host { bottom: 92px; }
+
+        /* ---------- MÜZİK ÇALAR ---------- */
+        #music-player { position: fixed; left: 16px; bottom: 16px; z-index: 900; display: none; align-items: center; gap: 4px;
+            background: color-mix(in srgb, var(--bg) 82%, transparent); color: var(--text); border: 1px solid var(--border-strong);
+            -webkit-backdrop-filter: blur(14px); backdrop-filter: blur(14px); border-radius: 999px; padding: 5px;
+            box-shadow: 0 12px 30px rgba(0,0,0,.35); font-family: 'Inter', system-ui, sans-serif; max-width: calc(100vw - 32px); }
+        #music-player.show { display: flex; }
+        #music-player button { background: none; border: none; color: inherit; cursor: pointer; width: 40px; height: 40px; border-radius: 50%; display: inline-flex; align-items: center; justify-content: center; flex-shrink: 0; }
+        #music-player button:hover { background: color-mix(in srgb, var(--text) 10%, transparent); }
+        #music-player .mp-main { background: var(--accent); color: var(--on-accent); }
+        #music-player .mp-main:hover { background: var(--accent); filter: brightness(1.1); }
+        #music-player svg { width: 18px; height: 18px; fill: currentColor; }
+        #music-player .mp-extra { display: flex; align-items: center; gap: 4px; overflow: hidden; max-width: 0; transition: max-width .35s ease; }
+        #music-player:hover .mp-extra, #music-player.expanded .mp-extra, #music-player:focus-within .mp-extra { max-width: 340px; }
+        #music-player .mp-title { font-size: .78rem; font-weight: 600; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; max-width: 150px; padding: 0 6px; opacity: .9; }
+        #music-player input[type=range] { width: 80px; accent-color: var(--accent); margin-right: 8px; }
+        .mp-bars { display: inline-flex; gap: 2px; align-items: flex-end; height: 16px; }
+        .mp-bars i { width: 3px; background: currentColor; border-radius: 2px; height: 30%; }
+        #music-player.playing .mp-bars i { animation: mpbar 1s ease-in-out infinite; }
+        #music-player.playing .mp-bars i:nth-child(2) { animation-delay: -.3s; }
+        #music-player.playing .mp-bars i:nth-child(3) { animation-delay: -.6s; }
+        @keyframes mpbar { 0%,100% { height: 25%; } 50% { height: 100%; } }
+        #music-player.loading .mp-main { animation: mppulse 1s ease-in-out infinite; }
+        @keyframes mppulse { 50% { opacity: .5; } }
+        body[data-layout="bottomNav"] #music-player { bottom: 100px; }
+        @media (min-width: 901px) { body[data-layout="leftMenu"] #music-player { left: 276px; } }
+        @media (max-width: 600px) { #music-player .mp-title { max-width: 110px; } #music-player input[type=range] { width: 64px; } }
+        .track-row { display: flex; align-items: center; gap: .8rem; padding: .8rem 0; border-bottom: 1px solid var(--a-line); flex-wrap: wrap; }
+        .track-row:last-child { border-bottom: none; }
+        .track-row .t-info { flex: 1; min-width: 160px; }
+        .track-row .t-info .meta { font-size: .75rem; color: var(--a-muted); }
+        .a-progress { height: 8px; background: rgba(255,255,255,.08); border-radius: 99px; overflow: hidden; margin-top: .6rem; display: none; }
+        .a-progress div { height: 100%; width: 0; background: #16a34a; transition: width .2s; }
         .toast { background: #121826; color: #fff; border: 1px solid rgba(255,255,255,.12); border-left: 4px solid #22c55e; padding: 12px 18px; border-radius: 10px; font: 600 .9rem/1.4 'Inter', system-ui, sans-serif; box-shadow: 0 12px 30px rgba(0,0,0,.5); animation: fadeIn .3s ease-out; pointer-events: auto; width: 100%; }
         .toast.error { border-left-color: #ef4444; }
         .toast.warn { border-left-color: #f59e0b; }
@@ -621,6 +654,20 @@
         <button type="button" class="lightbox-close" aria-label="Kapat">&times;</button>
         <img class="lightbox-content" id="lightboxImg" alt="">
     </div>
+
+    <div id="music-player" aria-label="Arka plan müziği">
+        <button type="button" class="mp-main" id="mp-toggle" aria-label="Müziği aç">
+            <svg id="mp-ico-play" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            <span class="mp-bars" id="mp-ico-bars" style="display:none"><i></i><i></i><i></i></span>
+        </button>
+        <div class="mp-extra">
+            <span class="mp-title" id="mp-title"></span>
+            <button type="button" id="mp-next" aria-label="Sonraki şarkı" title="Sonraki"><svg viewBox="0 0 24 24"><path d="M6 18l8.5-6L6 6v12zm10-12v12h2V6h-2z"/></svg></button>
+            <button type="button" id="mp-mute" aria-label="Sesi kapat" title="Sesi kapat / aç"><svg viewBox="0 0 24 24" id="mp-ico-vol"><path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/></svg></button>
+            <input type="range" id="mp-vol" min="0" max="100" aria-label="Ses düzeyi">
+        </div>
+    </div>
+    <audio id="bg-audio" preload="none"></audio>
 
     <div id="toast-host" aria-live="polite"></div>
 
@@ -964,6 +1011,7 @@ const defaultData = {
     titleStyles: {},
     playerHidden: [],
     hiddenPages: [],
+    music: { enabled: false, volume: 35, autoStart: 'interaction', shuffle: false, tracks: [] },
     styles: {
         fontSport: "'Space Grotesk', sans-serif", fontMain: "'Syne', sans-serif",
         heroTitleSize: '5rem', sectionTitleSize: '3rem', heroSloganSize: '1.3rem', headerTitleSize: '1.5rem', menuLinkSize: '0.75rem',
@@ -1468,6 +1516,7 @@ async function App_onFirebaseReady(fb) {
     renderAllSections();
     hydrateImages();
     countVisit();
+    initMusic();
 }
 function App_onAuth(user) {
     if ($('adminModal').classList.contains('open') && !user) closeAdmin();
@@ -1513,7 +1562,7 @@ const ADMIN_TABS = [
     ['settings', 'Site Ayarları'], ['pages', '👁 Sayfa Görünürlüğü'], ['design', '🎨 Tasarım Stüdyosu'], ['texts', 'Yazılar & Menüler'], ['style', 'Tipografi & Renk'],
     ['board', 'Yönetim Kurulu'], ['staff', 'Teknik Heyet'], ['players', 'Oyuncu Kadrosu'], ['kits', 'Sezon Formaları'],
     ['transfers', 'Transfer Gündemi'], ['fixtures', 'Fikstür / Skorlar'], ['gallery', 'Medya / Galeri'], ['customPages', 'Dinamik Sayfalar'],
-    ['messages', 'Taraftar Mesajları'], ['security', 'Güvenlik & Yedek']
+    ['music', '🎵 Arka Plan Müziği'], ['messages', 'Taraftar Mesajları'], ['security', 'Güvenlik & Yedek']
 ];
 let currentTab = 'settings';
 
@@ -1853,6 +1902,42 @@ const TAB_RENDERERS = {
         renderSwatches(); markDraft();
     },
 
+    music(tab) {
+        const m = getSafeData('music');
+        const tracks = m.tracks || [];
+        tab.innerHTML = `<div class="admin-section-heading">🎵 Arka Plan Müziği</div>
+        <div class="a-box"><h4>Genel Ayarlar</h4>
+            <div class="page-vis-row" style="border:none;padding-top:0"><div><strong>Sitede müzik çalsın</strong><div class="meta">Kapalıyken müzik butonu sitede hiç görünmez</div></div>
+                <label class="switch"><input type="checkbox" id="mu-enabled" ${m.enabled ? 'checked' : ''}><span></span></label></div>
+            <div class="a-grid3">
+                <div class="form-group"><label for="mu-volume">Başlangıç Ses Düzeyi: <span id="mu-vol-lbl">${m.volume}</span>%</label><input type="range" id="mu-volume" min="5" max="100" value="${m.volume}" style="width:100%;accent-color:#ff2a4b" oninput="$('mu-vol-lbl').textContent=this.value"></div>
+                ${sel('mu-autoStart', 'Ne zaman başlasın?', [['interaction', 'Ziyaretçi sayfaya ilk dokunduğunda (önerilen)'], ['button', 'Sadece müzik butonuna basınca']], m.autoStart)}
+                ${sel('mu-shuffle', 'Çalma Sırası', [['0', 'Sırayla'], ['1', 'Karışık']], m.shuffle ? '1' : '0')}
+            </div>
+            <p class="a-hint" style="margin-bottom:1rem">Not: Tarayıcılar (Chrome, Safari) sesli müziğin ziyaretçi sayfaya hiç dokunmadan başlamasına izin vermez. Bu yüzden müzik, ziyaretçinin ilk tıklama/dokunmasıyla başlar. Ziyaretçi sol alttaki butondan müziği her an kapatabilir; kapattıysa sonraki ziyaretlerinde de kapalı kalır.</p>
+            <button type="button" class="a-btn primary" onclick="saveMusicSettings(this)">Ayarları Kaydet</button>
+        </div>
+        <div class="a-box"><h4>Şarkı Ekle</h4>
+            <div class="a-grid2">
+                ${inp('mu-title', 'Şarkı Adı (sitede görünür)', '')}
+                <div class="form-group"><label>Dosya Yükle (MP3, en fazla 10 MB)</label><input type="file" id="mu-file" accept="audio/mpeg,audio/mp3,audio/mp4,audio/aac,audio/ogg,audio/wav,audio/*" class="form-control"></div>
+            </div>
+            ${inp('mu-url', 'veya MP3 linki yapıştır (Google Drive paylaşım linki de olur)', '', 'text', 'placeholder="https://..."')}
+            <button type="button" class="a-btn primary" id="mu-add-btn" onclick="addTrack(this)">Şarkıyı Ekle</button>
+            <div class="a-progress" id="mu-progress"><div></div></div>
+            <small class="a-hint" id="mu-status">İpucu: Dosya boyutu küçük olursa site daha hızlı açılır. 128 kbps MP3 ideal (3-4 dakikalık şarkı ≈ 3-4 MB). YouTube linkleri çalışmaz; MP3 dosyası gerekir.</small>
+        </div>
+        <div class="a-box"><h4>Çalma Listesi (${tracks.length})</h4>
+            ${tracks.length ? tracks.map((t, i) => `<div class="track-row">
+                <div class="t-info"><strong>${i + 1}. ${esc(t.title || 'İsimsiz')}</strong><div class="meta">${t.src && t.src.startsWith('fsaudio:') ? `Yüklenen dosya · ${(t.size / 1048576).toFixed(1)} MB` : 'Link: ' + esc((t.src || '').slice(0, 60))}</div></div>
+                <button type="button" class="a-btn sm success" onclick="musicPlayIndex(${i}, true)">▶ Dinle</button>
+                <button type="button" class="a-btn sm ghost" onclick="moveTrack(${i},-1)" ${i === 0 ? 'disabled' : ''}>↑</button>
+                <button type="button" class="a-btn sm ghost" onclick="moveTrack(${i},1)" ${i === tracks.length - 1 ? 'disabled' : ''}>↓</button>
+                <button type="button" class="a-btn sm danger" onclick="deleteTrack(${i})">Sil</button>
+            </div>`).join('') : '<p class="a-hint">Henüz şarkı eklenmedi.</p>'}
+        </div>`;
+    },
+
     async messages(tab) {
         tab.innerHTML = `<div class="admin-section-heading">Taraftar Mesajları</div>
         <div class="studio-h">Onay Bekleyenler</div><div id="msg-pending"><p class="a-hint">Yükleniyor…</p></div>
@@ -1999,6 +2084,187 @@ function previewSettings() {
     switchPage('home');
     startPeek();
     toast('Önizleme: beğendiysen panele dön ve "Ayarları Kaydet"e bas.', 'ok', 5000);
+}
+
+/* =====================================================================
+   ARKA PLAN MÜZİĞİ
+   ===================================================================== */
+const AUDIO_CHUNK = 700000; // base64 karakter / belge (Firestore 1 MB sınırının altında)
+const audioEl = () => $('bg-audio');
+const audioUrlCache = {};
+let musicIdx = -1, musicStarted = false, musicUserChose = false, musicOrder = [];
+function lsGet(k) { try { return localStorage.getItem(k); } catch (e) { return null; } }
+function lsSet(k, v) { try { localStorage.setItem(k, v); } catch (e) { } }
+
+function driveAudioUrl(url) {
+    const m = String(url).match(/drive\.google\.com\/file\/d\/([^/?#]+)/) || String(url).match(/drive\.google\.com\/(?:open|uc)\?(?:.*&)?id=([^&#]+)/);
+    return m ? `https://drive.google.com/uc?export=download&id=${m[1]}` : url;
+}
+async function trackUrl(t) {
+    if (!t || !t.src) throw new Error('Kaynak yok');
+    if (!t.src.startsWith('fsaudio:')) return driveAudioUrl(t.src.trim());
+    const id = t.src.slice(8);
+    if (audioUrlCache[id]) return audioUrlCache[id];
+    if (!FB) throw new Error('Bağlantı yok');
+    const parts = await Promise.all(Array.from({ length: t.chunks }, (_, i) => FB.getDoc(FB.doc(FB.db, 'muzik', `${id}_${i}`))));
+    const b64 = parts.map(p => (p.exists() ? p.data().data : '')).join('');
+    const bin = atob(b64); const bytes = new Uint8Array(bin.length);
+    for (let i = 0; i < bin.length; i++) bytes[i] = bin.charCodeAt(i);
+    return (audioUrlCache[id] = URL.createObjectURL(new Blob([bytes], { type: t.mime || 'audio/mpeg' })));
+}
+function musicTracks() { return (getSafeData('music').tracks || []).filter(t => t && t.src); }
+function buildOrder() {
+    const n = musicTracks().length; musicOrder = [...Array(n).keys()];
+    if (getSafeData('music').shuffle) for (let i = n - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [musicOrder[i], musicOrder[j]] = [musicOrder[j], musicOrder[i]]; }
+}
+function setPlayerUI() {
+    const a = audioEl(), pl = $('music-player');
+    const playing = !a.paused && !a.ended;
+    pl.classList.toggle('playing', playing);
+    $('mp-ico-play').style.display = playing ? 'none' : '';
+    $('mp-ico-bars').style.display = playing ? '' : 'none';
+    $('mp-toggle').setAttribute('aria-label', playing ? 'Müziği durdur' : 'Müziği çal');
+    $('mp-toggle').title = playing ? 'Müziği durdur' : 'Müziği çal';
+    $('mp-ico-vol').innerHTML = a.muted || a.volume === 0
+        ? '<path d="M16.5 12A4.5 4.5 0 0 0 14 8v2.2l2.45 2.45c.03-.2.05-.42.05-.65zM19 12c0 .94-.2 1.82-.54 2.64l1.51 1.51A8.8 8.8 0 0 0 21 12c0-4.28-2.99-7.86-7-8.77v2.06c2.89.86 5 3.54 5 6.71zM4.27 3L3 4.27 7.73 9H3v6h4l5 5v-6.73l4.25 4.25c-.67.52-1.42.93-2.25 1.18v2.06a8.99 8.99 0 0 0 3.69-1.81L19.73 21 21 19.73l-9-9L4.27 3zM12 4L9.91 6.09 12 8.18V4z"/>'
+        : '<path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3A4.5 4.5 0 0 0 14 8v8a4.5 4.5 0 0 0 2.5-4z"/>';
+}
+async function musicPlayIndex(i, fromAdmin) {
+    const list = musicTracks(); if (!list.length) return;
+    const t = list[(i + list.length) % list.length];
+    musicIdx = (i + list.length) % list.length;
+    $('mp-title').textContent = t.title || '';
+    const pl = $('music-player'); pl.classList.add('loading');
+    try {
+        const url = await trackUrl(t);
+        const a = audioEl();
+        if (a.src !== url) a.src = url;
+        a.loop = list.length === 1;
+        await a.play();
+        musicStarted = true;
+    } catch (e) {
+        console.warn('Müzik çalınamadı', e);
+        if (fromAdmin) toast('Şarkı çalınamadı: ' + (e.name === 'NotAllowedError' ? 'tarayıcı izin vermedi' : (e.message || 'dosya/link açılamıyor')), 'error');
+    }
+    pl.classList.remove('loading'); setPlayerUI();
+}
+function musicNext() {
+    const list = musicTracks(); if (!list.length) return;
+    if (musicOrder.length !== list.length) buildOrder();
+    const pos = musicOrder.indexOf(musicIdx);
+    musicPlayIndex(musicOrder[(pos + 1) % musicOrder.length]);
+}
+function musicStartFirst() {
+    if (musicStarted) return;
+    buildOrder(); musicPlayIndex(musicOrder[0] ?? 0);
+}
+function onFirstInteraction(e) {
+    removeFirstInteraction();
+    if (musicUserChose || e.target.closest('#music-player, .admin-modal, .login-modal')) return;
+    musicStartFirst();
+}
+function removeFirstInteraction() { ['pointerdown', 'keydown', 'touchend'].forEach(ev => document.removeEventListener(ev, onFirstInteraction, true)); }
+function initMusic() {
+    const m = getSafeData('music'), list = musicTracks(), pl = $('music-player'), a = audioEl();
+    const show = !!(m.enabled && list.length);
+    pl.classList.toggle('show', show);
+    if (!show) { if (!a.paused) a.pause(); removeFirstInteraction(); setPlayerUI(); return; }
+    const savedVol = lsGet('aber_music_vol');
+    a.volume = (savedVol !== null ? +savedVol : m.volume) / 100;
+    $('mp-vol').value = Math.round(a.volume * 100);
+    if (!musicStarted) $('mp-title').textContent = (list[0] && list[0].title) || '';
+    setPlayerUI();
+    const userOff = lsGet('aber_music_off') === '1';
+    if (!musicStarted && !userOff && m.autoStart !== 'button') {
+        removeFirstInteraction();
+        ['pointerdown', 'keydown', 'touchend'].forEach(ev => document.addEventListener(ev, onFirstInteraction, true));
+    }
+}
+(function wireMusic() {
+    const a = audioEl();
+    a.addEventListener('ended', () => { if (!a.loop) musicNext(); });
+    a.addEventListener('play', setPlayerUI); a.addEventListener('pause', setPlayerUI); a.addEventListener('volumechange', setPlayerUI);
+    a.addEventListener('error', () => { $('music-player').classList.remove('loading'); if (musicTracks().length > 1 && musicStarted) setTimeout(musicNext, 800); });
+    $('mp-toggle').addEventListener('click', () => {
+        musicUserChose = true; removeFirstInteraction();
+        if (!musicStarted || a.ended) { lsSet('aber_music_off', '0'); musicStartFirst(); return; }
+        if (a.paused) { lsSet('aber_music_off', '0'); a.play().catch(() => { }); }
+        else { a.pause(); lsSet('aber_music_off', '1'); }
+    });
+    $('mp-next').addEventListener('click', () => { musicUserChose = true; lsSet('aber_music_off', '0'); musicNext(); });
+    $('mp-mute').addEventListener('click', () => { a.muted = !a.muted; });
+    $('mp-vol').addEventListener('input', e => { a.volume = e.target.value / 100; a.muted = false; lsSet('aber_music_vol', e.target.value); });
+    $('music-player').addEventListener('click', () => $('music-player').classList.add('expanded'));
+    document.addEventListener('click', e => { if (!e.target.closest('#music-player')) $('music-player').classList.remove('expanded'); });
+})();
+
+/* --- Panel işlemleri --- */
+function readFileAsBase64(file) { return readFileAsDataURL(file).then(d => d.slice(d.indexOf(',') + 1)); }
+async function addTrack(btn) {
+    if (!FB || !FB.user) return toast('Önce giriş yapın.', 'warn');
+    const file = $('mu-file').files[0], url = val('mu-url').trim();
+    let title = val('mu-title').trim();
+    if (!file && !url) return toast('Bir MP3 dosyası seçin veya link yapıştırın.', 'warn');
+    if (file && file.size > 10 * 1048576) return toast('Dosya 10 MB\'dan büyük. Daha düşük kalitede (128 kbps) bir MP3 deneyin.', 'error', 7000);
+    if (!title) title = file ? file.name.replace(/\.[^.]+$/, '') : 'Şarkı';
+    const track = { id: Date.now(), title };
+    await withBtn(btn, async () => {
+        const prog = $('mu-progress'), bar = prog.firstElementChild, st = $('mu-status');
+        try {
+            if (file) {
+                prog.style.display = 'block'; bar.style.width = '2%'; st.textContent = 'Dosya hazırlanıyor…';
+                const b64 = await readFileAsBase64(file);
+                const id = 'aud_' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6);
+                const n = Math.ceil(b64.length / AUDIO_CHUNK);
+                for (let i = 0; i < n; i++) {
+                    await FB.setDoc(FB.doc(FB.db, 'muzik', `${id}_${i}`), { data: b64.slice(i * AUDIO_CHUNK, (i + 1) * AUDIO_CHUNK), i, n });
+                    bar.style.width = Math.round((i + 1) / n * 100) + '%';
+                    st.textContent = `Yükleniyor… %${Math.round((i + 1) / n * 100)}`;
+                }
+                Object.assign(track, { src: 'fsaudio:' + id, chunks: n, size: file.size, mime: file.type || 'audio/mpeg' });
+            } else track.src = url;
+            const m = Object.assign({}, getSafeData('music'));
+            m.tracks = [...(m.tracks || []), track];
+            if (!(activeData.music && activeData.music.tracks && activeData.music.tracks.length)) m.enabled = true;
+            activeData.music = m;
+            const ok = await saveAllData();
+            if (ok) toast('Şarkı eklendi ✓');
+            initMusic(); TAB_RENDERERS.music($('tab-music'));
+        } catch (e) {
+            console.error(e); st.textContent = 'Yüklenemedi: ' + trErr(e); toast('Şarkı yüklenemedi: ' + trErr(e), 'error', 7000);
+            prog.style.display = 'none';
+        }
+    });
+}
+async function deleteTrack(i) {
+    const m = Object.assign({}, getSafeData('music')); const t = (m.tracks || [])[i];
+    if (!t || !confirm(`"${t.title}" silinsin mi?`)) return;
+    m.tracks = m.tracks.filter((_, j) => j !== i); activeData.music = m;
+    if (musicIdx === i) { audioEl().pause(); musicStarted = false; }
+    const ok = await saveAllData();
+    if (ok && t.src && t.src.startsWith('fsaudio:')) {
+        const id = t.src.slice(8);
+        for (let k = 0; k < (t.chunks || 0); k++) { try { await FB.deleteDoc(FB.doc(FB.db, 'muzik', `${id}_${k}`)); } catch (e) { } }
+    }
+    if (ok) toast('Şarkı silindi.');
+    buildOrder(); initMusic(); TAB_RENDERERS.music($('tab-music'));
+}
+async function moveTrack(i, d) {
+    const m = Object.assign({}, getSafeData('music')); const arr = [...(m.tracks || [])]; const j = i + d;
+    if (j < 0 || j >= arr.length) return;
+    [arr[i], arr[j]] = [arr[j], arr[i]]; m.tracks = arr; activeData.music = m;
+    TAB_RENDERERS.music($('tab-music')); buildOrder(); await saveAllData();
+}
+async function saveMusicSettings(btn) {
+    await withBtn(btn, async () => {
+        const m = Object.assign({}, getSafeData('music'), {
+            enabled: $('mu-enabled').checked, volume: +val('mu-volume'), autoStart: val('mu-autoStart'), shuffle: val('mu-shuffle') === '1'
+        });
+        activeData.music = m;
+        try { localStorage.removeItem('aber_music_vol'); } catch (e) { }
+        const ok = await saveAllData(); buildOrder(); initMusic();
+        if (ok) toast('Müzik ayarları kaydedildi ✓');
+    });
 }
 
 async function togglePage(id, visible, input) {
@@ -2237,6 +2503,7 @@ async function migrateImages(btn) {
     applySavedTheme();
     renderAllSections();
     if (h === 'admin') setTimeout(route, 1500);
+    initMusic();
 })();
 </script>
 
