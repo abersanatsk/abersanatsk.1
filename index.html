@@ -1333,11 +1333,12 @@ function renderAllSections() {
     $('staff-container').innerHTML = (a.staff || []).map(personCard).join('') || emptyState();
 
     /* Kadro: mevkiye göre grupla */
-    const groups = { 'Kaleciler': [], 'Defans Oyuncuları': [], 'Orta Saha Oyuncuları': [], 'Forvet Oyuncuları': [] };
+    const groups = { 'Kaleciler': [], 'Defans Oyuncuları': [], 'Orta Saha Oyuncuları': [], 'Forvet Oyuncuları': [], '': [] };
     (a.players || []).forEach(p => {
         const pos = (p.position || '').toLocaleLowerCase('tr');
-        const g = pos.includes('kaleci') ? 'Kaleciler' : pos.includes('defans') ? 'Defans Oyuncuları' : pos.includes('orta') ? 'Orta Saha Oyuncuları' : 'Forvet Oyuncuları';
         const show = k => playerFieldVisible(p, k);
+        /* Mevkisi gizli oyuncular mevki başlığı altında listelenmez */
+        const g = !show('position') ? '' : pos.includes('kaleci') ? 'Kaleciler' : pos.includes('defans') ? 'Defans Oyuncuları' : pos.includes('orta') ? 'Orta Saha Oyuncuları' : 'Forvet Oyuncuları';
         const stats = [['age', 'Yaş', p.age || '--'], ['height', 'Boy', p.height ? p.height + ' cm' : '--'], ['weight', 'Kilo', p.weight ? p.weight + ' kg' : '--'], ['foot', 'Ayak', p.foot || 'Sağ']]
             .filter(([k]) => show(k)).map(([, l, v]) => `<div class="stat-line">${l}: <strong>${esc(v)}</strong></div>`).join('');
         groups[g].push(`<article class="card player-card${show('img') ? '' : ' no-photo'}">
@@ -1348,7 +1349,8 @@ function renderAllSections() {
                 ${stats ? `<div class="player-stats">${stats}</div>` : ''}
             </div></article>`);
     });
-    const squadHtml = Object.entries(groups).filter(([, v]) => v.length).map(([g, v]) => `<h3 class="position-group-title">${g}</h3><div class="players-grid">${v.join('')}</div>`).join('');
+    const usedGroups = Object.entries(groups).filter(([, v]) => v.length);
+    const squadHtml = usedGroups.map(([g, v]) => `${g ? `<h3 class="position-group-title">${g}</h3>` : (usedGroups.length > 1 ? '<div class="position-group-title" style="height:0;margin-bottom:0"></div>' : '')}<div class="players-grid">${v.join('')}</div>`).join('');
     $('squad-container').innerHTML = squadHtml || emptyState('Kadro henüz eklenmedi.');
 
     $('kits-container').innerHTML = (a.kits || []).map(k => `<article class="card kit-card"><div class="kit-img-box" onclick="openLightbox(this.querySelector('img').src)">${imgHTML(k.img)}</div><div class="kit-title">${esc(k.title)}</div></article>`).join('') || emptyState();
