@@ -361,6 +361,17 @@
         .vis-chip input { width: 17px; height: 17px; accent-color: #16a34a; cursor: pointer; }
         .vis-chip:has(input:checked) { border-color: #16a34a; color: #fff; background: rgba(22,163,74,.12); }
         .vis-chip.locked { opacity: .45; cursor: not-allowed; }
+        .page-vis-row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: 1rem 0; border-bottom: 1px solid var(--a-line); }
+        .page-vis-row:last-child { border-bottom: none; }
+        .page-vis-row .meta { font-size: .75rem; color: var(--a-muted); margin-top: 2px; }
+        .sw-state { font-size: .78rem; font-weight: 700; width: 58px; color: var(--a-muted); }
+        .switch { position: relative; width: 50px; height: 28px; flex-shrink: 0; cursor: pointer; }
+        .switch input { opacity: 0; width: 0; height: 0; position: absolute; }
+        .switch span { position: absolute; inset: 0; background: #334155; border-radius: 999px; transition: background .2s; }
+        .switch span::before { content: ''; position: absolute; width: 22px; height: 22px; left: 3px; top: 3px; background: #fff; border-radius: 50%; transition: transform .2s; }
+        .switch input:checked + span { background: #16a34a; }
+        .switch input:checked + span::before { transform: translateX(22px); }
+        .switch input:focus-visible + span { outline: 2px solid #fff; outline-offset: 2px; }
         .color-row { display: flex; gap: 10px; align-items: center; }
         .color-row input[type=color] { height: 46px; padding: 4px; flex: 1; }
         .color-row input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; }
@@ -952,6 +963,7 @@ const defaultData = {
     socials: { instagram: '', facebook: '', youtube: '', x: '', tiktok: '', whatsapp: '' },
     titleStyles: {},
     playerHidden: [],
+    hiddenPages: [],
     styles: {
         fontSport: "'Space Grotesk', sans-serif", fontMain: "'Syne', sans-serif",
         heroTitleSize: '5rem', sectionTitleSize: '3rem', heroSloganSize: '1.3rem', headerTitleSize: '1.5rem', menuLinkSize: '0.75rem',
@@ -1191,6 +1203,8 @@ function cssLen(v, def) { v = String(v || '').trim(); return /^-?\d+(\.\d+)?(px|
 function switchPage(id, opts = {}) {
     const target = id && document.getElementById(id);
     if (!target || target.tagName !== 'SECTION' || !target.closest('main')) id = 'home';
+    const adminPreview = $('adminModal').classList.contains('open');
+    if (id !== 'home' && (activeData.hiddenPages || []).includes(id) && !adminPreview) id = 'home';
     document.querySelectorAll('main section').forEach(s => s.classList.toggle('active-page', s.id === id));
     document.body.classList.toggle('on-home', id === 'home');
     document.querySelectorAll('#main-nav-links a').forEach(a => a.classList.toggle('active', a.getAttribute('href') === '#' + id));
@@ -1305,7 +1319,8 @@ function renderAllSections() {
         ['transferler', t.menuTransfers], ['fikstur', t.menuFixture], ['galeri', t.menuGallery]];
     (a.customPages || []).forEach(cp => links.push(['dynamic-' + cp.id, cp.menuTitle]));
     links.push(['bize-yazin', t.menuWriteUs], ['iletisim', t.menuContact]);
-    $('main-nav-links').innerHTML = links.filter(l => l[1]).map(([id, l]) => `<li><a href="#${esc(id)}">${esc(l)}</a></li>`).join('');
+    const hiddenPages = a.hiddenPages || [];
+    $('main-nav-links').innerHTML = links.filter(l => l[1] && !hiddenPages.includes(l[0])).map(([id, l]) => `<li><a href="#${esc(id)}">${esc(l)}</a></li>`).join('');
 
     $('title-board').innerHTML = richText(t.titleBoard); $('title-staff').innerHTML = richText(t.titleStaff);
     $('title-squad').innerHTML = richText(t.titleSquad); $('title-kits').innerHTML = richText(t.titleKits);
@@ -1493,7 +1508,7 @@ async function logoutAdmin() {
    YÖNETİM PANELİ
    ===================================================================== */
 const ADMIN_TABS = [
-    ['settings', 'Site Ayarları'], ['design', '🎨 Tasarım Stüdyosu'], ['texts', 'Yazılar & Menüler'], ['style', 'Tipografi & Renk'],
+    ['settings', 'Site Ayarları'], ['pages', '👁 Sayfa Görünürlüğü'], ['design', '🎨 Tasarım Stüdyosu'], ['texts', 'Yazılar & Menüler'], ['style', 'Tipografi & Renk'],
     ['board', 'Yönetim Kurulu'], ['staff', 'Teknik Heyet'], ['players', 'Oyuncu Kadrosu'], ['kits', 'Sezon Formaları'],
     ['transfers', 'Transfer Gündemi'], ['fixtures', 'Fikstür / Skorlar'], ['gallery', 'Medya / Galeri'], ['customPages', 'Dinamik Sayfalar'],
     ['messages', 'Taraftar Mesajları'], ['security', 'Güvenlik & Yedek']
@@ -1514,6 +1529,7 @@ function closeAdmin() {
     $('peek-bar').classList.remove('show');
     document.body.style.overflow = '';
     if (settingsPreview) { settingsPreview = null; renderAllSections(); }
+    if ((activeData.hiddenPages || []).includes(currentPage)) { location.hash = 'home'; switchPage('home'); }
     applySavedTheme(); // kaydedilmemiş tasarım önizlemesini geri al
 }
 function switchTab(key) {
@@ -1729,6 +1745,33 @@ const TAB_RENDERERS = {
             <div class="a-grid3">${inp('so-instagram', 'Instagram linki', so.instagram)}${inp('so-facebook', 'Facebook linki', so.facebook)}${inp('so-youtube', 'YouTube linki', so.youtube)}${inp('so-x', 'X (Twitter) linki', so.x)}${inp('so-tiktok', 'TikTok linki', so.tiktok)}${inp('so-whatsapp', 'WhatsApp numarası', so.whatsapp)}</div>
         </div>
         <button type="button" class="submit-btn" onclick="saveSettings(this)">Ayarları Kaydet</button>`;
+    },
+
+    pages(tab) {
+        const t = getSafeData('siteTexts');
+        const hidden = activeData.hiddenPages || [];
+        const pages = [['yonetim-kurulu', t.menuBoard || 'Yönetim Kurulu', (activeData.board || []).length + ' kişi'],
+            ['teknik-heyet', t.menuStaff || 'Teknik Heyet', (activeData.staff || []).length + ' kişi'],
+            ['kadro', t.menuSquad || 'Kadromuz', (activeData.players || []).length + ' oyuncu'],
+            ['formalar', t.menuKits || 'Formalarımız', (activeData.kits || []).length + ' forma'],
+            ['transferler', t.menuTransfers || 'Transferler', (activeData.transfers || []).length + ' kayıt'],
+            ['fikstur', t.menuFixture || 'Fikstür', (activeData.fixtures || []).length + ' maç'],
+            ['galeri', t.menuGallery || 'Medya', (activeData.gallery || []).length + ' öğe'],
+            ...(activeData.customPages || []).map(cp => ['dynamic-' + cp.id, cp.menuTitle, 'Dinamik sayfa']),
+            ['bize-yazin', t.menuWriteUs || 'Bize Yazın', 'Taraftar mesaj formu'],
+            ['iletisim', t.menuContact || 'İletişim', 'Telefon, e-posta, harita']];
+        tab.innerHTML = `<div class="admin-section-heading">Sayfa Görünürlüğü</div>
+        <p class="a-hint" style="margin-bottom:1.5rem">Kapattığın sayfa menüden kalkar ve ziyaretçiler o sayfaya giremez (adresi bilseler bile ana sayfaya yönlenir). İçerikler silinmez; tekrar açtığında her şey yerinde olur. Değişiklik hemen kaydedilir.</p>
+        <div class="a-box" style="padding:.4rem 1.4rem">
+            <div class="page-vis-row"><div><strong>${esc(t.menuHome || 'Anasayfa')}</strong><div class="meta">Ana sayfa her zaman açıktır</div></div><span class="a-hint" style="margin:0">Her zaman açık</span></div>
+            ${pages.map(([id, name, meta]) => `<div class="page-vis-row">
+                <div><strong>${esc(name)}</strong><div class="meta">${esc(meta)}</div></div>
+                <div style="display:flex;align-items:center;gap:.8rem">
+                    <button type="button" class="a-btn sm ghost" onclick="previewPage('${id}')">Gör</button>
+                    <label class="switch"><input type="checkbox" ${hidden.includes(id) ? '' : 'checked'} onchange="togglePage('${id}', this.checked, this)"><span></span></label>
+                    <span class="sw-state">${hidden.includes(id) ? 'Gizli' : 'Yayında'}</span>
+                </div></div>`).join('')}
+        </div>`;
     },
 
     texts(tab) {
@@ -1955,6 +1998,17 @@ function previewSettings() {
     startPeek();
     toast('Önizleme: beğendiysen panele dön ve "Ayarları Kaydet"e bas.', 'ok', 5000);
 }
+
+async function togglePage(id, visible, input) {
+    const h = new Set(activeData.hiddenPages || []);
+    visible ? h.delete(id) : h.add(id);
+    activeData.hiddenPages = [...h];
+    if (input) input.closest('.page-vis-row').querySelector('.sw-state').textContent = visible ? 'Yayında' : 'Gizli';
+    renderAllSections();
+    const ok = await saveAllData();
+    if (ok) toast(visible ? 'Sayfa yayında ✓' : 'Sayfa gizlendi ✓');
+}
+function previewPage(id) { location.hash = id; switchPage(id); startPeek(); }
 
 async function withBtn(btn, fn) { if (btn) btn.disabled = true; try { return await fn(); } finally { if (btn) btn.disabled = false; } }
 
