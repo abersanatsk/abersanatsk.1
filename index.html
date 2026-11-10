@@ -34,6 +34,7 @@
             --header-title-size: 1.5rem;
             --menu-link-size: 0.75rem;
             --logo-size: 85px;
+            --logo-size-compact: 52px;
             --logo-x: 0px;
             --logo-y: 15px;
             --hero-brightness: 0.3;
@@ -124,7 +125,8 @@
         body.nav-static .site-header { position: absolute; }
         .nav, .logo-img-wrapper, .logo-text-top { transition: padding .3s ease, min-height .3s ease, width .3s ease, height .3s ease, font-size .3s ease; }
         .site-header.compact .nav { padding-top: 6px; padding-bottom: 6px; min-height: 56px; }
-        .site-header.compact .logo-img-wrapper { width: min(var(--logo-size), 52px); height: min(var(--logo-size), 52px); }
+        .site-header.compact .logo-img-wrapper { width: var(--logo-size-compact); height: var(--logo-size-compact); }
+        .site-header.compact .logo-img-wrapper img { position: static; width: 100%; height: 100%; }
         .site-header.compact .logo-img-wrapper img { transform: none; }
         .site-header.compact .logo-text-top { font-size: min(var(--header-title-size), 1.1rem); }
         .site-header.compact .logo-text-sub { display: none; }
@@ -416,7 +418,8 @@
             .nav { padding: 10px 1.2rem; min-height: 64px; gap: 1rem; }
             .menu-toggle { display: flex; }
             .logo-container { gap: 10px; min-width: 0; }
-            .logo-img-wrapper { width: min(var(--logo-size), 54px); height: min(var(--logo-size), 54px); }
+            .logo-img-wrapper { width: var(--logo-size-compact); height: var(--logo-size-compact); }
+            .logo-img-wrapper img { position: static !important; width: 100% !important; height: 100% !important; }
             .logo-img-wrapper img { transform: none; }
             .logo-text-top { font-size: min(var(--header-title-size), 1.05rem); max-width: 60vw; }
             .logo-text-sub { font-size: .6rem; letter-spacing: 3px; }
@@ -821,8 +824,8 @@ carousel: { name: 'Yatay Kaydırmalı Vitrin', desc: 'Kartlar sağa-sola kaydır
    ===================================================================== */
 const NAVS = {
     classic: { name: 'Klasik Şeffaf', desc: 'Görselin üstünde şeffaf, aşağıda bulanık', css: `` },
-    pill: { name: 'Yüzen Hap', desc: 'Kenarlardan ayrık, yuvarlak menü', css: `.site-header{top:12px;left:14px;right:14px;max-width:1360px;margin:0 auto;border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--border)!important;color:var(--text)!important;box-shadow:0 14px 40px rgba(0,0,0,.3)}.nav{padding:8px 10px 8px 22px;min-height:0}.logo-img-wrapper{width:min(var(--logo-size),46px);height:min(var(--logo-size),46px)}.logo-img-wrapper img{transform:none}.logo-text-top{font-size:min(var(--header-title-size),1.05rem)}.logo-text-sub{display:none}.nav-links a{border-radius:999px}@media(max-width:900px){.site-header{border-radius:22px}}` },
-    thin: { name: 'İnce Bar', desc: 'Küçük logo, tek satır, dolu zemin', css: `.site-header,body.on-home .site-header:not(.scrolled){background:color-mix(in srgb,var(--bg) 92%,transparent)!important;color:var(--text)!important;border-bottom:1px solid var(--border)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}.nav{min-height:0;padding-top:6px;padding-bottom:6px}.logo-img-wrapper{width:min(var(--logo-size),44px);height:min(var(--logo-size),44px)}.logo-img-wrapper img{transform:none}.logo-text-top{font-size:min(var(--header-title-size),1.05rem)}.logo-text-sub{display:none}.nav-links a{padding:7px 11px}` },
+    pill: { name: 'Yüzen Hap', desc: 'Kenarlardan ayrık, yuvarlak menü', css: `.site-header{top:12px;left:14px;right:14px;max-width:1360px;margin:0 auto;border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--border)!important;color:var(--text)!important;box-shadow:0 14px 40px rgba(0,0,0,.3)}.nav{padding:8px 10px 8px 22px;min-height:0}@media(min-width:901px){.logo-img-wrapper{height:46px;width:var(--logo-size)}.logo-img-wrapper img{position:absolute;left:0;top:50%;width:var(--logo-size);height:var(--logo-size);transform:translate(var(--logo-x),calc(-50% + var(--logo-y)))}}.logo-text-top{font-size:min(var(--header-title-size),1.05rem)}.logo-text-sub{display:none}.nav-links a{border-radius:999px}@media(max-width:900px){.site-header{border-radius:22px}}` },
+    thin: { name: 'İnce Bar', desc: 'Küçük logo, tek satır, dolu zemin', css: `.site-header,body.on-home .site-header:not(.scrolled){background:color-mix(in srgb,var(--bg) 92%,transparent)!important;color:var(--text)!important;border-bottom:1px solid var(--border)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}.nav{min-height:0;padding-top:6px;padding-bottom:6px}@media(min-width:901px){.logo-img-wrapper{height:44px;width:var(--logo-size)}.logo-img-wrapper img{position:absolute;left:0;top:50%;width:var(--logo-size);height:var(--logo-size);transform:translate(var(--logo-x),calc(-50% + var(--logo-y)))}}.logo-text-top{font-size:min(var(--header-title-size),1.05rem)}.logo-text-sub{display:none}.nav-links a{padding:7px 11px}` },
     solid: { name: 'Renkli Dolu Bar', desc: 'Menü vurgu renginde dolu', css: `.site-header,body.on-home .site-header:not(.scrolled){background:var(--accent)!important;color:var(--on-accent)!important;border-bottom:none!important}.logo-text-sub{color:inherit;opacity:.75}.nav-links a:hover,.nav-links a.active{background:var(--on-accent);color:var(--accent)}@media(max-width:900px){.nav-links{background:var(--accent);color:var(--on-accent)}}` },
     underline: { name: 'Alt Çizgili Linkler', desc: 'Linklerin altında kayan çizgi', css: `.nav-links a,.nav-links a:hover,.nav-links a.active{background:none!important;border-radius:0;padding:8px 2px;margin:0 10px;transform:none!important;color:inherit!important;opacity:.85}.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}.nav-links a:hover,.nav-links a.active{opacity:1}.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}` },
     centered: { name: 'Ortalı Logo', desc: 'Logo ortada, menü altında', css: `@media(min-width:901px){.site-header .nav{flex-direction:column;gap:.5rem;padding-top:.8rem}.logo-container{flex-direction:column;text-align:center;gap:8px}.logo-img-wrapper img{transform:none}.nav-links{justify-content:center}}` },
@@ -932,7 +935,7 @@ const PRESETS = [
    ===================================================================== */
 const defaultData = {
     currentTheme: 'classic', currentLayout: 'asymmetric', heroStyle: 'classic', navStyle: 'classic', navBehavior: 'smart',
-    logoUrl: '', logoSize: '85', logoX: '0', logoY: '15',
+    logoUrl: '', logoSize: '85', logoSizeCompact: '52', logoX: '0', logoY: '15',
     headerTitle: 'KARAMAN ABER SANAT GÜCÜ', headerSub: 'SPOR KULÜBÜ',
     heroBgUrl: DEFAULT_HERO_BG, heroBgPosition: 'center center', heroDim: '',
     sloganVisibility: 'show', sloganLeft: '2rem', sloganTop: '50%', sloganImgUrl: '',
@@ -1158,7 +1161,7 @@ function applySavedTheme(design) {
         --font-head:${fontHead};--font-body:${fontBody};
         --hero-title-size:${s.heroTitleSize || '5rem'};--section-title-size:${s.sectionTitleSize || '3rem'};
         --hero-slogan-size:${s.heroSloganSize || '1.3rem'};--header-title-size:${s.headerTitleSize || '1.5rem'};--menu-link-size:${s.menuLinkSize || '.75rem'};
-        --logo-size:${parseInt(activeData.logoSize) || 85}px;--logo-x:${parseInt(activeData.logoX) || 0}px;--logo-y:${isNaN(parseInt(activeData.logoY)) ? 15 : parseInt(activeData.logoY)}px;
+        --logo-size:${parseInt(activeData.logoSize) || 85}px;--logo-size-compact:${parseInt(activeData.logoSizeCompact) || 52}px;--logo-x:${parseInt(activeData.logoX) || 0}px;--logo-y:${isNaN(parseInt(activeData.logoY)) ? 15 : parseInt(activeData.logoY)}px;
         --slogan-left:${cssLen(activeData.sloganLeft, '2rem')};--slogan-top:${cssLen(activeData.sloganTop, '50%')};
     }`;
     $('theme-styles').textContent = vars + '\n' + nav.css + '\n' + layout.css + '\n' + hero.css + (dim ? `\n:root{${dim}}` : '');
@@ -1666,6 +1669,8 @@ const TAB_RENDERERS = {
         <div class="a-box"><h4>Kulüp Logosu</h4>
             ${imageField('logoUrl', 'Logo (şeffaf PNG önerilir)', 600, 600, true, a.logoUrl)}
             <div class="a-grid3">${inp('set-logoSize', 'Logo Boyutu (px)', a.logoSize, 'number', 'min="30" max="400"')}${inp('set-logoX', 'Sağ/Sol Kaydırma (px)', a.logoX, 'number')}${inp('set-logoY', 'Aşağı/Yukarı Kaydırma (px)', a.logoY, 'number')}</div>
+            ${inp('set-logoSizeCompact', 'Küçük logo boyutu (px): sayfa kayınca ve telefonda', a.logoSizeCompact || 52, 'number', 'min="24" max="120"')}
+            <p class="a-hint">İpucu: Yüzen Hap / İnce Bar menülerde logo bardan taşabilir. Bu "rozet" görünümü için boyutu büyütüp Y değeriyle aşağı kaydırabilirsin (örn. boyut 110, Y 25).</p>
         </div>
         <div class="a-box"><h4>Ana Sayfa Arka Planı</h4>
             ${imageField('heroBgUrl', 'Arka Plan Görseli (boş = varsayılan)', 2200, 1400, false, a.heroBgUrl === DEFAULT_HERO_BG ? '' : a.heroBgUrl)}
@@ -1811,7 +1816,7 @@ async function saveSettings(btn) {
         const a = activeData;
         const old = [a.logoUrl, a.heroBgUrl, a.sloganImgUrl];
         a.logoUrl = convertDriveUrl(val('img-logoUrl').trim()) || '';
-        a.logoSize = val('set-logoSize') || '85'; a.logoX = val('set-logoX') || '0'; a.logoY = val('set-logoY') || '0';
+        a.logoSize = val('set-logoSize') || '85'; a.logoSizeCompact = val('set-logoSizeCompact') || '52'; a.logoX = val('set-logoX') || '0'; a.logoY = val('set-logoY') || '0';
         a.heroBgUrl = convertDriveUrl(val('img-heroBgUrl').trim()) || DEFAULT_HERO_BG;
         a.heroBgPosition = val('set-heroBgPosition'); a.heroDim = val('set-heroDim').trim();
         a.headerTitle = val('set-headerTitle').trim(); a.headerSub = val('set-headerSub').trim();
