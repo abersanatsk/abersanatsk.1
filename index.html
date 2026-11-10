@@ -202,6 +202,7 @@
         .player-img-box img { width: 100%; height: 100%; object-fit: cover; }
         .player-number { position: absolute; top: 14px; left: 14px; z-index: 2; background: var(--accent); color: var(--on-accent); font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; min-width: 44px; height: 44px; border-radius: 12px; display: flex; align-items: center; justify-content: center; padding: 0 8px; }
         .player-info { padding: 2rem 2.2rem 2.4rem; text-align: var(--card-align); }
+        .player-number.inline { position: static; display: inline-flex; margin-bottom: 1rem; }
         .player-name { font-family: var(--font-head); font-size: 1.45rem; font-weight: 700; margin-bottom: .2rem; }
         .player-position { font-size: .78rem; font-weight: 700; color: var(--accent); text-transform: uppercase; letter-spacing: 2px; margin-bottom: 1.3rem; }
         .player-stats { display: grid; grid-template-columns: 1fr 1fr; gap: .7rem; font-size: .85rem; border-top: 1px solid var(--border); padding-top: 1.3rem; text-align: left; }
@@ -355,6 +356,11 @@
         .data-table tr.editing td { background: rgba(255,42,75,.08); }
         .admin-list-item { background: var(--a-card); padding: 1rem 1.2rem; border-radius: 12px; margin-bottom: .8rem; display: flex; justify-content: space-between; align-items: center; gap: 1rem; border: 1px solid var(--a-line); overflow-wrap: anywhere; }
         .admin-list-item .meta { font-size: .75rem; color: var(--a-muted); }
+        .vis-row { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .6rem; }
+        .vis-chip { display: inline-flex; align-items: center; gap: 8px; padding: 8px 14px; border-radius: 999px; border: 1px solid rgba(255,255,255,.15); cursor: pointer; font-size: .85rem; font-weight: 600; user-select: none; color: var(--a-muted); }
+        .vis-chip input { width: 17px; height: 17px; accent-color: #16a34a; cursor: pointer; }
+        .vis-chip:has(input:checked) { border-color: #16a34a; color: #fff; background: rgba(22,163,74,.12); }
+        .vis-chip.locked { opacity: .45; cursor: not-allowed; }
         .color-row { display: flex; gap: 10px; align-items: center; }
         .color-row input[type=color] { height: 46px; padding: 4px; flex: 1; }
         .color-row input[type=checkbox] { width: 20px; height: 20px; cursor: pointer; }
@@ -945,6 +951,7 @@ const defaultData = {
     contact: { phone: '0 536 893 94 15', email1: 'info@abersanatsk.org', email2: 'ridvan@abersanatsk.org', address: 'Cedit Mah. 319. Sk. No:2/A <br>Merkez / Karaman', mapQuery: '' },
     socials: { instagram: '', facebook: '', youtube: '', x: '', tiktok: '', whatsapp: '' },
     titleStyles: {},
+    playerHidden: [],
     styles: {
         fontSport: "'Space Grotesk', sans-serif", fontMain: "'Syne', sans-serif",
         heroTitleSize: '5rem', sectionTitleSize: '3rem', heroSloganSize: '1.3rem', headerTitleSize: '1.5rem', menuLinkSize: '0.75rem',
@@ -1315,14 +1322,15 @@ function renderAllSections() {
     (a.players || []).forEach(p => {
         const pos = (p.position || '').toLocaleLowerCase('tr');
         const g = pos.includes('kaleci') ? 'Kaleciler' : pos.includes('defans') ? 'Defans Oyuncuları' : pos.includes('orta') ? 'Orta Saha Oyuncuları' : 'Forvet Oyuncuları';
-        groups[g].push(`<article class="card player-card">
-            <div class="player-img-box">${p.number ? `<span class="player-number">${esc(p.number)}</span>` : ''}${imgHTML(p.img)}</div>
+        const show = k => playerFieldVisible(p, k);
+        const stats = [['age', 'Yaş', p.age || '--'], ['height', 'Boy', p.height ? p.height + ' cm' : '--'], ['weight', 'Kilo', p.weight ? p.weight + ' kg' : '--'], ['foot', 'Ayak', p.foot || 'Sağ']]
+            .filter(([k]) => show(k)).map(([, l, v]) => `<div class="stat-line">${l}: <strong>${esc(v)}</strong></div>`).join('');
+        groups[g].push(`<article class="card player-card${show('img') ? '' : ' no-photo'}">
+            ${show('img') ? `<div class="player-img-box">${p.number && show('number') ? `<span class="player-number">${esc(p.number)}</span>` : ''}${imgHTML(p.img)}</div>` : ''}
             <div class="player-info">
-                <div class="player-name">${esc(p.name)}</div><div class="player-position">${esc(p.position)}</div>
-                <div class="player-stats">
-                    <div class="stat-line">Yaş: <strong>${esc(p.age || '--')}</strong></div><div class="stat-line">Boy: <strong>${p.height ? esc(p.height) + ' cm' : '--'}</strong></div>
-                    <div class="stat-line">Kilo: <strong>${p.weight ? esc(p.weight) + ' kg' : '--'}</strong></div><div class="stat-line">Ayak: <strong>${esc(p.foot || 'Sağ')}</strong></div>
-                </div>
+                ${!show('img') && p.number && show('number') ? `<span class="player-number inline">${esc(p.number)}</span>` : ''}
+                <div class="player-name">${esc(p.name)}</div>${show('position') ? `<div class="player-position">${esc(p.position)}</div>` : ''}
+                ${stats ? `<div class="player-stats">${stats}</div>` : ''}
             </div></article>`);
     });
     const squadHtml = Object.entries(groups).filter(([, v]) => v.length).map(([g, v]) => `<h3 class="position-group-title">${g}</h3><div class="players-grid">${v.join('')}</div>`).join('');
@@ -1602,11 +1610,13 @@ function renderCollectionTab(key, tab) {
             <h4>${item ? 'Düzenleniyor: ' + esc(item[c.fields[0].k]) : 'Yeni Ekle'}</h4>
             <div class="${c.grid ? 'a-grid3' : 'a-grid2'}">${plain.map(f => fieldHTML(key, f, item ? item[f.k] : undefined)).join('')}</div>
             ${rest.map(f => fieldHTML(key, f, item ? item[f.k] : undefined)).join('')}
+            ${key === 'players' ? playerVisibilityBox(item) : ''}
             <div class="form-actions">
                 <button type="button" class="a-btn primary" onclick="saveItem('${key}')">${item ? 'Değişiklikleri Kaydet' : c.add}</button>
                 ${item ? `<button type="button" class="a-btn ghost" onclick="cancelEdit('${key}')">İptal</button>` : ''}
             </div>
         </div>
+        ${key === 'players' ? playerGlobalBox() : ''}
         <div id="list-${key}"></div>`;
     renderList(key);
 }
@@ -1616,7 +1626,7 @@ function renderList(key) {
     if (!host) return;
     if (!list.length) { host.innerHTML = `<p class="a-hint">Henüz kayıt yok.</p>`; return; }
     host.innerHTML = `<table class="data-table"><thead><tr>${c.cols.map(cl => `<th>${cl[1]}</th>`).join('')}<th>İşlem</th></tr></thead><tbody>${list.map((it, i) => `
-        <tr class="${editing[key] == it.id ? 'editing' : ''}">${c.cols.map(([k, , t]) => `<td>${t === 'img' ? (key === 'gallery' && it.type === 'video' ? '🎬 Video' : (it[k] ? imgHTML(it[k]) : '—')) : esc(it[k] ?? '')}</td>`).join('')}
+        <tr class="${editing[key] == it.id ? 'editing' : ''}" ${key === 'players' && (it.hidden || []).length ? `title="Gizli: ${esc(it.hidden.map(h => (PLAYER_FIELDS.find(f => f[0] === h) || [, h])[1]).join(', '))}"` : ''}>${c.cols.map(([k, , t]) => `<td>${t === 'img' ? (key === 'gallery' && it.type === 'video' ? '🎬 Video' : (it[k] ? imgHTML(it[k]) : '—')) : esc(it[k] ?? '')}</td>`).join('')}
         <td><div class="row-actions">
             <button type="button" class="a-btn sm ghost" onclick="moveItem('${key}',${i},-1)" ${i === 0 ? 'disabled' : ''} title="Yukarı">↑</button>
             <button type="button" class="a-btn sm ghost" onclick="moveItem('${key}',${i},1)" ${i === list.length - 1 ? 'disabled' : ''} title="Aşağı">↓</button>
@@ -1629,6 +1639,10 @@ async function saveItem(key) {
     const c = COLLECTIONS[key];
     const values = {};
     for (const f of c.fields) values[f.k] = val(fieldId(key, f)).trim();
+    if (key === 'players') {
+        const prev = editing[key] ? ((activeData.players.find(x => x.id == editing[key]) || {}).hidden || []) : [];
+        values.hidden = PLAYER_FIELDS.map(([k]) => k).filter(k => { const cb = $('vis-' + k); return cb && (cb.disabled ? prev.includes(k) : !cb.checked); });
+    }
     const missing = c.fields.filter(f => f.req && !values[f.k]);
     if (missing.length) { toast('Lütfen doldurun: ' + missing.map(f => f.l.split('(')[0].trim()).join(', '), 'warn'); return; }
     if (!Array.isArray(activeData[key])) activeData[key] = [];
@@ -1898,6 +1912,38 @@ function titleStylesCSS(t) {
     if (n(t.heroX) || n(t.heroY)) out += `.hero-content{transform:translate(${parseFloat(t.heroX) || 0}px,${parseFloat(t.heroY) || 0}px)}@media(max-width:768px){.hero-content{transform:none}}`;
     return out;
 }
+const PLAYER_FIELDS = [['number', 'Forma No'], ['position', 'Mevki'], ['age', 'Yaş'], ['height', 'Boy'], ['weight', 'Kilo'], ['foot', 'Ayak'], ['img', 'Fotoğraf']];
+function playerFieldVisible(p, k) {
+    const g = activeData.playerHidden || [];
+    if (g.includes(k)) return false;
+    return !((p && p.hidden) || []).includes(k);
+}
+function playerVisibilityBox(item) {
+    const g = activeData.playerHidden || [];
+    const own = (item && item.hidden) || [];
+    return `<div class="a-box" style="background:rgba(255,255,255,.02)">
+        <h4>Bu oyuncuda sitede gösterilecek bilgiler</h4>
+        <div class="vis-row">${PLAYER_FIELDS.map(([k, l]) => `<label class="vis-chip ${g.includes(k) ? 'locked' : ''}" title="${g.includes(k) ? 'Tüm oyuncularda gizli (aşağıdaki genel ayardan açabilirsin)' : ''}"><input type="checkbox" id="vis-${k}" ${!own.includes(k) && !g.includes(k) ? 'checked' : ''} ${g.includes(k) ? 'disabled' : ''}><span>${l}</span></label>`).join('')}</div>
+        <small class="a-hint">İşareti kaldırdığın bilgi bu oyuncunun kartında görünmez (bilgi silinmez, sonra tekrar açabilirsin).</small>
+    </div>`;
+}
+function playerGlobalBox() {
+    const g = activeData.playerHidden || [];
+    return `<div class="a-box"><h4>Tüm oyuncular için genel görünürlük</h4>
+        <div class="vis-row">${PLAYER_FIELDS.map(([k, l]) => `<label class="vis-chip"><input type="checkbox" ${g.includes(k) ? '' : 'checked'} onchange="toggleGlobalPlayerField('${k}', this.checked)"><span>${l}</span></label>`).join('')}</div>
+        <small class="a-hint">Burada kapattığın bilgi hiçbir oyuncu kartında görünmez. Örneğin "Kilo"yu kapatırsan tüm kadroda kilo gizlenir. Değişiklik hemen kaydedilir.</small>
+    </div>`;
+}
+async function toggleGlobalPlayerField(k, visible) {
+    const g = new Set(activeData.playerHidden || []);
+    visible ? g.delete(k) : g.add(k);
+    activeData.playerHidden = [...g];
+    renderAllSections();
+    const ok = await saveAllData();
+    renderCollectionTab('players', $('tab-players'));
+    if (ok) toast(visible ? 'Bilgi artık sitede görünüyor ✓' : 'Bilgi tüm oyuncularda gizlendi ✓');
+}
+
 let settingsPreview = null;
 function previewSettings() {
     settingsPreview = readTitleStyles();
