@@ -118,6 +118,18 @@
         .menu-toggle[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
         .menu-toggle[aria-expanded="true"] span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
 
+        /* Menü davranışı: küçülen / kaybolan / sayfayla kayan */
+        .site-header { transition: background .3s ease, box-shadow .3s ease, color .3s ease, translate .35s ease; }
+        .site-header.nav-hidden { translate: 0 -115%; }
+        body.nav-static .site-header { position: absolute; }
+        .nav, .logo-img-wrapper, .logo-text-top { transition: padding .3s ease, min-height .3s ease, width .3s ease, height .3s ease, font-size .3s ease; }
+        .site-header.compact .nav { padding-top: 6px; padding-bottom: 6px; min-height: 56px; }
+        .site-header.compact .logo-img-wrapper { width: min(var(--logo-size), 52px); height: min(var(--logo-size), 52px); }
+        .site-header.compact .logo-img-wrapper img { transform: none; }
+        .site-header.compact .logo-text-top { font-size: min(var(--header-title-size), 1.1rem); }
+        .site-header.compact .logo-text-sub { display: none; }
+        .site-header.compact { box-shadow: 0 10px 30px rgba(0,0,0,.25); }
+
         /* ---------- SECTIONS ---------- */
         main section { display: none; padding: calc(var(--header-h) + 5rem) 0 7rem; position: relative; min-height: calc(100vh - 160px); }
         main section.active-page { display: block; animation: fadeIn .5s ease-out; }
@@ -769,7 +781,7 @@ const LAYOUTS = {
     rounded: { name: 'Ultra Soft', desc: 'Yuvarlak fotoğraflar, kesik çizgili kartlar', css: `:root{--radius:40px;--card-border:2px dashed var(--border-strong);--card-align:center}.board-img-wrapper{border-radius:50%!important;transform:none!important;margin-left:auto;margin-right:auto}.player-img-box,.transfer-img-box{width:200px;height:200px!important;margin:2rem auto 0;border-radius:50%}.player-img-box::after{display:none}.player-number{top:4px;left:4px}` },
     leftMenu: { name: 'Sol Menü Odaklı', desc: 'Sabit yan menü (masaüstü)', css: `@media(min-width:901px){.site-header{right:auto!important;width:260px;height:100vh;background:var(--surface)!important;border-right:1px solid var(--border)!important;border-bottom:none!important;color:var(--text)!important;-webkit-backdrop-filter:none;backdrop-filter:none}.site-header .nav{flex-direction:column;justify-content:flex-start;height:100%;padding:2.5rem 1.2rem;gap:2rem;overflow-y:auto}.logo-container{flex-direction:column;text-align:center}.logo-img-wrapper img{transform:none}.nav-links{flex-direction:column;align-items:stretch;flex-grow:0;width:100%}.nav-links a{display:block}body{padding-left:260px}main section{padding-top:5rem}}` },
     bottomNav: { name: 'Mobil Uygulama Tarzı', desc: 'Menü alt barda (masaüstü)', css: `@media(min-width:901px){.site-header{top:auto!important;bottom:0;background:color-mix(in srgb,var(--bg) 92%,transparent)!important;color:var(--text)!important;border-top:1px solid var(--accent);border-bottom:none!important}.logo-text-sub{display:none}.logo-img-wrapper img{transform:none}main section{padding-top:5rem;padding-bottom:9rem}.home-admin-trigger{bottom:100px}}` },
-    centeredFocus: { name: 'Merkez Odaklı', desc: 'Tek sütun, ortalanmış akış', css: `:root{--radius:10px;--card-align:center}@media(min-width:901px){.container{max-width:920px}.site-header .nav{flex-direction:column;gap:.8rem}.nav-links{justify-content:center}main section{padding-top:calc(var(--header-h) + 8rem)}.board-grid,.kits-grid,.transfers-grid,.gallery-grid,.contact-grid,.blog-container{grid-template-columns:1fr}.players-grid{grid-template-columns:1fr 1fr}.section-title{text-align:center}.section-title::after{display:none}.board-img-wrapper{margin-left:auto;margin-right:auto}}` },
+    centeredFocus: { name: 'Merkez Odaklı', desc: 'Tek sütun, ortalanmış akış', css: `:root{--radius:10px;--card-align:center}@media(min-width:901px){.container{max-width:920px}.site-header .nav{flex-direction:column;gap:.8rem}.nav-links{justify-content:center}.board-grid,.kits-grid,.transfers-grid,.gallery-grid,.contact-grid,.blog-container{grid-template-columns:1fr}.players-grid{grid-template-columns:1fr 1fr}.section-title{text-align:center}.section-title::after{display:none}.board-img-wrapper{margin-left:auto;margin-right:auto}}` },
     masonryMosaic: { name: 'Mozaik Duvar', desc: '3 kolonlu gazete yapısı', css: `:root{--radius:0px}@media(min-width:901px){.board-grid,.players-grid,.kits-grid,.transfers-grid,.gallery-grid{display:block;column-count:3;column-gap:2rem}.card{break-inside:avoid;margin-bottom:2rem;display:block}.card:nth-child(3n+2) .player-img-box{height:460px}.card:nth-child(3n) .player-img-box{height:320px}}` },
     cyberGrid: { name: 'Teknolojik Grid', desc: 'Izgara zemin, neon çizgiler', css: `:root{--radius:0px;--card-border:1px solid var(--accent)}body{background-image:linear-gradient(var(--border) 1px,transparent 1px),linear-gradient(90deg,var(--border) 1px,transparent 1px);background-size:50px 50px}.card{background:color-mix(in srgb,var(--bg) 80%,transparent)!important}.section-title{text-shadow:3px 3px 0 var(--accent)}` },
     fullscreenBlocks: { name: 'Tam Ekran Bloklar', desc: 'Kenarlıksız ultra geniş', css: `:root{--radius:0px;--card-border:none;--card-align:center}@media(min-width:901px){main .container{max-width:100%;padding:0}main .section-title{padding:0 3rem}.board-grid,.players-grid,.transfers-grid,.kits-grid,.gallery-grid{gap:0}.card{border-right:1px solid var(--border)!important;border-bottom:1px solid var(--border)!important;box-shadow:none!important}.board-img-wrapper{margin-left:auto;margin-right:auto}.blog-container,.contact-grid,.fixture-list{padding:0 3rem}}` },
@@ -785,15 +797,40 @@ const LAYOUTS = {
     bigPhoto: { name: 'Büyük Fotoğraf', desc: 'Bilgiler fotoğrafın üzerinde', css: `.player-card{position:relative}.player-img-box{height:540px}.player-img-box::after{height:70%;background:linear-gradient(0deg,var(--bg),transparent)}.player-info{position:absolute;left:0;right:0;bottom:0;z-index:2}.transfer-img-box{height:380px}.kit-img-box{height:660px}` },
     frameLine: { name: 'İnce Çerçeve', desc: 'Köşe vurgulu çizgi kartlar', css: `:root{--radius:0px}.card{position:relative;background:transparent!important;box-shadow:none!important}.card::before{content:'';position:absolute;inset:0;pointer-events:none;z-index:3;background:linear-gradient(var(--accent),var(--accent)) top left/30px 3px no-repeat,linear-gradient(var(--accent),var(--accent)) top left/3px 30px no-repeat,linear-gradient(var(--accent),var(--accent)) bottom right/30px 3px no-repeat,linear-gradient(var(--accent),var(--accent)) bottom right/3px 30px no-repeat}` },
     tiltCards: { name: 'Eğik Kartlar', desc: 'Hafif dönük, eğlenceli dizilim', css: `.card:nth-child(odd){transform:rotate(-1.3deg)}.card:nth-child(even){transform:rotate(1.3deg)}.card:hover{transform:rotate(0) translateY(-8px)!important}.fixture-card{transform:none!important}` },
-    topCentered: { name: 'Ortalı Logo Menü', desc: 'Logo üstte ortada, menü altında', css: `@media(min-width:901px){.site-header .nav{flex-direction:column;gap:.6rem;padding-top:1rem}.logo-container{flex-direction:column;text-align:center}.logo-img-wrapper img{transform:none}.nav-links{justify-content:center}main section{padding-top:calc(var(--header-h) + var(--logo-size) + 7rem)}}` },
+    topCentered: { name: 'Ortalı Logo Menü', desc: 'Logo üstte ortada, menü altında', css: `@media(min-width:901px){.site-header .nav{flex-direction:column;gap:.6rem;padding-top:1rem}.logo-container{flex-direction:column;text-align:center}.logo-img-wrapper img{transform:none}.nav-links{justify-content:center}}` },
     accentPanels: { name: 'Vurgu Panelleri', desc: 'Kartların üstünde renk şeridi', css: `:root{--radius:14px}.card{border-top:6px solid var(--accent)!important}.board-role,.player-position{display:inline-block;background:var(--accent);color:var(--on-accent)!important;padding:4px 10px;border-radius:4px}` },
     diagonal: { name: 'Diyagonal Bölümler', desc: 'Eğik arka plan bantları', css: `main section:not(.hero){background:linear-gradient(172deg,transparent 0 10%,var(--surface) 10% 90%,transparent 90%)}.section-title{transform:skewY(-2deg)}.card{box-shadow:none}` },
+carousel: { name: 'Yatay Kaydırmalı Vitrin', desc: 'Kartlar sağa-sola kaydırılır (Netflix tarzı)', css: `.board-grid,.players-grid,.kits-grid,.transfers-grid,.gallery-grid{display:flex!important;overflow-x:auto;scroll-snap-type:x mandatory;gap:1.6rem;padding:0 0 1.4rem;column-count:auto}.board-grid>*,.players-grid>*,.transfers-grid>*{flex:0 0 min(300px,80vw);scroll-snap-align:start}.kits-grid>*,.gallery-grid>*{flex:0 0 min(480px,86vw);scroll-snap-align:start}.board-grid::-webkit-scrollbar,.players-grid::-webkit-scrollbar,.kits-grid::-webkit-scrollbar,.transfers-grid::-webkit-scrollbar,.gallery-grid::-webkit-scrollbar{height:6px}.board-grid::-webkit-scrollbar-thumb,.players-grid::-webkit-scrollbar-thumb,.kits-grid::-webkit-scrollbar-thumb,.transfers-grid::-webkit-scrollbar-thumb,.gallery-grid::-webkit-scrollbar-thumb{background:var(--accent);border-radius:9px}.card:hover{transform:translateY(-6px)}` },
+    rowList: { name: 'Satır Listesi', desc: 'Fotoğraf solda, bilgiler sağda yatay satırlar', css: `:root{--radius:14px}.board-grid,.players-grid,.transfers-grid{grid-template-columns:1fr!important;gap:1rem}.player-card,.transfer-card{display:flex;align-items:stretch}.player-img-box,.transfer-img-box{width:170px;height:auto!important;min-height:170px;flex-shrink:0}.player-img-box::after{display:none}.player-info{flex:1;display:grid;grid-template-columns:1.1fr 1.6fr;grid-template-rows:auto auto;column-gap:2rem;align-items:center;text-align:left}.player-name{grid-column:1}.player-position{grid-column:1;margin:0}.player-stats{grid-column:2;grid-row:1 / span 2;grid-template-columns:repeat(4,1fr);border-top:none;padding-top:0}.board-card{display:flex;align-items:center;gap:2rem;padding:1.4rem 2rem;text-align:left}.board-img-wrapper{width:90px;height:90px;margin:0!important;flex-shrink:0}.board-role{margin-left:auto}.card:hover{transform:translateX(8px)}@media(max-width:768px){.player-info{display:block}.player-stats{grid-template-columns:1fr 1fr;margin-top:1rem}.player-img-box,.transfer-img-box{width:120px;min-height:150px}.board-card{flex-wrap:wrap}.board-role{margin-left:0;width:100%}}` },
+    bento: { name: 'Bento Izgara', desc: 'Farklı boyutlarda karolar, ilk kart dev', css: `:root{--radius:22px}@media(min-width:901px){.board-grid,.players-grid,.gallery-grid,.transfers-grid{grid-auto-flow:dense;gap:1.2rem}.players-grid>.card:first-child,.gallery-grid>.card:first-child,.board-grid>.card:first-child,.transfers-grid>.card:first-child{grid-column:span 2;grid-row:span 2}.players-grid>.card:first-child .player-img-box{height:600px}.players-grid>.card:first-child .player-name{font-size:2.4rem}.transfers-grid>.card:first-child .transfer-img-box{height:520px}.gallery-grid>.card:nth-child(6n+4){grid-column:span 2}.gallery-grid>.card:first-child{aspect-ratio:auto}.board-grid>.card:first-child{display:flex;flex-direction:column;justify-content:center}.board-grid>.card:first-child .board-img-wrapper{width:220px;height:220px}.board-grid>.card:first-child .board-name{font-size:2.2rem}}` },
+    fifaCards: { name: 'FUT Oyuncu Kartı', desc: 'Oyuncular FIFA kartı görünümünde', css: `.players-grid{grid-template-columns:repeat(auto-fill,minmax(min(250px,100%),1fr));gap:2rem}.player-card{background:linear-gradient(165deg,color-mix(in srgb,var(--accent) 70%,#ffffff),color-mix(in srgb,var(--accent) 45%,var(--bg)) 55%,var(--bg))!important;clip-path:polygon(50% 0,100% 6%,100% 90%,50% 100%,0 90%,0 6%);border:none!important;border-radius:0!important;padding-top:1.5rem;box-shadow:none!important}.player-img-box{height:260px;width:78%;margin:0 auto;background:transparent;border-radius:12px}.player-img-box::after{display:none}.player-number{font-size:2.6rem;background:none;color:#fff;text-shadow:0 3px 10px rgba(0,0,0,.6);top:0;left:4px}.player-info{text-align:center;padding:1rem 1.6rem 3.4rem}.player-name{text-transform:uppercase;letter-spacing:1px}.player-position{color:var(--text)}.player-stats{border-top:2px solid color-mix(in srgb,var(--text) 25%,transparent)}.card:hover{transform:translateY(-10px) scale(1.03)}` },
+    zigzag: { name: 'Zikzak Satırlar', desc: 'Fotoğraflar bir sağda bir solda, büyük', css: `.players-grid,.board-grid,.transfers-grid{grid-template-columns:1fr!important;gap:3rem}.player-card,.transfer-card{display:grid;grid-template-columns:1fr 1fr;align-items:center}.player-card:nth-child(even) .player-img-box,.transfer-card:nth-child(even) .transfer-img-box{order:2}.player-img-box,.transfer-img-box{height:440px!important}.player-img-box::after{display:none}.player-info,.transfer-body{padding:3rem}.player-name,.transfer-name{font-size:2.4rem;line-height:1.1}.board-card{display:grid;grid-template-columns:auto 1fr;column-gap:3rem;align-items:center;align-content:center}.board-img-wrapper{grid-row:1 / span 2;width:190px;height:190px;margin:0!important}.board-name{font-size:2rem;align-self:end}.board-role{align-self:start}.board-card:nth-child(even){grid-template-columns:1fr auto;text-align:right}.board-card:nth-child(even) .board-img-wrapper{grid-column:2}.board-card:nth-child(even) .board-name,.board-card:nth-child(even) .board-role{grid-column:1;grid-row:auto}.board-card:nth-child(even) .board-name{grid-row:1}.board-card:nth-child(even) .board-role{grid-row:2}@media(max-width:768px){.player-card,.transfer-card,.board-card,.board-card:nth-child(even){display:block;text-align:left}.player-img-box,.transfer-img-box{height:340px!important}.board-img-wrapper{margin-bottom:1.5rem!important}.player-info,.transfer-body{padding:1.6rem}}` },
+    timeline: { name: 'Zaman Çizgisi', desc: 'Fikstür ve mesajlar dikey çizgi üzerinde', css: `.fixture-list,#posts-container{position:relative;padding-left:3rem}.fixture-list::before,#posts-container::before{content:'';position:absolute;left:1rem;top:0;bottom:0;width:3px;background:linear-gradient(var(--accent),transparent)}.fixture-card,.post-card{position:relative;overflow:visible}.fixture-card::before,.post-card::before{content:'';position:absolute;left:calc(-2rem - 9px);top:50%;width:18px;height:18px;border-radius:50%;background:var(--accent);box-shadow:0 0 0 6px var(--bg);transform:translateY(-50%)}.fixture-card:hover{transform:translateX(8px)}.post-card{border-left:var(--card-border)}.board-grid{grid-template-columns:repeat(auto-fill,minmax(min(420px,100%),1fr))}.board-card{display:flex;align-items:center;gap:1.6rem;text-align:left}.board-img-wrapper{margin:0!important;flex-shrink:0;width:110px;height:110px}@media(max-width:768px){.fixture-list,#posts-container{padding-left:2.2rem}.fixture-list::before,#posts-container::before{left:.6rem}.fixture-card::before,.post-card::before{left:calc(-1.6rem - 9px)}}` },
+    squareGrid: { name: 'Instagram Kare Izgara', desc: 'Kare fotoğraflar, bilgiler üzerine gelince', css: `:root{--radius:0px;--card-border:none}.players-grid,.board-grid,.transfers-grid,.gallery-grid,.kits-grid{grid-template-columns:repeat(auto-fill,minmax(min(260px,100%),1fr))!important;gap:6px!important}.card{position:relative;aspect-ratio:1;box-shadow:none!important}.card:hover{transform:none}.card:hover img{transform:scale(1.08)}.player-img-box,.transfer-img-box,.kit-img-box{height:100%!important;position:absolute;inset:0}.player-img-box::after{display:none}.player-info,.transfer-body,.kit-title{position:absolute;left:0;right:0;bottom:0;background:linear-gradient(transparent,rgba(0,0,0,.88));color:#fff;opacity:0;transform:translateY(16px);transition:opacity .3s,transform .3s;z-index:2;border:none;text-align:left;padding:3rem 1.3rem 1.3rem}.card:hover .player-info,.card:hover .transfer-body,.card:hover .kit-title{opacity:1;transform:none}.player-stats .stat-line,.transfer-club{color:#ddd}.player-stats .stat-line strong,.player-name,.transfer-name{color:#fff}.player-stats{border-top-color:rgba(255,255,255,.2)}.board-card{padding:0;display:flex;flex-direction:column;justify-content:flex-end;padding:1.3rem}.board-card::after{content:'';position:absolute;inset:0;background:linear-gradient(transparent 45%,rgba(0,0,0,.85));z-index:1}.board-img-wrapper{position:absolute;inset:0;width:100%;height:100%;border-radius:0;transform:none!important;margin:0;border:none}.board-name,.board-role{position:relative;z-index:2;text-align:left}.board-name{color:#fff}@media(hover:none){.player-info,.transfer-body,.kit-title{opacity:1;transform:none}}` },
+    polaroid: { name: 'Polaroid Albüm', desc: 'Beyaz çerçeveli, eğik fotoğraf kartları', css: `.card{background:#fbfaf5!important;color:#1a1a1a;padding:12px 12px 0;border-radius:3px!important;border:none!important;box-shadow:0 14px 34px rgba(0,0,0,.35)!important}.card:nth-child(3n+1){transform:rotate(-2deg)}.card:nth-child(3n+2){transform:rotate(1.6deg)}.card:nth-child(3n){transform:rotate(-.6deg)}.card:hover{transform:rotate(0) scale(1.03)!important;z-index:2}.card .player-name,.card .board-name,.card .transfer-name,.card .kit-title,.card .stat-line strong,.card .fixture-team{color:#1a1a1a}.card .stat-line,.card .transfer-club,.card .fixture-date{color:#666}.player-img-box::after{display:none}.player-img-box,.transfer-img-box,.kit-img-box{background:#ddd}.board-card{padding:12px 12px 1.6rem}.board-img-wrapper{width:100%;height:240px;border-radius:0;transform:none!important}.fixture-card{transform:none!important;padding:1.6rem 2rem}.player-stats{border-top-color:#e2e2e2}` },
+    giantTitles: { name: 'Dev Arka Plan Başlıklar', desc: 'Bölüm başlıkları devasa içi boş yazı', css: `.section-title{font-size:calc(var(--section-title-size) * 2.3);color:transparent;-webkit-text-stroke:1.5px var(--border-strong);line-height:.88;margin-bottom:3rem;letter-spacing:-.03em;overflow-wrap:anywhere}.section-title span{color:transparent;-webkit-text-stroke:1.5px var(--accent)}.section-title::after{display:none}@media(max-width:768px){.section-title{font-size:calc(var(--section-title-size) * 1.35)}}` },
+    sidebarRight: { name: 'Sağ Menü', desc: 'Sabit yan menü sağ tarafta (masaüstü)', css: `@media(min-width:901px){.site-header{left:auto!important;right:0;width:260px;height:100vh;background:var(--surface)!important;border-left:1px solid var(--border)!important;border-bottom:none!important;color:var(--text)!important;-webkit-backdrop-filter:none;backdrop-filter:none}.site-header .nav{flex-direction:column;justify-content:flex-start;height:100%;padding:2.5rem 1.2rem;gap:2rem;overflow-y:auto}.logo-container{flex-direction:column;text-align:center}.logo-img-wrapper img{transform:none}.nav-links{flex-direction:column;align-items:stretch;flex-grow:0;width:100%}.nav-links a{display:block;text-align:right}body{padding-right:260px}main section{padding-top:5rem}.home-admin-trigger{right:274px}}` },
+    magazine: { name: 'Dergi Kapağı', desc: 'Dev başlık sol altta, numaralı bölümler', css: `@media(min-width:769px){main section.hero.active-page{justify-content:flex-end;align-items:flex-start}.hero-content{align-items:flex-start;text-align:left;padding:0 5vw 11vh;max-width:none}.hero-title{font-size:min(calc(var(--hero-title-size) * 1.45),15vw);animation:none;letter-spacing:-.05em}.hero-slogan{left:auto!important;right:4vw;top:auto!important;bottom:9vh;transform:none}}main{counter-reset:sec}main section:not(.hero) .section-title::before{counter-increment:sec;content:counter(sec,decimal-leading-zero) ' —';display:block;font-size:max(.3em,1rem);color:var(--accent);letter-spacing:4px;margin-bottom:.6rem}.section-title::after{display:none}.card{box-shadow:none}` },
+    bigNumber: { name: 'Dev Forma Numarası', desc: 'Oyuncu kartlarında kocaman numara', css: `.player-number{top:auto;bottom:-14px;left:auto;right:12px;background:none!important;color:transparent;-webkit-text-stroke:2px var(--accent);font-size:7.5rem;height:auto;line-height:1;z-index:3;padding:0}.player-img-box{height:420px}.player-name{font-size:1.7rem;text-transform:uppercase}.board-name{text-transform:uppercase}` },
+    splitPanels: { name: 'Yapışkan Başlık Paneli', desc: 'Başlık solda sabit, içerik sağda akar', css: `@media(min-width:1101px){main section:not(.hero) .container{display:grid;grid-template-columns:minmax(220px,26%) 1fr;column-gap:4rem;align-items:start}main section:not(.hero) .container>*{grid-column:2}main section:not(.hero) .container>.section-title{grid-column:1;grid-row:1 / span 12;position:sticky;top:calc(var(--header-h) + 2rem);font-size:min(var(--section-title-size),3.2vw);margin-bottom:0}.section-title span{display:block}.section-title::after{display:block;margin:1rem 0 0;content:'';width:60px;height:4px;background:var(--accent)}.blog-container,.contact-grid{grid-template-columns:1fr}.position-group-title:first-child{margin-top:0}}` },
     gradientCards: { name: 'Gradyan Kartlar', desc: 'Vurgu renginden geçişli kartlar', css: `.card{background:linear-gradient(150deg,color-mix(in srgb,var(--accent) 24%,var(--bg)),var(--surface) 65%)!important;border:none!important}.player-img-box::after{background:linear-gradient(0deg,color-mix(in srgb,var(--accent) 12%,var(--bg)),transparent)}` }
 };
 
 /* =====================================================================
    ANA SAYFA (HERO) STİLLERİ
    ===================================================================== */
+const NAVS = {
+    classic: { name: 'Klasik Şeffaf', desc: 'Görselin üstünde şeffaf, aşağıda bulanık', css: `` },
+    pill: { name: 'Yüzen Hap', desc: 'Kenarlardan ayrık, yuvarlak menü', css: `.site-header{top:12px;left:14px;right:14px;max-width:1360px;margin:0 auto;border-radius:999px;background:color-mix(in srgb,var(--bg) 78%,transparent)!important;-webkit-backdrop-filter:blur(16px);backdrop-filter:blur(16px);border:1px solid var(--border)!important;color:var(--text)!important;box-shadow:0 14px 40px rgba(0,0,0,.3)}.nav{padding:8px 10px 8px 22px;min-height:0}.logo-img-wrapper{width:min(var(--logo-size),46px);height:min(var(--logo-size),46px)}.logo-img-wrapper img{transform:none}.logo-text-top{font-size:min(var(--header-title-size),1.05rem)}.logo-text-sub{display:none}.nav-links a{border-radius:999px}@media(max-width:900px){.site-header{border-radius:22px}}` },
+    thin: { name: 'İnce Bar', desc: 'Küçük logo, tek satır, dolu zemin', css: `.site-header,body.on-home .site-header:not(.scrolled){background:color-mix(in srgb,var(--bg) 92%,transparent)!important;color:var(--text)!important;border-bottom:1px solid var(--border)!important;-webkit-backdrop-filter:blur(12px);backdrop-filter:blur(12px)}.nav{min-height:0;padding-top:6px;padding-bottom:6px}.logo-img-wrapper{width:min(var(--logo-size),44px);height:min(var(--logo-size),44px)}.logo-img-wrapper img{transform:none}.logo-text-top{font-size:min(var(--header-title-size),1.05rem)}.logo-text-sub{display:none}.nav-links a{padding:7px 11px}` },
+    solid: { name: 'Renkli Dolu Bar', desc: 'Menü vurgu renginde dolu', css: `.site-header,body.on-home .site-header:not(.scrolled){background:var(--accent)!important;color:var(--on-accent)!important;border-bottom:none!important}.logo-text-sub{color:inherit;opacity:.75}.nav-links a:hover,.nav-links a.active{background:var(--on-accent);color:var(--accent)}@media(max-width:900px){.nav-links{background:var(--accent);color:var(--on-accent)}}` },
+    underline: { name: 'Alt Çizgili Linkler', desc: 'Linklerin altında kayan çizgi', css: `.nav-links a,.nav-links a:hover,.nav-links a.active{background:none!important;border-radius:0;padding:8px 2px;margin:0 10px;transform:none!important;color:inherit!important;opacity:.85}.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:2px;height:2px;background:var(--accent);transform:scaleX(0);transform-origin:left;transition:transform .3s}.nav-links a:hover,.nav-links a.active{opacity:1}.nav-links a:hover::after,.nav-links a.active::after{transform:scaleX(1)}` },
+    centered: { name: 'Ortalı Logo', desc: 'Logo ortada, menü altında', css: `@media(min-width:901px){.site-header .nav{flex-direction:column;gap:.5rem;padding-top:.8rem}.logo-container{flex-direction:column;text-align:center;gap:8px}.logo-img-wrapper img{transform:none}.nav-links{justify-content:center}}` },
+    burger: { name: 'Tam Ekran Menü', desc: 'Masaüstünde de ☰ butonu, menü tüm ekranı kaplar', css: `.menu-toggle{display:flex}.nav-links{position:fixed;top:0;left:0;width:100vw;height:100vh;max-height:none;z-index:-1;flex-direction:column;justify-content:center;align-items:center;gap:.4rem;background:color-mix(in srgb,var(--bg) 97%,transparent);color:var(--text);display:none;padding:6rem 1rem 2rem;overflow-y:auto}.nav-links.open{display:flex}.nav-links a{font-size:clamp(1.3rem,3.2vw,2.6rem);letter-spacing:2px;padding:6px 22px;text-align:center}` },
+    boxed: { name: 'Kutulu Menü', desc: 'Linkler çerçeveli kutucuklar içinde', css: `.nav-links{gap:.4rem}.nav-links a{border:1px solid color-mix(in srgb,currentColor 30%,transparent);border-radius:6px}.nav-links a:hover,.nav-links a.active{border-color:var(--accent)}` }
+};
+const NAV_BEHAVIORS = [['smart', 'Akıllı: aşağı inerken gizlenir, yukarı çıkınca görünür (önerilen)'], ['shrink', 'Sabit ama kaydırınca küçülür'], ['fixed', 'Her zaman sabit, tam boy'], ['static', 'Sabit değil, sayfayla birlikte yukarı kayar']];
+
 const HEROES = {
     classic: { name: 'Klasik Ortalı', desc: 'Ortada süzülen başlık', css: `` },
     left: { name: 'Sola Yaslı Dev', desc: 'Başlık solda, slogan sağda', css: `@media(min-width:769px){main section.hero.active-page{align-items:flex-start}.hero-content{align-items:flex-start;text-align:left;padding-left:6vw;max-width:none}.hero-slogan{left:auto!important;right:4vw}}` },
@@ -874,14 +911,27 @@ const PRESETS = [
     ['Sakura Bahar', 'sakura', 'rounded', 'minimal', 'Poppins', 'Poppins'],
     ['Volkan', 'volcano', 'aggressive', 'duotone', 'Anton', 'DM Sans'],
     ['Terminal', 'hacker', 'cyberGrid', 'outline', 'Rajdhani', 'Space Grotesk'],
-    ['Taş Duvar', 'g_tas_lacivert', 'accentPanels', 'minimal', 'Montserrat', 'Inter']
+    ['Taş Duvar', 'g_tas_lacivert', 'accentPanels', 'minimal', 'Montserrat', 'Inter'],
+    ['Vitrin', 'g_gece_kirmizi', 'carousel', 'left', 'Bebas Neue', 'Inter', 'pill'],
+    ['FUT Altın', 'goldRush', 'fifaCards', 'logoCenter', 'Teko', 'Poppins', 'underline'],
+    ['Bento Kulüp', 'g_grafit_turuncu', 'bento', 'gradient', 'Outfit', 'Outfit', 'pill'],
+    ['Zikzak Hikâye', 'g_kirik_kirmizi', 'zigzag', 'minimal', 'Playfair Display', 'DM Sans', 'thin'],
+    ['Maç Günlüğü', 'g_lacivert_altin', 'timeline', 'cinematic', 'Oswald', 'Inter', 'underline'],
+    ['Instagram', 'blackAndWhite', 'squareGrid', 'outline', 'Montserrat', 'Inter', 'thin'],
+    ['Polaroid Anılar', 'g_kahve_altin', 'polaroid', 'duotone', 'Archivo Black', 'DM Sans', 'boxed'],
+    ['Dev Yazılar', 'g_komur_lime', 'giantTitles', 'outline', 'Anton', 'Inter', 'burger'],
+    ['Dergi Kapağı', 'g_kar_siyah', 'magazine', 'classic', 'Playfair Display', 'Inter', 'centered'],
+    ['Forma No 10', 'karamanAtesi', 'bigNumber', 'stripe', 'Bebas Neue', 'DM Sans', 'solid'],
+    ['Yapışkan Panel', 'g_buz_lacivert', 'splitPanels', 'left', 'Montserrat', 'Inter', 'thin'],
+    ['Satır Satır', 'g_arduvaz_camgobegi', 'rowList', 'minimal', 'Rajdhani', 'Inter', 'boxed'],
+    ['Sağ Menü', 'g_mor_pembe', 'sidebarRight', 'gradient', 'Syne', 'Outfit']
 ];
 
 /* =====================================================================
    VERİ
    ===================================================================== */
 const defaultData = {
-    currentTheme: 'classic', currentLayout: 'asymmetric', heroStyle: 'classic',
+    currentTheme: 'classic', currentLayout: 'asymmetric', heroStyle: 'classic', navStyle: 'classic', navBehavior: 'smart',
     logoUrl: '', logoSize: '85', logoX: '0', logoY: '15',
     headerTitle: 'KARAMAN ABER SANAT GÜCÜ', headerSub: 'SPOR KULÜBÜ',
     heroBgUrl: DEFAULT_HERO_BG, heroBgPosition: 'center center', heroDim: '',
@@ -1083,7 +1133,7 @@ function ensureFonts(names) {
 }
 
 function currentDesign() {
-    return { theme: activeData.currentTheme, layout: activeData.currentLayout, hero: activeData.heroStyle, fontSport: getSafeData('styles').fontSport, fontMain: getSafeData('styles').fontMain };
+    return { theme: activeData.currentTheme, layout: activeData.currentLayout, hero: activeData.heroStyle, nav: activeData.navStyle || 'classic', navb: activeData.navBehavior || 'smart', fontSport: getSafeData('styles').fontSport, fontMain: getSafeData('styles').fontMain };
 }
 
 function applySavedTheme(design) {
@@ -1092,6 +1142,7 @@ function applySavedTheme(design) {
     const th = THEMES[d.theme] || THEMES.classic;
     const layout = LAYOUTS[d.layout] || LAYOUTS.asymmetric;
     const hero = HEROES[d.hero] || HEROES.classic;
+    const nav = NAVS[d.nav] || NAVS.classic;
     const bg = (s.bgColor || th.bg), text = (s.textColor || th.text), accent = (s.accentColor || th.accent);
     const muted = s.textMuted || (s.textColor || s.bgColor ? mixHex(text, bg, .42) : th.muted);
     const light = lum(bg) > .45;
@@ -1110,9 +1161,13 @@ function applySavedTheme(design) {
         --logo-size:${parseInt(activeData.logoSize) || 85}px;--logo-x:${parseInt(activeData.logoX) || 0}px;--logo-y:${isNaN(parseInt(activeData.logoY)) ? 15 : parseInt(activeData.logoY)}px;
         --slogan-left:${cssLen(activeData.sloganLeft, '2rem')};--slogan-top:${cssLen(activeData.sloganTop, '50%')};
     }`;
-    $('theme-styles').textContent = vars + '\n' + layout.css + '\n' + hero.css + (dim ? `\n:root{${dim}}` : '');
+    $('theme-styles').textContent = vars + '\n' + nav.css + '\n' + layout.css + '\n' + hero.css + (dim ? `\n:root{${dim}}` : '');
     document.querySelector('meta[name=theme-color]').setAttribute('content', bg);
-    document.body.dataset.layout = d.layout; document.body.dataset.hero = d.hero;
+    document.body.dataset.layout = d.layout; document.body.dataset.hero = d.hero; document.body.dataset.nav = d.nav || 'classic';
+    document.body.dataset.navb = d.navb || 'smart';
+    document.body.classList.toggle('nav-static', d.navb === 'static' && !SIDE_LAYOUTS.includes(d.layout));
+    $('site-header').classList.remove('nav-hidden', 'compact');
+    requestAnimationFrame(() => { measureHeader(); onScroll(); });
 }
 function cssLen(v, def) { v = String(v || '').trim(); return /^-?\d+(\.\d+)?(px|rem|em|%|vh|vw)$/.test(v) ? v : (/^-?\d+(\.\d+)?$/.test(v) ? v + 'px' : def); }
 
@@ -1136,7 +1191,32 @@ function route() {
     switchPage(h || 'home');
 }
 window.addEventListener('hashchange', route);
-window.addEventListener('scroll', () => $('site-header').classList.toggle('scrolled', window.scrollY > 20), { passive: true });
+const SIDE_LAYOUTS = ['leftMenu', 'bottomNav', 'sidebarRight'];
+let lastScrollY = 0;
+function navBehavior() { return SIDE_LAYOUTS.includes(document.body.dataset.layout) ? 'fixed' : (document.body.dataset.navb || 'smart'); }
+function onScroll() {
+    const y = window.scrollY, h = $('site-header'), b = navBehavior();
+    const menuOpen = $('main-nav-links').classList.contains('open');
+    h.classList.toggle('scrolled', y > 20);
+    h.classList.toggle('compact', (b === 'smart' || b === 'shrink') && y > 60);
+    if (b === 'smart' && !menuOpen) {
+        if (y > lastScrollY + 4 && y > 220) h.classList.add('nav-hidden');
+        else if (y < lastScrollY - 4 || y < 220) h.classList.remove('nav-hidden');
+    } else h.classList.remove('nav-hidden');
+    lastScrollY = y;
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+/* Menü yüksekliğini ölç: içerik asla menünün altında kalmaz */
+function measureHeader() {
+    const h = $('site-header');
+    if (h.classList.contains('compact') || h.classList.contains('nav-hidden')) return;
+    const r = h.getBoundingClientRect();
+    const root = document.documentElement.style;
+    if (SIDE_LAYOUTS.includes(document.body.dataset.layout) || r.top > 40 || r.height > window.innerHeight * .5) root.removeProperty('--header-h');
+    else root.setProperty('--header-h', Math.ceil(r.bottom) + 'px');
+}
+if (window.ResizeObserver) new ResizeObserver(measureHeader).observe($('site-header'));
+window.addEventListener('resize', measureHeader);
 function closeMobileMenu() { $('main-nav-links').classList.remove('open'); $('menu-toggle').setAttribute('aria-expanded', 'false'); }
 $('menu-toggle').addEventListener('click', () => {
     const open = !$('main-nav-links').classList.contains('open');
@@ -1661,9 +1741,9 @@ const TAB_RENDERERS = {
 
     design(tab) {
         draft = currentDesign();
-        const nT = Object.keys(THEMES).length, nL = Object.keys(LAYOUTS).length, nH = Object.keys(HEROES).length, nF = FONT_PAIRS.length;
+        const nT = Object.keys(THEMES).length, nL = Object.keys(LAYOUTS).length, nH = Object.keys(HEROES).length, nF = FONT_PAIRS.length, nN = Object.keys(NAVS).length;
         tab.innerHTML = `<div class="admin-section-heading">🎨 Tasarım Stüdyosu</div>
-        <p class="studio-stats"><b>${nT}</b> renk teması × <b>${nL}</b> yerleşim × <b>${nH}</b> ana sayfa stili × <b>${nF}</b> yazı tipi çifti = <b>${(nT * nL * nH * nF).toLocaleString('tr-TR')}</b> farklı tasarım. Seçtikçe site arkada canlı değişir; <b>Siteyi Gör</b> ile paneli gizleyip sonucu tam ekran incele.</p>
+        <p class="studio-stats"><b>${nT}</b> renk teması × <b>${nL}</b> yerleşim × <b>${nH}</b> ana sayfa stili × <b>${nN}</b> menü stili × <b>${nF}</b> yazı tipi çifti = <b>${(nT * nL * nH * nN * nF).toLocaleString('tr-TR')}</b> farklı tasarım. Seçtikçe site arkada canlı değişir; <b>Siteyi Gör</b> ile paneli gizleyip sonucu tam ekran incele.</p>
         <div class="a-actionbar">
             <button type="button" class="a-btn" onclick="randomDesign()">🎲 Rastgele Tasarım</button>
             <button type="button" class="a-btn ghost" onclick="startPeek()">👁 Siteyi Gör</button>
@@ -1672,7 +1752,7 @@ const TAB_RENDERERS = {
             <span class="a-hint" id="draft-label" style="margin:0"></span>
         </div>
         <div class="studio-h">Hazır Tasarımlar <small>tek tıkla komple görünüm</small></div>
-        <div class="preset-grid" id="preset-grid">${PRESETS.map((p, i) => { const t = THEMES[p[1]] || THEMES.classic; return `<button type="button" class="preset" data-i="${i}" onclick="applyPreset(${i})" style="--sb:${t.bg};--st:${t.text};--sa:${t.accent}"><div class="pv"><span class="pa"></span><span class="pt" style="font-family:'${p[4]}',sans-serif">${esc(p[0])}</span></div><div class="pn">${esc(p[0])}<small>${esc(LAYOUTS[p[2]].name)} · ${esc(HEROES[p[3]].name)}</small></div></button>`; }).join('')}</div>
+        <div class="preset-grid" id="preset-grid">${PRESETS.map((p, i) => { const t = THEMES[p[1]] || THEMES.classic; return `<button type="button" class="preset" data-i="${i}" onclick="applyPreset(${i})" style="--sb:${t.bg};--st:${t.text};--sa:${t.accent}"><div class="pv"><span class="pa"></span><span class="pt" style="font-family:'${p[4]}',sans-serif">${esc(p[0])}</span></div><div class="pn">${esc(p[0])}<small>${esc(LAYOUTS[p[2]].name)} · ${esc(HEROES[p[3]].name)}${p[6] ? ' · ' + esc(NAVS[p[6]].name) : ''}</small></div></button>`; }).join('')}</div>
         <div class="studio-h">Renk Teması <small>(${nT})</small></div>
         <div class="chip-row">
             <input type="search" class="form-control" id="sw-search" placeholder="Ara: lacivert, altın, yeşil…" style="max-width:260px" oninput="renderSwatches()">
@@ -1686,6 +1766,10 @@ const TAB_RENDERERS = {
         <div class="opt-grid">${Object.entries(LAYOUTS).map(([k, l]) => `<button type="button" class="opt" data-layout="${k}" onclick="setDraft('layout','${k}')"><strong>${esc(l.name)}</strong><span>${esc(l.desc)}</span></button>`).join('')}</div>
         <div class="studio-h">Ana Sayfa (Hero) Stili <small>(${nH})</small></div>
         <div class="opt-grid">${Object.entries(HEROES).map(([k, h]) => `<button type="button" class="opt" data-hero="${k}" onclick="setDraft('hero','${k}')"><strong>${esc(h.name)}</strong><span>${esc(h.desc)}</span></button>`).join('')}</div>
+        <div class="studio-h">Menü (Üst Bar) Stili <small>(${nN})</small></div>
+        <div class="opt-grid">${Object.entries(NAVS).map(([k, n]) => `<button type="button" class="opt" data-nav="${k}" onclick="setDraft('nav','${k}')"><strong>${esc(n.name)}</strong><span>${esc(n.desc)}</span></button>`).join('')}</div>
+        <div class="studio-h">Menü Davranışı <small>sayfa aşağı kayınca menü ne yapsın?</small></div>
+        <div class="opt-grid">${NAV_BEHAVIORS.map(([k, l]) => `<button type="button" class="opt" data-navb="${k}" onclick="setDraft('navb','${k}')"><strong>${esc(l.split(':')[0].split(',')[0])}</strong><span>${esc(l)}</span></button>`).join('')}</div>
         <div class="studio-h">Yazı Tipi Çifti <small>(${nF})</small></div>
         <div class="opt-grid">${FONT_PAIRS.map((p, i) => `<button type="button" class="opt" data-font="${i}" onclick="setFontPair(${i})"><div class="fprev" style="font-family:'${p[0]}',sans-serif">ABER SK 2026</div><strong style="font-family:'${p[1]}',sans-serif">${esc(p[2])}</strong><span>${esc(p[0])} + ${esc(p[1])}</span></button>`).join('')}</div>`;
         ensureFonts(Object.keys(FONTS)); // önizleme için tüm fontlar
@@ -1784,20 +1868,22 @@ function markDraft() {
     document.querySelectorAll('.sw').forEach(b => b.classList.toggle('selected', b.dataset.theme === draft.theme));
     document.querySelectorAll('.opt[data-layout]').forEach(b => b.classList.toggle('selected', b.dataset.layout === draft.layout));
     document.querySelectorAll('.opt[data-hero]').forEach(b => b.classList.toggle('selected', b.dataset.hero === draft.hero));
+    document.querySelectorAll('.opt[data-nav]').forEach(b => b.classList.toggle('selected', b.dataset.nav === (draft.nav || 'classic')));
+    document.querySelectorAll('.opt[data-navb]').forEach(b => b.classList.toggle('selected', b.dataset.navb === (draft.navb || 'smart')));
     const fi = FONT_PAIRS.findIndex(p => fontName(draft.fontSport) === p[0] && fontName(draft.fontMain) === p[1]);
     document.querySelectorAll('.opt[data-font]').forEach(b => b.classList.toggle('selected', +b.dataset.font === fi));
     document.querySelectorAll('.preset').forEach(b => { const p = PRESETS[+b.dataset.i]; b.classList.toggle('selected', p[1] === draft.theme && p[2] === draft.layout && p[3] === draft.hero); });
     const lbl = $('draft-label');
-    if (lbl) { const t = THEMES[draft.theme] || THEMES.classic; lbl.textContent = `Seçili: ${t.name} · ${(LAYOUTS[draft.layout] || LAYOUTS.asymmetric).name} · ${(HEROES[draft.hero] || HEROES.classic).name}`; }
+    if (lbl) { const t = THEMES[draft.theme] || THEMES.classic; lbl.textContent = `Seçili: ${t.name} · ${(LAYOUTS[draft.layout] || LAYOUTS.asymmetric).name} · ${(HEROES[draft.hero] || HEROES.classic).name} · ${(NAVS[draft.nav] || NAVS.classic).name}`; }
 }
 function previewDraft() { applySavedTheme(draft); markDraft(); }
 function setDraft(k, v) { if (!draft) draft = currentDesign(); draft[k] = v; previewDraft(); }
 function setFontPair(i) { const p = FONT_PAIRS[i]; draft.fontSport = fontCss(p[0]); draft.fontMain = fontCss(p[1]); previewDraft(); }
-function applyPreset(i) { const p = PRESETS[i]; draft = { theme: THEMES[p[1]] ? p[1] : 'classic', layout: p[2], hero: p[3], fontSport: fontCss(p[4]), fontMain: fontCss(p[5]) }; previewDraft(); }
+function applyPreset(i) { const p = PRESETS[i]; draft = { theme: THEMES[p[1]] ? p[1] : 'classic', layout: p[2], hero: p[3], nav: p[6] || 'classic', navb: (draft && draft.navb) || 'smart', fontSport: fontCss(p[4]), fontMain: fontCss(p[5]) }; previewDraft(); }
 function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
 function randomDesign() {
     const fp = pick(FONT_PAIRS);
-    draft = { theme: pick(Object.keys(THEMES)), layout: pick(Object.keys(LAYOUTS)), hero: pick(Object.keys(HEROES)), fontSport: fontCss(fp[0]), fontMain: fontCss(fp[1]) };
+    draft = { theme: pick(Object.keys(THEMES)), layout: pick(Object.keys(LAYOUTS)), hero: pick(Object.keys(HEROES)), nav: pick(Object.keys(NAVS)), navb: (draft && draft.navb) || 'smart', fontSport: fontCss(fp[0]), fontMain: fontCss(fp[1]) };
     previewDraft();
     const sw = document.querySelector('.sw.selected'); if (sw) sw.scrollIntoView({ block: 'nearest' });
 }
@@ -1805,7 +1891,7 @@ function revertDesign() { draft = currentDesign(); previewDraft(); toast('Kayıt
 async function saveDesign() {
     if (!draft) return;
     const hasOverrides = ['bgColor', 'textColor', 'textMuted', 'accentColor'].some(k => getSafeData('styles')[k]);
-    activeData.currentTheme = draft.theme; activeData.currentLayout = draft.layout; activeData.heroStyle = draft.hero;
+    activeData.currentTheme = draft.theme; activeData.currentLayout = draft.layout; activeData.heroStyle = draft.hero; activeData.navStyle = draft.nav || 'classic'; activeData.navBehavior = draft.navb || 'smart';
     activeData.styles = Object.assign({}, getSafeData('styles'), { fontSport: draft.fontSport, fontMain: draft.fontMain });
     const ok = await saveAllData(); applySavedTheme(); renderAllSections();
     if (ok) toast('Tasarım kaydedildi ✓' + (hasOverrides ? ' (Not: Tipografi & Renk sekmesindeki özel renkler hâlâ aktif.)' : ''), 'ok', 6000);
